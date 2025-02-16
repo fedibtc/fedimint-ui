@@ -35,9 +35,9 @@ const HomePage: React.FC = () => {
   const [serviceUrl, setServiceUrl] = useState<string>('');
   const [isGateway, setIsGateway] = useState(false);
 
-  // useEffect(() => {
-  //   setIsGateway(false);
-  // }, [serviceUrl]);
+  useEffect(() => {
+    setIsGateway(false);
+  }, [serviceUrl]);
 
   useEffect(() => {
     if (Object.keys(services).length === 0) {
@@ -58,8 +58,6 @@ const HomePage: React.FC = () => {
   const handleOnConnect = async () => {
     const id = await sha256Hash(serviceUrl);
     const serviceType = getServiceType(serviceUrl);
-
-    console.log('TEST', serviceUrl, id, serviceType);
 
     if (!serviceType) return;
 

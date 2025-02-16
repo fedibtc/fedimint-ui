@@ -22,6 +22,10 @@ jest.mock('@fedimint/utils', () => ({
 }));
 
 describe('pages/Home', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('When a user clicks the connect button with an empty input value', () => {
     const mockDispatch = jest.fn();
 
@@ -30,10 +34,6 @@ describe('pages/Home', () => {
         services: {},
         dispatch: mockDispatch,
       }));
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
     });
 
     it('should not call dispatch', async () => {
@@ -59,10 +59,6 @@ describe('pages/Home', () => {
         services: {},
         dispatch: mockDispatch,
       }));
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
     });
 
     it('should not call dispatch', async () => {
@@ -95,10 +91,6 @@ describe('pages/Home', () => {
       }));
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should call dispatch', async () => {
       render(<HomePage />);
 
@@ -127,10 +119,6 @@ describe('pages/Home', () => {
       }));
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should render an input without a value', () => {
       render(<HomePage />);
       const input = screen.getByPlaceholderText('Guardian URL');
@@ -152,10 +140,6 @@ describe('pages/Home', () => {
         },
         dispatch: jest.fn(),
       }));
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
     });
 
     it('should render guardian url', () => {
@@ -180,10 +164,6 @@ describe('pages/Home', () => {
         },
         dispatch: jest.fn(),
       }));
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
     });
 
     it('should render gateway url', () => {
