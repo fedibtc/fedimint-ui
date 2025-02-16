@@ -16,7 +16,6 @@ import {
   InputGroup,
   InputRightElement,
 } from '@chakra-ui/react';
-import { getVersionInfo } from '@fedimint/router/src/constants/Version';
 import { sha256Hash, useTranslation } from '@fedimint/utils';
 import { FaDiscord, FaGithub } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
@@ -24,6 +23,7 @@ import { APP_ACTION_TYPE } from '../../context/AppContext';
 import { useAppContext } from '../../hooks';
 import HeroSvg from '../../images/hero-1.svg';
 import { getServiceType } from '../../helpers/service';
+import { LATEST_RELEASE_TAG } from '../../constants/Version';
 import { Logo } from '../../components/Logo';
 import { Service } from '../../types';
 
@@ -31,7 +31,6 @@ const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { dispatch, services } = useAppContext();
-  const version = getVersionInfo();
 
   const [serviceUrl, setServiceUrl] = useState<string>('');
   const [isGateway, setIsGateway] = useState(false);
@@ -82,7 +81,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <Box width='100%' minHeight='100vh' display='flex'>
+    <Box width='100%' minHeight='100vh' display='flex' userSelect='none'>
       {/* Left */}
       <Box
         position='relative'
@@ -93,7 +92,7 @@ const HomePage: React.FC = () => {
         justifyContent='center'
         bgImage={HeroSvg}
         bgPosition='center'
-        bgSize='cover'
+        bgSize='contain'
         bgRepeat='no-repeat'
       >
         <Box position='fixed' left='5' top='5'>
@@ -102,7 +101,11 @@ const HomePage: React.FC = () => {
               &copy; Fedimint
             </Link>
             /
-            <Link href={version.url} target='_blank' ml='1'>
+            <Link
+              href={`https://github.com/fedimint/ui/releases/tag/${LATEST_RELEASE_TAG}`}
+              target='_blank'
+              ml='1'
+            >
               v0.5.0
             </Link>
           </Text>
@@ -167,8 +170,20 @@ const HomePage: React.FC = () => {
               Connect
             </Button>
           </Stack>
-          <Text fontSize='14px' mb='5'>
+          <Text fontSize='14px'>
             {t('home.learn-more-link')}
+            <Link
+              href='https://fedimint.org/'
+              isExternal
+              color='blue.500'
+              textAlign='center'
+              ml='1'
+            >
+              click here
+            </Link>
+          </Text>
+          <Text fontSize='14px' mb='5'>
+            {t('home.contribute-link')}
             <Link
               href='https://github.com/fedimint/fedimint'
               isExternal
@@ -176,9 +191,8 @@ const HomePage: React.FC = () => {
               textAlign='center'
               ml='1'
             >
-              here
+              click here
             </Link>
-            .
           </Text>
 
           <Link href='https://chat.fedimint.org/' isExternal>

@@ -1,4 +1,5 @@
 import React, { createContext, Dispatch, ReactNode, useReducer } from 'react';
+import { LOCAL_STORAGE_APP_STATE_KEY } from '../constants/Version';
 import { Service } from '../types';
 
 export interface AppContextValue {
@@ -12,7 +13,7 @@ export const initialState: AppContextValue = {
 };
 
 const makeInitialState = (): AppContextValue => {
-  const storedState = localStorage.getItem('fedimint_ui_state');
+  const storedState = localStorage.getItem(LOCAL_STORAGE_APP_STATE_KEY);
   if (storedState) {
     try {
       const parsedState = JSON.parse(storedState);
@@ -54,7 +55,7 @@ export type AppAction =
     };
 
 const saveToLocalStorage = (state: AppContextValue) => {
-  localStorage.setItem('fedimint_ui_state', JSON.stringify(state));
+  localStorage.setItem(LOCAL_STORAGE_APP_STATE_KEY, JSON.stringify(state));
 };
 
 const reducer = (

@@ -208,7 +208,8 @@
     "view": "View",
     "gateways": "Gateways",
     "gatewayUrl": "Gateway URL",
-    "learn-more-link": "Learn more about Fedimint services",
+    "learn-more-link": "To learn more about Fedimint",
+    "contribute-link": "If you're intested in contributing to the Fedimint project",
     "connect-service-button": {
       "label": "Connect Service"
     }

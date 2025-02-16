@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
 import { Flex, useTheme, Link, Icon } from '@chakra-ui/react';
-import { getVersionInfo } from '@fedimint/router/src/constants/Version';
 import { FaDiscord, FaGithub } from 'react-icons/fa';
+import { LATEST_RELEASE_TAG } from '../constants/Version';
 
 export const Footer = () => {
   const theme = useTheme();
-  const version = getVersionInfo();
 
   interface CustomLinkProps {
     href: string;
@@ -40,7 +39,11 @@ export const Footer = () => {
       position='fixed'
       bottom='0'
     >
-      <CustomLink href={version.url}>{version.display}</CustomLink>
+      <CustomLink
+        href={`https://github.com/fedimint/ui/releases/tag/${LATEST_RELEASE_TAG}`}
+      >
+        {LATEST_RELEASE_TAG}
+      </CustomLink>
       <CustomLink href='https://fedimint.org'>&copy; Fedimint</CustomLink>
       <div>
         <CustomLink href='https://chat.fedimint.org/'>
