@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, screen } from '../../utils/testing/customRender';
+import {
+  act,
+  render,
+  screen,
+  userEvent,
+  waitFor,
+} from '../../utils/testing/customRender';
 import '@testing-library/jest-dom';
 import HomePage from './Home';
 
@@ -9,8 +15,111 @@ jest.mock('../../hooks', () => ({
   useAppContext: () => mockedUseAppContext(),
 }));
 
+// Mock sha256Hash
+jest.mock('@fedimint/utils', () => ({
+  ...jest.requireActual('@fedimint/utils'),
+  sha256Hash: () => 'dummy-hash-value',
+}));
+
 describe('pages/Home', () => {
-  describe('When there is no service', () => {
+  describe('When a user clicks the connect button with an empty input value', () => {
+    const mockDispatch = jest.fn();
+
+    beforeEach(() => {
+      mockedUseAppContext.mockImplementation(() => ({
+        services: {},
+        dispatch: mockDispatch,
+      }));
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should not call dispatch', async () => {
+      render(<HomePage />);
+
+      await act(async () => {
+        const button = screen.getByLabelText('connect-button');
+        userEvent.click(button);
+      });
+
+      await waitFor(() => {
+        expect(mockDispatch).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  // We don't support gateway urls at this time so check for this
+  describe('When a user clicks the connect button with a gateway url', () => {
+    const mockDispatch = jest.fn();
+
+    beforeEach(() => {
+      mockedUseAppContext.mockImplementation(() => ({
+        services: {},
+        dispatch: mockDispatch,
+      }));
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should not call dispatch', async () => {
+      render(<HomePage />);
+
+      const input = screen.getByPlaceholderText(
+        'Guardian URL'
+      ) as HTMLInputElement;
+
+      await act(async () => {
+        userEvent.type(input, 'https://gateway-url.com:8175');
+
+        const button = screen.getByLabelText('connect-button');
+        userEvent.click(button);
+      });
+
+      await waitFor(() => {
+        expect(mockDispatch).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('When a user clicks the connect button with a guardian url', () => {
+    const mockDispatch = jest.fn();
+
+    beforeEach(() => {
+      mockedUseAppContext.mockImplementation(() => ({
+        services: {},
+        dispatch: mockDispatch,
+      }));
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should call dispatch', async () => {
+      render(<HomePage />);
+
+      const input = screen.getByPlaceholderText(
+        'Guardian URL'
+      ) as HTMLInputElement;
+
+      await act(async () => {
+        userEvent.type(input, 'wss://guardian-url.com:8174');
+
+        const button = screen.getByLabelText('connect-button');
+        userEvent.click(button);
+      });
+
+      await waitFor(() => {
+        expect(mockDispatch).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('When there is no service in LocalStorage', () => {
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
         services: {},
@@ -30,7 +139,7 @@ describe('pages/Home', () => {
     });
   });
 
-  describe('When there is a guardian', () => {
+  describe('When there is a guardian in LocalStorage', () => {
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
         services: {
@@ -58,7 +167,7 @@ describe('pages/Home', () => {
     });
   });
 
-  describe('When there is a gateway', () => {
+  describe('When there is a gateway in LocalStorage', () => {
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
         services: {

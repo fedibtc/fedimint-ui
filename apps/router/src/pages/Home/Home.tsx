@@ -35,9 +35,9 @@ const HomePage: React.FC = () => {
   const [serviceUrl, setServiceUrl] = useState<string>('');
   const [isGateway, setIsGateway] = useState(false);
 
-  useEffect(() => {
-    setIsGateway(false);
-  }, [serviceUrl]);
+  // useEffect(() => {
+  //   setIsGateway(false);
+  // }, [serviceUrl]);
 
   useEffect(() => {
     if (Object.keys(services).length === 0) {
@@ -59,6 +59,8 @@ const HomePage: React.FC = () => {
     const id = await sha256Hash(serviceUrl);
     const serviceType = getServiceType(serviceUrl);
 
+    console.log('TEST', serviceUrl, id, serviceType);
+
     if (!serviceType) return;
 
     if (serviceType === 'gateway') {
@@ -72,6 +74,19 @@ const HomePage: React.FC = () => {
     });
 
     return navigate(`/guardians/${id}`);
+  };
+
+  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const { key } = e;
+
+    switch (key) {
+      case 'Enter':
+        handleOnConnect();
+        return;
+      case 'Escape':
+        handleOnDelete();
+        return;
+    }
   };
 
   const handleOnDelete = () => {
@@ -146,15 +161,12 @@ const HomePage: React.FC = () => {
             )}
             <InputGroup>
               <Input
+                autoFocus
                 variant='outline'
                 placeholder={t('home.guardian-url')}
                 value={serviceUrl}
                 onChange={handleOnChange}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleOnConnect();
-                  }
-                }}
+                onKeyDown={handleOnKeyDown}
               />
               {serviceUrl.length > 0 && (
                 <InputRightElement>
@@ -163,6 +175,7 @@ const HomePage: React.FC = () => {
               )}
             </InputGroup>
             <Button
+              aria-label='connect-button'
               colorScheme='blue'
               onClick={handleOnConnect}
               isLoading={false}
