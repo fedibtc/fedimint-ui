@@ -530,28 +530,11 @@
     "services": "Serviços",
     "addService": "Adicionar um Serviço",
     "guardians": "Guardiões",
-    "guardianUrl": "URL do Guardian",
+    "guardian-url": "URL do Guardian",
     "actions": "Ações",
     "view": "Visualizar",
     "gateways": "Portais",
     "gatewayUrl": "URL do Gateway",
-    "connect-service-modal": {
-      "label": "Conectar um Serviço",
-      "title": "Conecte um Serviço Fedimint",
-      "url-label": "URL",
-      "helper-text": "Será wss:// para guardião ou https:// para gateway",
-      "service-type-label": "Tipo de Serviço",
-      "service-name-label": "Nome do Serviço",
-      "sync-status-label": "Status de Sincronização"
-    },
-    "remove-service-modal": {
-      "title": "Remova {{type}}",
-      "confirm": "Tem certeza de que deseja remover este {{type}}?"
-    },
-    "edit-service-modal": {
-      "title": "Editar {{type}}",
-      "url-label": "URL"
-    },
     "learn-more-link": "Saiba mais sobre os serviços da Fedimint",
     "connect-service-button": {
       "label": "Conectar Serviço"

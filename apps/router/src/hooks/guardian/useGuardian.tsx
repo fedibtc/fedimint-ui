@@ -15,7 +15,7 @@ import { Service } from '../../types';
 
 export function useAppGuardianConfigs(): GuardianConfig[] {
   const { services } = useAppContext();
-
+  if (!services) return [];
   return Object.values(services).map((service: Service) => service.config);
 }
 

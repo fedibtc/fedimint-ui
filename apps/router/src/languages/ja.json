@@ -530,28 +530,11 @@
     "services": "サービス",
     "addService": "サービスを追加する",
     "guardians": "ガーディアンズ",
-    "guardianUrl": "ガーディアンURL",
+    "guardian-url": "ガーディアンURL",
     "actions": "行動",
     "view": "表示",
     "gateways": "ゲートウェイズ",
     "gatewayUrl": "ゲートウェイURL",
-    "connect-service-modal": {
-      "label": "サービスを接続する",
-      "title": "Fedimintサービスを接続する",
-      "url-label": "URL",
-      "helper-text": "ガーディアンの場合はwss://、ゲートウェイの場合はhttps://になります。",
-      "service-type-label": "サービスタイプ",
-      "service-name-label": "サービス名",
-      "sync-status-label": "同期状況"
-    },
-    "remove-service-modal": {
-      "title": "{{type}}を削除する",
-      "confirm": "この{{type}}を削除してもよろしいですか？"
-    },
-    "edit-service-modal": {
-      "title": "{{type}}を編集する",
-      "url-label": "URL"
-    },
     "learn-more-link": "Fedimintサービスについてもっと知る",
     "connect-service-button": {
       "label": "接続サービス"

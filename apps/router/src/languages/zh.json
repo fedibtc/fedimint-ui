@@ -530,28 +530,11 @@
     "services": "服务",
     "addService": "添加服务",
     "guardians": "守护者",
-    "guardianUrl": "卫报网址",
+    "guardian-url": "卫报网址",
     "actions": "行动",
     "view": "查看",
     "gateways": "网关",
     "gatewayUrl": "网关URL",
-    "connect-service-modal": {
-      "label": "连接服务",
-      "title": "连接Fedimint服务",
-      "url-label": "网址",
-      "helper-text": "将为guardian使用wss://，为gateway使用https://。",
-      "service-type-label": "服务类型",
-      "service-name-label": "服务名称",
-      "sync-status-label": "同步状态"
-    },
-    "remove-service-modal": {
-      "title": "删除{{type}}",
-      "confirm": "您确定要删除这个{{type}}吗？"
-    },
-    "edit-service-modal": {
-      "title": "编辑{{type}}",
-      "url-label": "网址"
-    },
     "learn-more-link": "了解更多关于 Fedimint 服务的信息",
     "connect-service-button": {
       "label": "连接服务"

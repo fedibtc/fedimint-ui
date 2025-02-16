@@ -530,28 +530,11 @@
     "services": "Услуги",
     "addService": "Добавить услугу",
     "guardians": "Опекуны",
-    "guardianUrl": "URL-адрес Guardian",
+    "guardian-url": "URL-адрес Guardian",
     "actions": "Действия",
     "view": "Просмотр",
     "gateways": "Шлюзы",
     "gatewayUrl": "URL-адрес шлюза",
-    "connect-service-modal": {
-      "label": "Подключить сервис",
-      "title": "Подключите сервис Fedimint",
-      "url-label": "URL",
-      "helper-text": "Будет wss:// для защитника или https:// для шлюза",
-      "service-type-label": "Тип услуги",
-      "service-name-label": "Название услуги",
-      "sync-status-label": "Статус синхронизации"
-    },
-    "remove-service-modal": {
-      "title": "Удалить {{type}}",
-      "confirm": "Вы уверены, что хотите удалить этот {{type}}?"
-    },
-    "edit-service-modal": {
-      "title": "Редактировать {{type}}",
-      "url-label": "URL"
-    },
     "learn-more-link": "Узнайте больше о сервисах Fedimint",
     "connect-service-button": {
       "label": "Подключить сервис"

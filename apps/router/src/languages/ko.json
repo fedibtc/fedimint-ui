@@ -530,28 +530,11 @@
     "services": "서비스",
     "addService": "서비스 추가",
     "guardians": "보호자들",
-    "guardianUrl": "가디언 URL",
+    "guardian-url": "가디언 URL",
     "actions": "행동들",
     "view": "보기",
     "gateways": "게이트웨이",
     "gatewayUrl": "게이트웨이 URL",
-    "connect-service-modal": {
-      "label": "서비스 연결하기",
-      "title": "Fedimint 서비스를 연결하십시오.",
-      "url-label": "URL",
-      "helper-text": "guardian의 경우 wss://, gateway의 경우 https://가 될 것입니다.",
-      "service-type-label": "서비스 유형",
-      "service-name-label": "서비스 이름",
-      "sync-status-label": "동기화 상태"
-    },
-    "remove-service-modal": {
-      "title": "{{type}} 제거",
-      "confirm": "이 {{type}}을 삭제하시겠습니까?"
-    },
-    "edit-service-modal": {
-      "title": "{{type}} 편집",
-      "url-label": "URL"
-    },
     "learn-more-link": "Fedimint 서비스에 대해 더 알아보기",
     "connect-service-button": {
       "label": "연결 서비스"

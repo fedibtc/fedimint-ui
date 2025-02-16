@@ -530,28 +530,11 @@
     "services": "Szolgáltatások",
     "addService": "Szolgáltatás hozzáadása",
     "guardians": "Őrzők",
-    "guardianUrl": "Guardian URL",
+    "guardian-url": "Guardian URL",
     "actions": "Cselekvések",
     "view": "Megtekintés",
     "gateways": "Átjárók",
     "gatewayUrl": "Átjáró URL",
-    "connect-service-modal": {
-      "label": "Csatlakoztasson egy szolgáltatást",
-      "title": "Csatlakoztassa a Fedimint Szolgáltatást",
-      "url-label": "URL",
-      "helper-text": "Guardian esetén wss:// lesz, gateway esetén pedig https://",
-      "service-type-label": "Szolgáltatás típusa",
-      "service-name-label": "Szolgáltatás neve",
-      "sync-status-label": "Szinkronizálási állapot"
-    },
-    "remove-service-modal": {
-      "title": "Távolítsa el a {{type}}",
-      "confirm": "Biztosan el akarja távolítani ezt a(z) {{type}}-t?"
-    },
-    "edit-service-modal": {
-      "title": "Szerkesztés {{type}}",
-      "url-label": "URL"
-    },
     "learn-more-link": "Tudj meg többet a Fedimint szolgáltatásokról",
     "connect-service-button": {
       "label": "Csatlakoztassa a szolgáltatást"
