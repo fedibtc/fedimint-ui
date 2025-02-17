@@ -543,7 +543,8 @@
     "learn-more-link": "Fedimint 서비스에 대해 더 알아보기",
     "connect-service-button": {
       "label": "연결 서비스"
-    }
+    },
+    "contribute-link": "Fedimint 프로젝트에 기여하는 데 관심이 있으시다면"
   },
   "bitcoin-deposit": "비트코인 예금",
   "card_header": "비트코인 입금",

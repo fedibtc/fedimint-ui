@@ -543,7 +543,8 @@
     "learn-more-link": "En savoir plus sur les services de Fedimint",
     "connect-service-button": {
       "label": "Service de connexion"
-    }
+    },
+    "contribute-link": "Si vous êtes intéressé à contribuer au projet Fedimint"
   },
   "deposit-card": {
     "bitcoin-deposit": "Dépôt Bitcoin",

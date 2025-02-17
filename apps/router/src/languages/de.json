@@ -543,7 +543,8 @@
     "learn-more-link": "Erfahren Sie mehr über die Fedimint-Dienste",
     "connect-service-button": {
       "label": "Verbindungsdienst"
-    }
+    },
+    "contribute-link": "Wenn Sie daran interessiert sind, zum Fedimint-Projekt beizutragen"
   },
   "address-label": "Ihre Adresse:",
   "address-placeholder": "Geben Sie Ihre BTC-Adresse ein",

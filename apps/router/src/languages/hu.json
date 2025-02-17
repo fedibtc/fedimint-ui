@@ -543,7 +543,8 @@
     "learn-more-link": "Tudj meg többet a Fedimint szolgáltatásokról",
     "connect-service-button": {
       "label": "Csatlakoztassa a szolgáltatást"
-    }
+    },
+    "contribute-link": "Ha érdekel, hogy hozzájárulj a Fedimint projekthez"
   },
   "deposit-card": {
     "bitcoin-deposit": "Bitcoin Betét",

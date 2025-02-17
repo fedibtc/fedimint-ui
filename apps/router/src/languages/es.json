@@ -543,7 +543,8 @@
     "learn-more-link": "Aprende más sobre los servicios de Fedimint",
     "connect-service-button": {
       "label": "Conectar Servicio"
-    }
+    },
+    "contribute-link": "Si estás interesado en contribuir al proyecto Fedimint"
   },
   "card_header": "saldo de eCash",
   "sentence": "Denominado en Sats",

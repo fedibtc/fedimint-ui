@@ -543,7 +543,8 @@
     "learn-more-link": "Saiba mais sobre os serviços da Fedimint",
     "connect-service-button": {
       "label": "Conectar Serviço"
-    }
+    },
+    "contribute-link": "Se você está interessado em contribuir para o projeto Fedimint"
   },
   "connect": "Conectar 🚀",
   "connect-federation-button": "Adicionar Federação",

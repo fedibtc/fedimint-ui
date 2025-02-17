@@ -543,7 +543,8 @@
     "learn-more-link": "了解更多关于 Fedimint 服务的信息",
     "connect-service-button": {
       "label": "连接服务"
-    }
+    },
+    "contribute-link": "如果您有兴趣为 Fedimint 项目贡献力量"
   },
   "deposit-card": {
     "bitcoin-deposit": "比特币存款",

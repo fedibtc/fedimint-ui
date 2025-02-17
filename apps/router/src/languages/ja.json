@@ -543,7 +543,8 @@
     "learn-more-link": "Fedimintサービスについてもっと知る",
     "connect-service-button": {
       "label": "接続サービス"
-    }
+    },
+    "contribute-link": "Fedimintプロジェクトに貢献することに興味がある場合"
   },
   "deposit-card": {
     "bitcoin-deposit": "ビットコイン入金",
