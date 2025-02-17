@@ -1,10 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches: ['master']
   pull_request:
-    types: [opened, synchronize]
+    branches: ['master']
 
 jobs:
   build:
@@ -31,3 +29,6 @@ jobs:
 
       - name: Test
         run: yarn test
+
+      - name: Build
+        run: yarn build
