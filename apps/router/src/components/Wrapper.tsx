@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Box, Flex, useBreakpointValue } from '@chakra-ui/react';
 import { Header } from './Header';
 import { Footer } from './Footer';
@@ -7,7 +7,7 @@ export interface WrapperProps {
   children: React.ReactNode;
 }
 
-export const Wrapper = memo(function Wrapper({
+export const Wrapper = function Wrapper({
   children,
 }: WrapperProps): JSX.Element {
   const size = useBreakpointValue({ base: 'md', lg: 'lg' });
@@ -32,4 +32,4 @@ export const Wrapper = memo(function Wrapper({
       <Footer />
     </Box>
   );
-});
+};

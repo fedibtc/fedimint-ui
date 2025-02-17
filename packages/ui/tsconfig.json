@@ -1,9 +1,5 @@
 {
   "extends": "@fedimint/tsconfig/react-library.json",
   "exclude": ["dist", "node_modules"],
-  "include": [
-    "src",
-    "../../apps/router/src/components/Header.tsx",
-    "../../apps/router/src/components/Wrapper.tsx"
-  ]
+  "include": ["src"]
 }
