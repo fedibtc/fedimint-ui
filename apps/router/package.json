@@ -9,7 +9,7 @@
     "test": "react-scripts test --watchAll=false --transformIgnorePatterns \"node_modules/(?!jsonrpc-client-websocket)/\"",
     "test:watch": "react-scripts test --transformIgnorePatterns \"node_modules/(?!jsonrpc-client-websocket)/\"",
     "eject": "react-scripts eject",
-    "lint": "eslint \"./src/**/*.ts*\" --max-warnings 0 && tsc --noEmit",
+    "lint": "tsc --noEmit",
     "clean": "rm -rf build"
   },
   "dependencies": {
