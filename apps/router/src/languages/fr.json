@@ -203,7 +203,12 @@
     "title": "Bienvenue de retour !",
     "subtitle": "Veuillez entrer votre mot de passe.",
     "password": "Mot de passe",
-    "submit": "Soumettre"
+    "submit": "Soumettre",
+    "errors": {
+      "invalid-password": "Mot de passe invalide"
+    },
+    "alert-title": "L'interface utilisateur de Gateway est en maintenance.",
+    "alert-description": "Veuillez utiliser le gateway-cli pour l'instant et surveiller nos canaux de publication pour les mises à jour."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint est un logiciel bêta",

@@ -203,7 +203,12 @@
     "title": "欢迎回来！",
     "subtitle": "请输入您的密码。",
     "password": "密码",
-    "submit": "提交"
+    "submit": "提交",
+    "errors": {
+      "invalid-password": "无效的密码"
+    },
+    "alert-title": "网关用户界面正在维护中。",
+    "alert-description": "请暂时使用gateway-cli，并关注我们的发布渠道以获取更新。"
   },
   "role-selector": {
     "disclaimer-title": "Fedimint是测试版软件",

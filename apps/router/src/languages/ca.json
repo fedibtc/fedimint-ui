@@ -203,7 +203,12 @@
     "title": "Benvingut de nou!",
     "subtitle": "Si us plau, introdueix la teva contrasenya.",
     "password": "Contrasenya",
-    "submit": "Enviar"
+    "submit": "Enviar",
+    "errors": {
+      "invalid-password": "Contrasenya no vàlida"
+    },
+    "alert-title": "La interfície de Gateway està en manteniment.",
+    "alert-description": "Si us plau, utilitzeu el gateway-cli per ara i controleu els nostres canals de llançament per a actualitzacions."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint és un programari beta.",

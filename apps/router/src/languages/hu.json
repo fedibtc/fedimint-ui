@@ -203,7 +203,12 @@
     "title": "Üdvözöllek újra!",
     "subtitle": "Kérjük, adja meg a jelszavát.",
     "password": "Jelszó",
-    "submit": "Beküldés"
+    "submit": "Beküldés",
+    "errors": {
+      "invalid-password": "Érvénytelen jelszó"
+    },
+    "alert-title": "A Gateway UI karbantartás alatt áll.",
+    "alert-description": "Kérjük, használja a gateway-cli-t most, és figyelje a kiadási csatornáinkat a frissítésekért."
   },
   "role-selector": {
     "disclaimer-title": "A Fedimint bétaszoftver.",

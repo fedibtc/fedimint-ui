@@ -203,7 +203,12 @@
     "title": "다시 오신 것을 환영합니다!",
     "subtitle": "비밀번호를 입력해 주세요.",
     "password": "비밀번호",
-    "submit": "제출하다"
+    "submit": "제출하다",
+    "errors": {
+      "invalid-password": "잘못된 비밀번호"
+    },
+    "alert-title": "게이트웨이 UI가 유지보수 중입니다.",
+    "alert-description": "현재는 gateway-cli를 사용하고 업데이트를 위해 우리의 릴리스 채널을 모니터링해 주세요."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint는 베타 소프트웨어입니다",
