@@ -36,7 +36,11 @@
     "test:watch": {
       "cache": false
     },
-    "lint": {},
+    "lint": {
+      "outputs": [],
+      "dependsOn": ["^build"],
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true
