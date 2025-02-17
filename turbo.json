@@ -37,9 +37,7 @@
       "cache": false
     },
     "lint": {
-      "outputs": [],
-      "dependsOn": ["^build"],
-      "cache": false
+      "dependsOn": ["^build"]
     },
     "dev": {
       "cache": false,

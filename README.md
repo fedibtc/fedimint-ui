@@ -14,7 +14,7 @@ Using Docker Desktop is a quick and easy way to get started. Run the following c
 docker image pull --platform linux/amd64 fedimintui/fedimint-ui:0.5.0
 ```
 
-```
+```bash
 docker run -p 3000:3000 --platform linux/amd64 fedimintui/fedimint-ui:0.5.0
 ```
 
@@ -26,13 +26,21 @@ You can now navigate to `http://localhost:3000` in your browser and connect to y
 
 You can also run the UI from source locally. Clone the repo using the following command:
 
-`git clone git@github.com:fedimint/fedimint-ui.git fedimint-ui`
+```bash
+git clone git@github.com:fedimint/fedimint-ui.git fedimint-ui
+```
 
 Then install the npm packages by running the following command from the root directory:
 
-`yarn`
+```bash
+yarn
+```
 
-Finally, run `yarn dev` to launch the project on localhost in your browser.
+And to launch the project on localhost in your browser run:
+
+```bash
+yarn dev
+```
 
 ## Advanced Options
 
