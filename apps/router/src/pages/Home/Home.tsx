@@ -23,14 +23,13 @@ import { APP_ACTION_TYPE } from '../../context/AppContext';
 import { useAppContext } from '../../hooks';
 import HeroSvg from '../../images/hero-1.svg';
 import { getServiceType } from '../../helpers/service';
-import { LATEST_RELEASE_TAG } from '../../constants/Version';
+import { LATEST_RELEASE_TAG } from '../../constants';
 import { Logo } from '../../components/Logo';
-import { Service } from '../../types';
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { dispatch, services } = useAppContext();
+  const { dispatch, service } = useAppContext();
 
   const [serviceUrl, setServiceUrl] = useState<string>('');
   const [isGateway, setIsGateway] = useState(false);
@@ -40,15 +39,10 @@ const HomePage: React.FC = () => {
   }, [serviceUrl]);
 
   useEffect(() => {
-    if (Object.keys(services).length === 0) {
-      setServiceUrl('');
-      return;
-    }
-
-    Object.values(services).forEach((service: Service) => {
+    if (service?.config) {
       setServiceUrl(service.config.baseUrl);
-    });
-  }, [services]);
+    }
+  }, [service]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value;
@@ -68,7 +62,7 @@ const HomePage: React.FC = () => {
 
     dispatch({
       type: APP_ACTION_TYPE.ADD_SERVICE,
-      payload: { id, service: { config: { id, baseUrl: serviceUrl } } },
+      payload: { service: { config: { id, baseUrl: serviceUrl } } },
     });
 
     return navigate(`/guardians/${id}`);
@@ -82,15 +76,9 @@ const HomePage: React.FC = () => {
         handleOnConnect();
         return;
       case 'Escape':
-        handleOnDelete();
+        setServiceUrl('');
         return;
     }
-  };
-
-  const handleOnDelete = () => {
-    dispatch({
-      type: APP_ACTION_TYPE.REMOVE_SERVICE,
-    });
   };
 
   return (
@@ -141,7 +129,8 @@ const HomePage: React.FC = () => {
         <Box
           maxWidth='720px'
           width='100%'
-          p={{ base: '40px', lg: '80px' }}
+          px={{ base: '20px', lg: '80px' }}
+          py={{ base: '40px', lg: '80px' }}
           textAlign={{ base: 'center', lg: 'left' }}
           boxSizing='border-box'
         >
@@ -159,6 +148,7 @@ const HomePage: React.FC = () => {
             )}
             <InputGroup>
               <Input
+                name='url'
                 autoFocus
                 variant='outline'
                 placeholder={t('home.guardian-url')}
@@ -168,7 +158,10 @@ const HomePage: React.FC = () => {
               />
               {serviceUrl.length > 0 && (
                 <InputRightElement>
-                  <FiX onClick={handleOnDelete} style={{ cursor: 'pointer' }} />
+                  <FiX
+                    onClick={() => setServiceUrl('')}
+                    style={{ cursor: 'pointer' }}
+                  />
                 </InputRightElement>
               )}
             </InputGroup>

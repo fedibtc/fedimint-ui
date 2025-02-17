@@ -47,7 +47,6 @@ export function useAppInit(
       dispatch({
         type: actionType,
         payload: {
-          id: hash,
           service: {
             config: {
               id: hash,

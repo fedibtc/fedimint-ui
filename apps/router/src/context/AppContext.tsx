@@ -1,14 +1,14 @@
 import React, { createContext, Dispatch, ReactNode, useReducer } from 'react';
-import { LOCAL_STORAGE_APP_STATE_KEY } from '../constants/Version';
+import { LOCAL_STORAGE_APP_STATE_KEY } from '../constants';
 import { Service } from '../types';
 
 export interface AppContextValue {
-  services: Record<string, Service>;
+  service: Service | null;
   dispatch: Dispatch<AppAction>;
 }
 
 export const initialState: AppContextValue = {
-  services: {},
+  service: null,
   dispatch: () => null,
 };
 
@@ -29,9 +29,7 @@ const makeInitialState = (): AppContextValue => {
 };
 
 export enum APP_ACTION_TYPE {
-  SET_SELECTED_SERVICE = 'SET_SELECTED_SERVICE',
   ADD_SERVICE = 'ADD_SERVICE',
-  UPDATE_SERVICE = 'UPDATE_SERVICE',
   REMOVE_SERVICE = 'REMOVE_SERVICE',
 }
 
@@ -39,14 +37,6 @@ export type AppAction =
   | {
       type: APP_ACTION_TYPE.ADD_SERVICE;
       payload: {
-        id: string;
-        service: Service;
-      };
-    }
-  | {
-      type: APP_ACTION_TYPE.UPDATE_SERVICE;
-      payload: {
-        id: string;
         service: Service;
       };
     }
@@ -66,23 +56,12 @@ const reducer = (
     case APP_ACTION_TYPE.ADD_SERVICE:
       return {
         ...state,
-        services: {
-          ...state.services,
-          [action.payload.id]: action.payload.service,
-        },
-      };
-    case APP_ACTION_TYPE.UPDATE_SERVICE:
-      return {
-        ...state,
-        services: {
-          ...state.services,
-          [action.payload.id]: action.payload.service,
-        },
+        service: action.payload.service,
       };
     case APP_ACTION_TYPE.REMOVE_SERVICE:
       return {
         ...state,
-        services: {},
+        service: null,
       };
   }
 };

@@ -31,7 +31,7 @@ describe('pages/Home', () => {
 
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
-        services: {},
+        service: null,
         dispatch: mockDispatch,
       }));
     });
@@ -51,12 +51,12 @@ describe('pages/Home', () => {
   });
 
   // We don't support gateway urls at this time so check for this
-  describe('When a user clicks the connect button with a gateway url', () => {
+  describe('When a user clicks the connect button with a gateway url input value', () => {
     const mockDispatch = jest.fn();
 
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
-        services: {},
+        service: null,
         dispatch: mockDispatch,
       }));
     });
@@ -81,12 +81,12 @@ describe('pages/Home', () => {
     });
   });
 
-  describe('When a user clicks the connect button with a guardian url', () => {
+  describe('When a user clicks the connect button with a guardian url input value', () => {
     const mockDispatch = jest.fn();
 
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
-        services: {},
+        service: null,
         dispatch: mockDispatch,
       }));
     });
@@ -114,7 +114,7 @@ describe('pages/Home', () => {
   describe('When there is no service in LocalStorage', () => {
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
-        services: {},
+        service: null,
         dispatch: jest.fn(),
       }));
     });
@@ -130,12 +130,10 @@ describe('pages/Home', () => {
   describe('When there is a guardian in LocalStorage', () => {
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
-        services: {
-          '51c1eeeb3b350bfe050d8b7ac04700548f6d96c3d8dc2e8f4489a2ebc662833d': {
-            config: {
-              id: '51c1eeeb3b350bfe050d8b7ac04700548f6d96c3d8dc2e8f4489a2ebc662833d',
-              baseUrl: 'wss://fedimintd-l7ik.test.app:8174',
-            },
+        service: {
+          config: {
+            id: '51c1eeeb3b350bfe050d8b7ac04700548f6d96c3d8dc2e8f4489a2ebc662833d',
+            baseUrl: 'wss://fedimintd-l7ik.test.app:8174',
           },
         },
         dispatch: jest.fn(),
@@ -154,12 +152,10 @@ describe('pages/Home', () => {
   describe('When there is a gateway in LocalStorage', () => {
     beforeEach(() => {
       mockedUseAppContext.mockImplementation(() => ({
-        services: {
-          '08fbbdb098ed66e0735a43c70ba71e4df12f27888f3facb619325e6f06bea314': {
-            config: {
-              id: '08fbbdb098ed66e0735a43c70ba71e4df12f27888f3facb619325e6f06bea314',
-              baseUrl: 'https://gatewayd-1234.test.app:8175',
-            },
+        service: {
+          config: {
+            id: '08fbbdb098ed66e0735a43c70ba71e4df12f27888f3facb619325e6f06bea314',
+            baseUrl: 'https://gatewayd-1234.test.app:8175',
           },
         },
         dispatch: jest.fn(),

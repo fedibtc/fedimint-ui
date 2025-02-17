@@ -62,7 +62,10 @@ const reducer = (
     case GATEWAY_APP_ACTION_TYPE.SET_SHOW_CONNECT_FED:
       return { ...state, showConnectFed: action.payload };
     case GATEWAY_APP_ACTION_TYPE.SET_WALLET_MODAL_STATE:
-      return { ...state, walletModalState: { ...state.walletModalState, ...action.payload } };
+      return {
+        ...state,
+        walletModalState: { ...state.walletModalState, ...action.payload },
+      };
     case GATEWAY_APP_ACTION_TYPE.SET_ACTIVE_TAB:
       return { ...state, activeTab: action.payload };
     default:
@@ -82,7 +85,7 @@ export const GatewayContextProvider: React.FC<GatewayContextProviderProps> = ({
   const [state, dispatch] = useReducer(reducer, initialState);
   const location = useLocation();
   const gatewayId = location.pathname.split('/')[2];
-  const config = useGatewayConfig(gatewayId);
+  const config = useGatewayConfig();
   const gatewayApi = useMemo(() => new GatewayApi(config), [config]);
 
   return (

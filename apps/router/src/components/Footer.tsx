@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Flex, useTheme, Link, Icon } from '@chakra-ui/react';
 import { FaDiscord, FaGithub } from 'react-icons/fa';
-import { LATEST_RELEASE_TAG } from '../constants/Version';
+import { LATEST_RELEASE_TAG } from '../constants';
 
 export const Footer = () => {
   const theme = useTheme();

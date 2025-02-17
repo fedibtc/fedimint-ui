@@ -32,7 +32,6 @@ describe('hooks/index', () => {
           expect(mockedDispatch).toBeCalledWith({
             type: APP_ACTION_TYPE.ADD_SERVICE,
             payload: {
-              id: 'dummy-hash-value',
               service: {
                 config: {
                   id: 'dummy-hash-value',
@@ -53,7 +52,6 @@ describe('hooks/index', () => {
           expect(mockedDispatch).toBeCalledWith({
             type: APP_ACTION_TYPE.ADD_SERVICE,
             payload: {
-              id: 'dummy-hash-value',
               service: {
                 config: {
                   id: 'dummy-hash-value',
