@@ -32,9 +32,6 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const query = useQuery();
 
-  // console.log('HIT', query);
-  // console.log('HIT2', query.get(''));
-
   const { dispatch, service } = useAppContext();
 
   const [serviceUrl, setServiceUrl] = useState<string>('');
