@@ -63,3 +63,4 @@ export * from './guardian/useGuardian';
 export * from './guardian/useGuardianSetup';
 export * from './gateway/useGateway';
 export * from './custom/useTrimmedInput';
+export * from './custom/useQuery';

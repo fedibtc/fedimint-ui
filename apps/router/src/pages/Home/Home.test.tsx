@@ -11,8 +11,10 @@ import HomePage from './Home';
 
 // Mock AppContext
 const mockedUseAppContext = jest.fn();
+const mockedUseQuery = jest.fn();
 jest.mock('../../hooks', () => ({
   useAppContext: () => mockedUseAppContext(),
+  useQuery: () => mockedUseQuery(),
 }));
 
 // Mock sha256Hash
@@ -22,20 +24,24 @@ jest.mock('@fedimint/utils', () => ({
 }));
 
 describe('pages/Home', () => {
+  const mockDispatch = jest.fn();
+
+  beforeEach(() => {
+    mockedUseAppContext.mockImplementation(() => ({
+      service: null,
+      dispatch: mockDispatch,
+    }));
+
+    mockedUseQuery.mockReturnValue({
+      get: jest.fn(),
+    });
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   describe('When a user clicks the connect button with an empty input value', () => {
-    const mockDispatch = jest.fn();
-
-    beforeEach(() => {
-      mockedUseAppContext.mockImplementation(() => ({
-        service: null,
-        dispatch: mockDispatch,
-      }));
-    });
-
     it('should not call dispatch', async () => {
       render(<HomePage />);
 
@@ -52,15 +58,6 @@ describe('pages/Home', () => {
 
   // We don't support gateway urls at this time so check for this
   describe('When a user clicks the connect button with a gateway url input value', () => {
-    const mockDispatch = jest.fn();
-
-    beforeEach(() => {
-      mockedUseAppContext.mockImplementation(() => ({
-        service: null,
-        dispatch: mockDispatch,
-      }));
-    });
-
     it('should not call dispatch', async () => {
       render(<HomePage />);
 
@@ -82,15 +79,6 @@ describe('pages/Home', () => {
   });
 
   describe('When a user clicks the connect button with a guardian url input value', () => {
-    const mockDispatch = jest.fn();
-
-    beforeEach(() => {
-      mockedUseAppContext.mockImplementation(() => ({
-        service: null,
-        dispatch: mockDispatch,
-      }));
-    });
-
     it('should call dispatch', async () => {
       render(<HomePage />);
 
@@ -112,13 +100,6 @@ describe('pages/Home', () => {
   });
 
   describe('When there is no service in LocalStorage', () => {
-    beforeEach(() => {
-      mockedUseAppContext.mockImplementation(() => ({
-        service: null,
-        dispatch: jest.fn(),
-      }));
-    });
-
     it('should render an input without a value', () => {
       render(<HomePage />);
       const input = screen.getByPlaceholderText('Guardian URL');
@@ -167,6 +148,20 @@ describe('pages/Home', () => {
       const url = screen.getByDisplayValue(
         'https://gatewayd-1234.test.app:8175'
       );
+      expect(url).toBeInTheDocument();
+    });
+  });
+
+  describe('When a url is passed as a query param', () => {
+    beforeEach(() => {
+      mockedUseQuery.mockReturnValue({
+        get: jest.fn().mockReturnValue('wss://guardian-url.test.com:8174'),
+      });
+    });
+
+    it('should set query param value in input box', () => {
+      render(<HomePage />);
+      const url = screen.getByDisplayValue('wss://guardian-url.test.com:8174');
       expect(url).toBeInTheDocument();
     });
   });
