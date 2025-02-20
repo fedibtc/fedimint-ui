@@ -21,6 +21,7 @@ import { FaDiscord, FaGithub } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
 import { APP_ACTION_TYPE } from '../../context/AppContext';
 import { useAppContext } from '../../hooks';
+import { useQuery } from '../../hooks';
 import HeroSvg from '../../images/hero-1.svg';
 import { getServiceType } from '../../helpers/service';
 import { LATEST_RELEASE_TAG } from '../../constants';
@@ -29,6 +30,8 @@ import { Logo } from '../../components/Logo';
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const query = useQuery();
+
   const { dispatch, service } = useAppContext();
 
   const [serviceUrl, setServiceUrl] = useState<string>('');
@@ -38,11 +41,12 @@ const HomePage: React.FC = () => {
     setIsGateway(false);
   }, [serviceUrl]);
 
+  // If url query param provided then set this in input
+  // as priority, otherwise fallback to url in state and then empty string
   useEffect(() => {
-    if (service?.config) {
-      setServiceUrl(service.config.baseUrl);
-    }
-  }, [service]);
+    const url = query.get('url') || service?.config.baseUrl || '';
+    setServiceUrl(url);
+  }, [query, service]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const url = e.target.value;
