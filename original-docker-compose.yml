@@ -152,7 +152,7 @@ services:
   #     dockerfile: Dockerfile
   #   environment:
   #     - PORT=3000
-  #     # - REACT_APP_FM_CONFIG_API=ws://localhost:18184
+  #     # - VITE_FM_CONFIG_API=ws://localhost:18184
   #   expose:
   #     - '3000'
   #   ports:

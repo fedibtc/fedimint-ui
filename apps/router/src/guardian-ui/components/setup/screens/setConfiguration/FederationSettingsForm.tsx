@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { FormGroup } from '@fedimint/ui';
-import { ReactComponent as FedimintLogo } from '../../../../assets/svgs/fedimint.svg';
+import FedimintLogo from '../../../../assets/svgs/fedimint.svg?react';
 import { BftInfo } from '../../../BftInfo';
 import { BFT_NUMBERS } from '../../../../utils/constants';
 

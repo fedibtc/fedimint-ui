@@ -128,13 +128,13 @@ From root repo directory:
 
    ```bash
      # first guardian
-     PORT=3000 REACT_APP_FM_CONFIG_API="ws://127.0.0.1:18174" yarn dev:guardian-ui
+     PORT=3000 VITE_FM_CONFIG_API="ws://127.0.0.1:18174" yarn dev:guardian-ui
      # second guardian
-     PORT=3001 REACT_APP_FM_CONFIG_API="ws://127.0.0.1:18184" yarn dev:guardian-ui
+     PORT=3001 VITE_FM_CONFIG_API="ws://127.0.0.1:18184" yarn dev:guardian-ui
      # third guardian
-     PORT=3002 REACT_APP_FM_CONFIG_API="ws://127.0.0.1:18185" yarn dev:guardian-ui
+     PORT=3002 VITE_FM_CONFIG_API="ws://127.0.0.1:18185" yarn dev:guardian-ui
      # fourth guardian
-     PORT=3003 REACT_APP_FM_CONFIG_API="ws://127.0.0.1:18186" yarn dev:guardian-ui
+     PORT=3003 VITE_FM_CONFIG_API="ws://127.0.0.1:18186" yarn dev:guardian-ui
    ```
 
 1. Run gateway-ui in development environment

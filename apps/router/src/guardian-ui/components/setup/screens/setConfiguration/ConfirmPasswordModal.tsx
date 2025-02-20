@@ -20,7 +20,7 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
-import { ReactComponent as WarningIcon } from '../../../../assets/svgs/warning.svg';
+import WarningIcon from '../../../../assets/svgs/warning.svg?react';
 import { useTrimmedInput } from '../../../../../hooks';
 
 interface ConfirmPasswordModalProps {

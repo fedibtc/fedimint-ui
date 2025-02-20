@@ -15,9 +15,8 @@ import { VerifyGuardians } from '../components/setup/screens/verifyGuardians/Ver
 import { SetupComplete } from '../components/setup/screens/setupComplete/SetupComplete';
 import { SetupProgress as SetupStepper } from '../components/setup/SetupProgress';
 import { TermsOfService } from '../components/TermsOfService';
-
-import { ReactComponent as ArrowLeftIcon } from '../assets/svgs/arrow-left.svg';
-import { ReactComponent as CancelIcon } from '../assets/svgs/x-circle.svg';
+import ArrowLeftIcon from '../assets/svgs/arrow-left.svg?react';
+import CancelIcon from '../assets/svgs/x-circle.svg?react';
 import { GuardianServerStatus } from '@fedimint/types';
 import { RestartModals } from './RestartModals';
 import { useGuardianSetupApi, useGuardianSetupContext } from '../../hooks';

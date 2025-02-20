@@ -13,21 +13,21 @@
     "guardian-ui#build": {
       "outputs": ["build/**", "dist/**"],
       "dependsOn": ["^build"],
-      "env": ["REACT_APP_FM_CONFIG_API", "REACT_APP_TOS"]
+      "env": ["VITE_FM_CONFIG_API", "VITE_TOS"]
     },
     "gateway-ui#build": {
       "outputs": ["build/**", "dist/**"],
       "dependsOn": ["^build"],
-      "env": ["REACT_APP_FM_GATEWAY_API", "REACT_APP_FM_GATEWAY_PASSWORD"]
+      "env": ["VITE_FM_GATEWAY_API", "VITE_FM_GATEWAY_PASSWORD"]
     },
     "router#build": {
       "outputs": ["build/**", "dist/**"],
       "dependsOn": ["^build", "^guardian-ui#build", "^gateway-ui#build"],
       "env": [
-        "REACT_APP_FM_CONFIG_API",
-        "REACT_APP_TOS",
-        "REACT_APP_FM_GATEWAY_API",
-        "REACT_APP_FM_GATEWAY_PASSWORD"
+        "VITE_FM_CONFIG_API",
+        "VITE_TOS",
+        "VITE_FM_GATEWAY_API",
+        "VITE_FM_GATEWAY_PASSWORD"
       ]
     },
     "test": {

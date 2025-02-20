@@ -15,8 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { CopyInput } from '@fedimint/ui';
 import { useTranslation } from '@fedimint/utils';
-import { ReactComponent as CopyIcon } from '../../../assets/svgs/copy.svg';
-import { ReactComponent as QrIcon } from '../../../assets/svgs/qr.svg';
+import CopyIcon from '../../../assets/svgs/copy.svg?react';
+import QrIcon from '../../../assets/svgs/qr.svg?react';
 import { QRCodeSVG } from 'qrcode.react';
 
 const QR_CODE_SIZE = 256;

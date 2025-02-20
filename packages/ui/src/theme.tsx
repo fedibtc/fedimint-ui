@@ -1,5 +1,5 @@
 import React from 'react';
-import { Global } from '@emotion/react';
+import { css, Global } from '@emotion/react';
 import {
   AlertProps,
   cssVar,
@@ -7,7 +7,6 @@ import {
   withDefaultColorScheme,
 } from '@chakra-ui/react';
 
-const SPACE_GROTESK = 'Space Grotesk';
 const INTER = 'Inter';
 const STATUSES = ['info', 'warning', 'error', 'success'] as const;
 
@@ -181,7 +180,7 @@ export const theme = extendTheme(
     colors,
     shadows,
     fonts: {
-      heading: `'${SPACE_GROTESK}', monospace`,
+      heading: `'${INTER}', sans-serif`,
       body: `'${INTER}', sans-serif`,
     },
     textStyles: textSizes,
@@ -429,30 +428,16 @@ export const theme = extendTheme(
   withDefaultColorScheme({ colorScheme: 'gray', components: ['Table'] })
 );
 
-interface FontsProps {
-  spaceGroteskTtf: string;
-  interTtf: string;
-}
-
-export const Fonts: React.FC<FontsProps> = ({ spaceGroteskTtf, interTtf }) => (
+export const Fonts = () => (
   <Global
-    styles={`
-      @font-face {
-        font-family: ${SPACE_GROTESK};
-        font-style: normal;
-        font-weight: 300 700;
-        font-display: swap;
-        src: url(${spaceGroteskTtf}) format('truetype');
-      }
-
-      @font-face {
-        font-family: ${INTER};
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url(${interTtf}) format('truetype');
-      }
-    `}
+    styles={[
+      css`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&display=swap');
+      `,
+      {
+        body: { fontFamily: 'Inter' },
+      },
+    ]}
   />
 );
 

@@ -25,7 +25,7 @@ fi
 validate_port "$CONFIG_PORT"
 
 # Export the environment variable
-export REACT_APP_FM_CONFIG_API="ws://127.0.0.1:$CONFIG_PORT"
+export VITE_FM_CONFIG_API="ws://127.0.0.1:$CONFIG_PORT"
 
 # Start the guardian UI
 yarn dev:guardian-ui

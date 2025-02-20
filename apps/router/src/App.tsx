@@ -12,7 +12,7 @@ export default function App() {
   const { dispatch } = useAppContext();
 
   const url =
-    process.env.REACT_APP_FM_CONFIG_API || process.env.REACT_APP_FM_GATEWAY_API;
+    import.meta.env.VITE_FM_CONFIG_API || import.meta.env.VITE_FM_GATEWAY_API;
   useAppInit(dispatch, url);
 
   return (

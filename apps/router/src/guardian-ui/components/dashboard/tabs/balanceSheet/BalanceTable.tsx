@@ -13,8 +13,8 @@ import {
   Grid,
   GridItem,
 } from '@chakra-ui/react';
-import { ReactComponent as CheckIcon } from '../../../../assets/svgs/check-circle.svg';
-import { ReactComponent as CloseIcon } from '../../../../assets/svgs/x-circle.svg';
+import CheckIcon from '../../../../assets/svgs/check-circle.svg?react';
+import CloseIcon from '../../../../assets/svgs/x-circle.svg?react';
 import { AuditSummary, ModuleKind, MSats } from '@fedimint/types';
 import { formatValue } from '@fedimint/utils';
 

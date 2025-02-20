@@ -13,7 +13,7 @@ import {
 import { ClientConfig, Gateway, ModuleKind } from '@fedimint/types';
 import { Table, TableColumn, TableRow } from '@fedimint/ui';
 import { useTranslation, formatEllipsized } from '@fedimint/utils';
-import { ReactComponent as InfoIcon } from '../../../../assets/svgs/info.svg';
+import InfoIcon from '../../../../assets/svgs/info.svg?react';
 import { useGuardianAdminApi } from '../../../../../hooks';
 import { ModuleRpc } from '../../../../../types/guardian';
 

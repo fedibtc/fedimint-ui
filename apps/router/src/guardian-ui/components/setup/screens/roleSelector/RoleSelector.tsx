@@ -10,12 +10,12 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { RadioButtonGroup, RadioButtonOption } from '@fedimint/ui';
-import { ReactComponent as ArrowRightIcon } from '../../../../assets/svgs/arrow-right.svg';
-import { ReactComponent as CheckIcon } from '../../../../assets/svgs/check.svg';
-import { ReactComponent as StarsIcon } from '../../../../assets/svgs/stars.svg';
-import { ReactComponent as IntersectSquareIcon } from '../../../../assets/svgs/intersect-square.svg';
-import { ReactComponent as WarningIcon } from '../../../../assets/svgs/warning.svg';
-import { ReactComponent as SoloIcon } from '../../../../assets/svgs/solo.svg';
+import ArrowRightIcon from '../../../../assets/svgs/arrow-right.svg?react';
+import CheckIcon from '../../../../assets/svgs/check.svg?react';
+import StarsIcon from '../../../../assets/svgs/stars.svg?react';
+import IntersectSquareIcon from '../../../../assets/svgs/intersect-square.svg?react';
+import WarningIcon from '../../../../assets/svgs/warning.svg?react';
+import SoloIcon from '../../../../assets/svgs/solo.svg?react';
 import { useTranslation } from '@fedimint/utils';
 import { WarningModal } from './WarningModal';
 import { BitcoinRpcConnectionStatus } from '@fedimint/types';

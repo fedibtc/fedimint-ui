@@ -11,32 +11,32 @@ procs:
     shell: yarn dev:guardian-ui
     env:
       PORT: '3000'
-      REACT_APP_FM_CONFIG_API: ws://127.0.0.1:18174
+      VITE_FM_CONFIG_API: ws://127.0.0.1:18174
       BROWSER: none
   guardian-ui-2:
     shell: yarn dev:guardian-ui
     env:
       PORT: '3001'
-      REACT_APP_FM_CONFIG_API: ws://127.0.0.1:18184
+      VITE_FM_CONFIG_API: ws://127.0.0.1:18184
       BROWSER: none
   guardian-ui-3:
     shell: yarn dev:guardian-ui
     env:
       PORT: '3002'
-      REACT_APP_FM_CONFIG_API: ws://127.0.0.1:18185
+      VITE_FM_CONFIG_API: ws://127.0.0.1:18185
       BROWSER: none
   guardian-ui-4:
     shell: yarn dev:guardian-ui
     env:
       PORT: '3003'
-      REACT_APP_FM_CONFIG_API: ws://127.0.0.1:18186
+      VITE_FM_CONFIG_API: ws://127.0.0.1:18186
       BROWSER: none
   gateway-ui:
     shell: yarn dev:gateway-ui
     env:
       PORT: '3004'
-      REACT_APP_FM_GATEWAY_API: 'http://127.0.0.1:8175'
-      REACT_APP_FM_GATEWAY_PASSWORD: 'theresnosecondbest'
+      VITE_FM_GATEWAY_API: 'http://127.0.0.1:8175'
+      VITE_FM_GATEWAY_PASSWORD: 'theresnosecondbest'
       BROWSER: none
   fedimintd_1-logs:
     shell: sleep 3 && docker logs -f ui-fedimintd_1-1

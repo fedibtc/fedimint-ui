@@ -3,8 +3,8 @@ import { Box, Text, Flex, theme, Collapse, IconButton } from '@chakra-ui/react';
 import { GuardianAuthenticationCode } from './GuardianAuthenticationCode';
 import { DownloadBackup } from './DownloadBackup';
 import { useTranslation } from '@fedimint/utils';
-import { ReactComponent as ChevronDownIcon } from '../../../assets/svgs/chevron-down.svg';
-import { ReactComponent as ChevronUpIcon } from '../../../assets/svgs/chevron-up.svg';
+import ChevronDownIcon from '../../../assets/svgs/chevron-down.svg?react';
+import ChevronUpIcon from '../../../assets/svgs/chevron-up.svg?react';
 import { ScheduleShutdown } from './ScheduleShutdown';
 import { SignedApiAnnouncement } from '@fedimint/types';
 import { SignApiAnnouncement } from './SignApiAnnouncement';
@@ -25,7 +25,7 @@ export const DangerZone: React.FC<DangerZoneProps> = ({
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const currentApiUrl = process.env.REACT_APP_FM_CONFIG_API || '';
+  const currentApiUrl = import.meta.env.VITE_FM_CONFIG_API || '';
 
   const toggleCollapse = () => setIsOpen(!isOpen);
 

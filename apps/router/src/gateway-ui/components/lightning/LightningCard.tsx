@@ -8,8 +8,8 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 import { formatEllipsized, getNodeUrl, useTranslation } from '@fedimint/utils';
-import { ReactComponent as CopyIcon } from '../../assets/svgs/copy.svg';
-import { ReactComponent as LinkIcon } from '../../assets/svgs/linkIcon.svg';
+import CopyIcon from '../../assets/svgs/copy.svg?react';
+import LinkIcon from '../../assets/svgs/linkIcon.svg?react';
 import { useGatewayContext } from '../../../hooks';
 import { Network } from '@fedimint/types';
 
@@ -50,7 +50,7 @@ export const LightningCard = React.memo(function LightningCard(): JSX.Element {
         onClick={onCopy}
         cursor='pointer'
         aria-label={t('common.copy')}
-        role="button"
+        role='button'
         _hover={{ color: 'gray.700' }}
       />
       {hasCopied && (

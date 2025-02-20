@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Fonts, SharedChakraProvider, theme } from '@fedimint/ui';
-import spaceGroteskTtf from '@fedimint/ui/assets/fonts/SpaceGrotesk-Variable.ttf';
-import interTtf from '@fedimint/ui/assets/fonts/Inter-Variable.ttf';
 import { ColorModeScript } from '@chakra-ui/react';
 import { i18nProvider } from '@fedimint/utils';
 import { languages } from './languages';
@@ -19,7 +17,7 @@ root.render(
   <React.StrictMode>
     <SharedChakraProvider theme={theme}>
       <ColorModeScript />
-      <Fonts spaceGroteskTtf={spaceGroteskTtf} interTtf={interTtf} />
+      <Fonts />
       <AppContextProvider>
         <App />
       </AppContextProvider>

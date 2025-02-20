@@ -16,7 +16,7 @@ import {
 } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
 import { GuardianRole } from '../../../../../types/guardian';
-import { ReactComponent as ArrowRightIcon } from '../../../../assets/svgs/arrow-right.svg';
+import ArrowRightIcon from '../../../../assets/svgs/arrow-right.svg?react';
 import {
   formatApiErrorMessage,
   getModuleParamsFromConfig,

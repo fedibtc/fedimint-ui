@@ -7,7 +7,5 @@ export * from './StatusIndicator';
 export * from './Table';
 export * from './theme';
 export * from './SharedChakraProvider';
-export * from '../../../apps/router/src/components/Wrapper';
 export * from './Login';
 export * from './NetworkIndicator';
-export * from '../../../apps/router/src/components/Header';

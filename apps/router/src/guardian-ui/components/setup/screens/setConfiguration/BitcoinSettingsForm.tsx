@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { FormGroup, NetworkIndicator } from '@fedimint/ui';
-import { ReactComponent as BitcoinLogo } from '../../../../assets/svgs/bitcoin.svg';
+import BitcoinLogo from '../../../../assets/svgs/bitcoin.svg?react';
 import {
   Network,
   BitcoinRpc,

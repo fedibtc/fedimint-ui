@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { FormGroup } from '@fedimint/ui';
-import { ReactComponent as LightbulbLogo } from '../../../../assets/svgs/lightbulb.svg';
+import LightbulbLogo from '../../../../assets/svgs/lightbulb.svg?react';
 import { generatePassword } from '../../../../utils';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 

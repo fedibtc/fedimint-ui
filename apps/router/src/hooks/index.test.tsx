@@ -1,18 +1,20 @@
+import { vi } from 'vitest';
 import { renderHook, waitFor } from '../utils/testing/customRender';
 import { APP_ACTION_TYPE } from '../context/AppContext';
 import { useAppInit } from './';
 
-// Mock sha256Hash
-jest.mock('@fedimint/utils', () => ({
-  ...jest.requireActual('@fedimint/utils'),
-  sha256Hash: () => 'dummy-hash-value',
-}));
+vi.mock('@fedimint/utils');
 
-const mockedDispatch = jest.fn();
+const mockedDispatch = vi.fn();
 
 describe('hooks/index', () => {
+  beforeEach(async () => {
+    const utils = await import('@fedimint/utils');
+    utils.sha256Hash = vi.fn().mockReturnValue('dummy-hash-value');
+  });
+
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useAppInit', () => {

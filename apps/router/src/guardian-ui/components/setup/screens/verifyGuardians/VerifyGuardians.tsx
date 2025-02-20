@@ -31,11 +31,11 @@ import { GuardianServerStatus, Peer } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
 import { CopyInput, Table } from '@fedimint/ui';
 import { GuardianRole } from '../../../../../types/guardian';
-import { ReactComponent as ArrowRightIcon } from '../../../../assets/svgs/arrow-right.svg';
-import { ReactComponent as CopyIcon } from '../../../../assets/svgs/copy.svg';
 import { formatApiErrorMessage } from '../../../../utils/api';
-import { ReactComponent as CheckCircleIcon } from '../../../../assets/svgs/check-circle.svg';
-import { ReactComponent as XCircleIcon } from '../../../../assets/svgs/x-circle.svg';
+import ArrowRightIcon from '../../../../assets/svgs/arrow-right.svg?react';
+import CopyIcon from '../../../../assets/svgs/copy.svg?react';
+import CheckCircleIcon from '../../../../assets/svgs/check-circle.svg?react';
+import XCircleIcon from '../../../../assets/svgs/x-circle.svg?react';
 import {
   useConsensusPolling,
   useGuardianSetupApi,
