@@ -7,79 +7,20 @@
   ],
   "tasks": {
     "build": {
-      "outputs": ["build/**", "dist/**"],
+      "outputs": ["dist/**"],
       "dependsOn": ["^build"]
     },
-    "guardian-ui#build": {
-      "outputs": ["build/**", "dist/**"],
-      "dependsOn": ["^build"],
-      "env": ["VITE_FM_CONFIG_API", "VITE_TOS"]
-    },
-    "gateway-ui#build": {
-      "outputs": ["build/**", "dist/**"],
-      "dependsOn": ["^build"],
-      "env": ["VITE_FM_GATEWAY_API", "VITE_FM_GATEWAY_PASSWORD"]
-    },
-    "router#build": {
-      "outputs": ["build/**", "dist/**"],
-      "dependsOn": ["^build", "^guardian-ui#build", "^gateway-ui#build"],
-      "env": [
-        "VITE_FM_CONFIG_API",
-        "VITE_TOS",
-        "VITE_FM_GATEWAY_API",
-        "VITE_FM_GATEWAY_PASSWORD"
-      ]
-    },
-    "test": {
-      "outputs": []
-    },
-    "test:watch": {
-      "cache": false
-    },
-    "lint": {
-      "outputs": [],
-      "dependsOn": ["^build"],
-      "cache": false
-    },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },
-    "@fedimint/types#dev": {
-      "cache": false,
-      "dependsOn": ["^build"]
+    "lint": {
+      "cache": false
     },
-    "@fedimint/utils#dev": {
-      "cache": false,
-      "dependsOn": ["@fedimint/types#build"]
-    },
-    "@fedimint/ui#dev": {
-      "cache": false,
-      "dependsOn": ["@fedimint/types#build", "@fedimint/utils#build"]
-    },
-    "@fedimint/guardian-ui#dev": {
-      "cache": false,
-      "dependsOn": [
-        "@fedimint/types#build",
-        "@fedimint/utils#build",
-        "@fedimint/ui#build"
-      ]
-    },
-    "@fedimint/gateway-ui#dev": {
-      "cache": false,
-      "dependsOn": [
-        "@fedimint/types#build",
-        "@fedimint/utils#build",
-        "@fedimint/ui#build"
-      ]
-    },
-    "@fedimint/router#dev": {
-      "cache": false,
-      "dependsOn": [
-        "@fedimint/types#build",
-        "@fedimint/utils#build",
-        "@fedimint/ui#build"
-      ]
+    "test": {},
+    "test:watch": {
+      "cache": false
     },
     "clean": {
       "cache": false
