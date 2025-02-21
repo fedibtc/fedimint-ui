@@ -13,18 +13,15 @@ vi.mock('../../hooks', () => ({
   useQuery: () => mockedUseQuery(),
 }));
 
-// // Mock sha256Hash
-vi.mock('@fedimint/utils', () => ({
-  ...vi.importActual('@fedimint/utils'),
-  sha256Hash: vi.fn(() => 'dummy-hash-value'),
-}));
-
 vi.mock('@fedimint/utils');
 
 describe('pages/Home', () => {
   const mockDispatch = vi.fn();
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    const utils = await import('@fedimint/utils');
+    utils.sha256Hash = vi.fn().mockReturnValue('dummy-hash-value');
+
     mockedUseAppContext.mockImplementation(() => ({
       service: null,
       dispatch: mockDispatch,
@@ -32,11 +29,6 @@ describe('pages/Home', () => {
 
     mockedUseQuery.mockReturnValue({
       get: vi.fn(),
-    });
-
-    beforeEach(async () => {
-      const utils = await import('@fedimint/utils');
-      utils.sha256Hash = vi.fn().mockReturnValue('dummy-hash-value');
     });
   });
 
