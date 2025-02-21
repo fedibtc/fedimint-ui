@@ -15,10 +15,6 @@ export default defineConfig({
     alias: {
       '@fedimint/types': path.resolve(__dirname, '../../packages/types/src'),
       '@fedimint/utils': path.resolve(__dirname, '../../packages/utils/src'),
-      '@fedimint/ui/assets': path.resolve(
-        __dirname,
-        '../../packages/ui/assets'
-      ),
       '@fedimint/ui': path.resolve(__dirname, '../../packages/ui/src'),
       '@': path.resolve(__dirname, 'src'),
     },
