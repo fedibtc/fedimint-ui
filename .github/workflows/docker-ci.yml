@@ -1,4 +1,4 @@
-name: fedimint-ui-docker
+name: docker-ci
 
 on:
   release:
@@ -21,10 +21,7 @@ jobs:
           images: |
             fedimintui/fedimint-ui
           tags: |
-            type=raw,value=latest
             type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
