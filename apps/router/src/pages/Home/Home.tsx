@@ -111,7 +111,7 @@ const HomePage: React.FC = () => {
               target='_blank'
               ml='1'
             >
-              v0.5.0
+              {LATEST_RELEASE_TAG}
             </Link>
           </Text>
         </Box>
