@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Flex, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Flex, Skeleton, Text } from '@chakra-ui/react';
 import {
   ClientConfig,
   SignedApiAnnouncement,
@@ -69,62 +69,68 @@ export const FederationAdmin: React.FC = () => {
   }, [config, status, signedApiAnnouncements]);
 
   return (
-    <Flex gap='32px' flexDirection='row'>
-      <Flex gap={4} flexDirection='column' w='100%'>
-        {config ? (
-          <Flex gap={6} justifyContent='space-between' alignItems='center'>
-            <Flex flexDirection='column' gap={3}>
-              <Flex alignItems='baseline'>
-                <Text
-                  fontSize='sm'
-                  color='gray.500'
-                  textTransform='uppercase'
-                  letterSpacing='wide'
-                  width='150px'
-                >
-                  {t('common.federation-name')}
-                </Text>
-                <Text fontSize='lg' color='gray.700' fontWeight='medium'>
-                  {config.global.meta.federation_name}
-                </Text>
-              </Flex>
-              <Flex alignItems='baseline'>
-                <Text
-                  fontSize='sm'
-                  color='gray.500'
-                  textTransform='uppercase'
-                  letterSpacing='wide'
-                  width='150px'
-                >
-                  {t('common.guardian-name')}
-                </Text>
-                <Text fontSize='lg' color='gray.700' fontWeight='medium'>
-                  {ourPeer?.name}
-                </Text>
-              </Flex>
+    <Flex flexDirection='column' gap='3'>
+      {config ? (
+        <Flex
+          alignItems={{ md: 'center' }}
+          flexDirection={{ base: 'column', md: 'row' }}
+          justifyContent='space-between'
+          gap='1'
+          mb='2'
+        >
+          <Flex flexDirection='column' gap='1' mb={{ base: 1, md: 0 }} flex='3'>
+            <Flex alignItems='center'>
+              <Text
+                fontSize='sm'
+                color='gray.500'
+                textTransform='uppercase'
+                letterSpacing='wide'
+                width='150px'
+              >
+                {t('common.federation-name')}
+              </Text>
+              <Text fontSize='md' color='gray.700' fontWeight='semibold'>
+                {config?.global.meta.federation_name}
+              </Text>
             </Flex>
-            <InviteCode inviteCode={inviteCode} />
+            <Flex alignItems='center'>
+              <Text
+                fontSize='sm'
+                color='gray.500'
+                textTransform='uppercase'
+                letterSpacing='wide'
+                width='150px'
+              >
+                {t('common.guardian-name')}
+              </Text>
+              <Text fontSize='md' color='gray.700' fontWeight='semibold'>
+                {ourPeer?.name}
+              </Text>
+            </Flex>
           </Flex>
-        ) : (
-          <Skeleton height='120px' width='100%' />
-        )}
 
-        {ourPeer && (
-          <FederationTabsCard
-            config={config}
-            ourPeer={ourPeer}
-            signedApiAnnouncements={signedApiAnnouncements}
-            latestSession={latestSession}
-            status={status}
-          />
-        )}
-        <DangerZone
-          inviteCode={inviteCode}
+          <Box flex='2'>
+            <InviteCode inviteCode={inviteCode} />
+          </Box>
+        </Flex>
+      ) : (
+        <Skeleton height='120px' width='100%' />
+      )}
+      {ourPeer && (
+        <FederationTabsCard
+          config={config}
           ourPeer={ourPeer}
-          latestSession={latestSession}
           signedApiAnnouncements={signedApiAnnouncements}
+          latestSession={latestSession}
+          status={status}
         />
-      </Flex>
+      )}
+      <DangerZone
+        inviteCode={inviteCode}
+        ourPeer={ourPeer}
+        latestSession={latestSession}
+        signedApiAnnouncements={signedApiAnnouncements}
+      />
     </Flex>
   );
 };

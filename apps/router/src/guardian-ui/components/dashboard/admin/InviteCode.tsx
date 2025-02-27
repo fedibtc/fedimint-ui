@@ -33,7 +33,7 @@ export const InviteCode: React.FC<InviteCodeProps> = ({ inviteCode }) => {
   const handleClose = () => setIsOpen(false);
 
   return (
-    <Box bg='blue.50' p={2} borderRadius='md' maxWidth='40%' minWidth='240px'>
+    <Box bg='blue.50' p={2} borderRadius='md' width='100%'>
       <Text
         mb='6px'
         fontSize='14px'
