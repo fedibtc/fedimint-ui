@@ -155,7 +155,7 @@ const HomePage: React.FC = () => {
                 name='url'
                 autoFocus
                 variant='outline'
-                placeholder={t('home.guardian-url')}
+                placeholder='e.g. wss://fedimintd-url.com:8174'
                 value={serviceUrl}
                 onChange={handleOnChange}
                 onKeyDown={handleOnKeyDown}
