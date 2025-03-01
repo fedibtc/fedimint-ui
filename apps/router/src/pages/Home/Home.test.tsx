@@ -57,7 +57,7 @@ describe('pages/Home', () => {
       render(<HomePage />);
 
       const input = screen.getByPlaceholderText(
-        'home.guardian-url'
+        'e.g. wss://fedimintd-url.com:8174'
       ) as HTMLInputElement;
 
       await act(async () => {
@@ -78,7 +78,7 @@ describe('pages/Home', () => {
       render(<HomePage />);
 
       const input = screen.getByPlaceholderText(
-        'home.guardian-url'
+        'e.g. wss://fedimintd-url.com:8174'
       ) as HTMLInputElement;
 
       await act(async () => {
@@ -97,7 +97,9 @@ describe('pages/Home', () => {
   describe('When there is no service in LocalStorage', () => {
     it('should render an input without a value', () => {
       render(<HomePage />);
-      const input = screen.getByPlaceholderText('home.guardian-url');
+      const input = screen.getByPlaceholderText(
+        'e.g. wss://fedimintd-url.com:8174'
+      );
 
       expect(input).toBeInTheDocument();
     });
