@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Flex,
   FormLabel,
@@ -6,8 +6,11 @@ import {
   Button,
   IconButton,
   Text,
+  Box,
+  Tooltip,
+  Switch,
 } from '@chakra-ui/react';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiAlertTriangle, FiInfo } from 'react-icons/fi';
 import { IconPreview } from './IconPreview';
 
 interface Site {
@@ -24,15 +27,61 @@ interface SitesInputProps {
 
 export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
   const [sites, setSites] = useState<Site[]>([]);
+  const [imageValidation, setImageValidation] = useState<
+    Record<number, { valid: boolean; error: string }>
+  >({});
+  const [autoValidateUrls, setAutoValidateUrls] = useState<boolean>(true);
+
+  const validateImage = useCallback(
+    async (url: string, index: number) => {
+      if (!url || !autoValidateUrls) {
+        return;
+      }
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const blob = await response.blob();
+        if (!blob.type.startsWith('image/')) {
+          throw new Error('Invalid image format');
+        }
+
+        setImageValidation((prev) => ({
+          ...prev,
+          [index]: { valid: true, error: '' },
+        }));
+      } catch (error) {
+        setImageValidation((prev) => ({
+          ...prev,
+          [index]: {
+            valid: false,
+            error:
+              error instanceof Error ? error.message : 'Failed to load image',
+          },
+        }));
+      }
+    },
+    [autoValidateUrls]
+  );
 
   useEffect(() => {
     try {
       const parsedSites = JSON.parse(value);
       setSites(Array.isArray(parsedSites) ? parsedSites : []);
+
+      if (autoValidateUrls && Array.isArray(parsedSites)) {
+        parsedSites.forEach((site, index) => {
+          if (site.imageUrl) {
+            validateImage(site.imageUrl, index);
+          }
+        });
+      }
     } catch {
       setSites([]);
     }
-  }, [value]);
+  }, [value, validateImage, autoValidateUrls]);
 
   const handleSiteChange = (
     index: number,
@@ -43,6 +92,10 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
       i === index ? { ...site, [field]: newValue } : site
     );
     onChange(JSON.stringify(newSites));
+
+    if (field === 'imageUrl' && autoValidateUrls) {
+      validateImage(newValue, index);
+    }
   };
 
   const addSite = () => {
@@ -53,6 +106,11 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
   const removeSite = (index: number) => {
     const newSites = sites.filter((_, i) => i !== index);
     onChange(JSON.stringify(newSites));
+    setImageValidation((prev) => {
+      const newValidation = { ...prev };
+      delete newValidation[index];
+      return newValidation;
+    });
   };
 
   return (
@@ -61,9 +119,31 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
         <Text fontSize='lg' fontWeight='bold'>
           Sites
         </Text>
-        <Button onClick={addSite} size='sm' variant='outline'>
-          Add Site
-        </Button>
+        <Flex alignItems='center' gap={4}>
+          <Flex alignItems='center'>
+            <FormLabel htmlFor='validate-urls-sites' mb='0' mr={2}>
+              Auto-validate URLs
+            </FormLabel>
+            <Switch
+              id='validate-urls-sites'
+              isChecked={autoValidateUrls}
+              onChange={(e) => setAutoValidateUrls(e.target.checked)}
+              colorScheme='blue'
+            />
+            <Tooltip
+              label='When enabled, image URLs are automatically validated by making external requests. Disable to protect privacy.'
+              placement='top'
+              hasArrow
+            >
+              <Box ml={1} color='gray.500' cursor='help'>
+                <FiInfo />
+              </Box>
+            </Tooltip>
+          </Flex>
+          <Button onClick={addSite} size='sm' variant='outline'>
+            Add Site
+          </Button>
+        </Flex>
       </Flex>
       {sites.map((site, index) => (
         <Flex key={index} alignItems='center' gap={2} mb={2}>
@@ -76,7 +156,12 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
             borderRadius='md'
           >
             {(Object.keys(site) as Array<keyof Site>).map((field) => (
-              <Flex key={field} direction='column' flex={1}>
+              <Flex
+                key={field}
+                direction='column'
+                flex={1}
+                position={field === 'imageUrl' ? 'relative' : 'static'}
+              >
                 <FormLabel htmlFor={`${field}-${index}`} fontSize='xs' mb={0}>
                   {field.charAt(0).toUpperCase() + field.slice(1)}
                 </FormLabel>
@@ -87,12 +172,49 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
                   onChange={(e) =>
                     handleSiteChange(index, field, e.target.value)
                   }
+                  onBlur={() => {
+                    if (
+                      field === 'imageUrl' &&
+                      site.imageUrl &&
+                      autoValidateUrls
+                    ) {
+                      validateImage(site.imageUrl, index);
+                    }
+                  }}
                   size='sm'
+                  isInvalid={
+                    field === 'imageUrl' &&
+                    imageValidation[index]?.valid === false
+                  }
                 />
+                {field === 'imageUrl' &&
+                  imageValidation[index]?.valid === false && (
+                    <Tooltip
+                      label={imageValidation[index]?.error}
+                      placement='top'
+                      hasArrow
+                    >
+                      <Box
+                        position='absolute'
+                        right={2}
+                        top='50%'
+                        color='red.500'
+                        cursor='pointer'
+                        display='flex'
+                        alignItems='center'
+                        zIndex={2}
+                      >
+                        <FiAlertTriangle />
+                      </Box>
+                    </Tooltip>
+                  )}
               </Flex>
             ))}
           </Flex>
-          <IconPreview imageUrl={site.imageUrl} />
+
+          {/* Only show IconPreview when auto-validation is enabled */}
+          {autoValidateUrls && <IconPreview imageUrl={site.imageUrl} />}
+
           <IconButton
             aria-label='Remove site'
             icon={<FiX />}

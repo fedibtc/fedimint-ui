@@ -6,8 +6,11 @@ import {
   Input,
   Text,
   IconButton,
+  Tooltip,
+  Box,
+  Switch,
 } from '@chakra-ui/react';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiAlertTriangle, FiInfo } from 'react-icons/fi';
 import { IconPreview } from './IconPreview';
 
 interface CustomMetaFieldsProps {
@@ -21,26 +24,48 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
 }) => {
   const [iconValidity, setIconValidity] = useState<boolean>(true);
   const [localIconUrl, setLocalIconUrl] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<string>('');
+  const [autoValidateUrls, setAutoValidateUrls] = useState<boolean>(true);
+
+  // Helper to determine if a field might contain an image URL
+  const isImageField = (key: string): boolean => {
+    return (
+      key.includes('icon_url') ||
+      key.includes('image') ||
+      key.includes('avatar')
+    );
+  };
 
   const validateIcon = useCallback(async (url: string) => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const response = await fetch(url, { mode: 'no-cors' });
-      setLocalIconUrl(url);
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const blob = await response.blob();
+      if (!blob.type.startsWith('image/')) {
+        throw new Error('Invalid image format');
+      }
+      const objectURL = URL.createObjectURL(blob);
+      setLocalIconUrl(objectURL);
       setIconValidity(true);
-      return url;
+      setValidationError('');
+      return objectURL;
     } catch (error) {
       setLocalIconUrl(null);
       setIconValidity(false);
+      setValidationError(
+        error instanceof Error ? error.message : 'Failed to load image'
+      );
       return null;
     }
   }, []);
 
   useEffect(() => {
-    if (customMeta['federation_icon_url']) {
+    if (autoValidateUrls && customMeta['federation_icon_url']) {
       validateIcon(customMeta['federation_icon_url']);
     }
-  }, [customMeta, validateIcon]);
+  }, [autoValidateUrls, customMeta, validateIcon]);
 
   const handleMetaChange = (oldKey: string, newKey: string, value: string) => {
     setCustomMeta((prev) => {
@@ -52,16 +77,17 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
       return newMeta;
     });
 
-    if (newKey === 'federation_icon_url') {
+    if (isImageField(newKey) && autoValidateUrls) {
       setIconValidity(true);
       setLocalIconUrl(null);
+      setValidationError('');
+      if (value) validateIcon(value);
     }
   };
 
-  const handleIconUrlBlur = () => {
-    const iconUrl = customMeta['federation_icon_url'];
-    if (iconUrl) {
-      validateIcon(iconUrl);
+  const handleFieldBlur = (key: string, value: string) => {
+    if (isImageField(key) && value && autoValidateUrls) {
+      validateIcon(value);
     }
   };
 
@@ -80,13 +106,35 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
 
   return (
     <>
-      <Flex justifyContent='space-between' alignItems='center'>
+      <Flex justifyContent='space-between' alignItems='center' mb={4}>
         <Text fontSize='lg' fontWeight='bold'>
           Meta Fields
         </Text>
-        <Button onClick={addCustomField} size='sm' variant='outline'>
-          Add Field
-        </Button>
+        <Flex alignItems='center' gap={4}>
+          <Flex alignItems='center'>
+            <FormLabel htmlFor='validate-urls' mb='0' mr={2}>
+              Auto-validate URLs
+            </FormLabel>
+            <Switch
+              id='validate-urls'
+              isChecked={autoValidateUrls}
+              onChange={(e) => setAutoValidateUrls(e.target.checked)}
+              colorScheme='blue'
+            />
+            <Tooltip
+              label='When enabled, image URLs are automatically validated by making external requests. Disable to protect privacy.'
+              placement='top'
+              hasArrow
+            >
+              <Box ml={1} color='gray.500' cursor='help'>
+                <FiInfo />
+              </Box>
+            </Tooltip>
+          </Flex>
+          <Button onClick={addCustomField} size='sm' variant='outline'>
+            Add Field
+          </Button>
+        </Flex>
       </Flex>
       <Flex flexDirection='column' gap={4}>
         {Object.entries(customMeta).map(([key, value]) => (
@@ -110,7 +158,7 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
                   size='sm'
                 />
               </Flex>
-              <Flex direction='column' flex={3}>
+              <Flex direction='column' flex={3} position='relative'>
                 <FormLabel htmlFor={`value-${key}`} fontSize='xs' mb={0}>
                   Value
                 </FormLabel>
@@ -118,18 +166,36 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
                   id={`value-${key}`}
                   value={value}
                   onChange={(e) => handleMetaChange(key, key, e.target.value)}
-                  onBlur={() => {
-                    if (key === 'federation_icon_url') {
-                      handleIconUrlBlur();
-                    }
-                  }}
+                  onBlur={() => handleFieldBlur(key, value)}
                   size='sm'
-                  isInvalid={key === 'federation_icon_url' && !iconValidity}
+                  isInvalid={isImageField(key) && !iconValidity}
                 />
+                {isImageField(key) && !iconValidity && validationError && (
+                  <Tooltip label={validationError} placement='top' hasArrow>
+                    <Box
+                      position='absolute'
+                      right={2}
+                      top='50%'
+                      color='red.500'
+                      cursor='pointer'
+                      display='flex'
+                      alignItems='center'
+                      zIndex={2}
+                    >
+                      <FiAlertTriangle />
+                    </Box>
+                  </Tooltip>
+                )}
               </Flex>
             </Flex>
-            {key === 'federation_icon_url' && (
-              <IconPreview imageUrl={localIconUrl ?? ''} />
+            {isImageField(key) && autoValidateUrls && (
+              <IconPreview
+                imageUrl={
+                  key === 'federation_icon_url' && autoValidateUrls
+                    ? localIconUrl ?? ''
+                    : value
+                }
+              />
             )}
             <IconButton
               aria-label='Remove field'
