@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FiX, FiAlertTriangle, FiInfo } from 'react-icons/fi';
 import { IconPreview } from './IconPreview';
+import useDebounce from '../../../../../utils/debounce';
 
 interface Site {
   id: string;
@@ -31,6 +32,12 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
     Record<number, { valid: boolean; error: string }>
   >({});
   const [autoValidateUrls, setAutoValidateUrls] = useState<boolean>(true);
+  const [urlToValidate, setUrlToValidate] = useState<{
+    url: string;
+    index: number;
+  } | null>(null);
+
+  const debouncedUrlToValidate = useDebounce(urlToValidate, 300);
 
   const validateImage = useCallback(
     async (url: string, index: number) => {
@@ -67,6 +74,16 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
   );
 
   useEffect(() => {
+    if (debouncedUrlToValidate) {
+      validateImage(debouncedUrlToValidate.url, debouncedUrlToValidate.index);
+    }
+  }, [debouncedUrlToValidate, validateImage]);
+
+  const debouncedValidate = useCallback((url: string, index: number) => {
+    setUrlToValidate({ url, index });
+  }, []);
+
+  useEffect(() => {
     try {
       const parsedSites = JSON.parse(value);
       setSites(Array.isArray(parsedSites) ? parsedSites : []);
@@ -74,14 +91,14 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
       if (autoValidateUrls && Array.isArray(parsedSites)) {
         parsedSites.forEach((site, index) => {
           if (site.imageUrl) {
-            validateImage(site.imageUrl, index);
+            debouncedValidate(site.imageUrl, index);
           }
         });
       }
     } catch {
       setSites([]);
     }
-  }, [value, validateImage, autoValidateUrls]);
+  }, [value, autoValidateUrls, debouncedValidate]);
 
   const handleSiteChange = (
     index: number,
@@ -94,7 +111,7 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
     onChange(JSON.stringify(newSites));
 
     if (field === 'imageUrl' && autoValidateUrls) {
-      validateImage(newValue, index);
+      debouncedValidate(newValue, index);
     }
   };
 
@@ -172,15 +189,6 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
                   onChange={(e) =>
                     handleSiteChange(index, field, e.target.value)
                   }
-                  onBlur={() => {
-                    if (
-                      field === 'imageUrl' &&
-                      site.imageUrl &&
-                      autoValidateUrls
-                    ) {
-                      validateImage(site.imageUrl, index);
-                    }
-                  }}
                   size='sm'
                   isInvalid={
                     field === 'imageUrl' &&
@@ -212,8 +220,13 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
             ))}
           </Flex>
 
-          {/* Only show IconPreview when auto-validation is enabled */}
-          {autoValidateUrls && <IconPreview imageUrl={site.imageUrl} />}
+          {/* Only show IconPreview when auto-validation is enabled and its a valid image url */}
+          {autoValidateUrls && (
+            <IconPreview
+              imageUrl={site.imageUrl}
+              validationState={imageValidation[index]}
+            />
+          )}
 
           <IconButton
             aria-label='Remove site'

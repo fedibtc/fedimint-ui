@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FiX, FiAlertTriangle, FiInfo } from 'react-icons/fi';
 import { IconPreview } from './IconPreview';
+import useDebounce from '../../../../../utils/debounce';
 
 interface CustomMetaFieldsProps {
   customMeta: Record<string, string>;
@@ -26,8 +27,9 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
   const [localIconUrl, setLocalIconUrl] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string>('');
   const [autoValidateUrls, setAutoValidateUrls] = useState<boolean>(true);
+  const [pendingIconUrl, setPendingIconUrl] = useState<string | null>(null);
+  const debouncedIconUrl = useDebounce(pendingIconUrl, 300);
 
-  // Helper to determine if a field might contain an image URL
   const isImageField = (key: string): boolean => {
     return (
       key.includes('icon_url') ||
@@ -37,6 +39,7 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
   };
 
   const validateIcon = useCallback(async (url: string) => {
+    if (!url) return null;
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -62,10 +65,10 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
   }, []);
 
   useEffect(() => {
-    if (autoValidateUrls && customMeta['federation_icon_url']) {
-      validateIcon(customMeta['federation_icon_url']);
+    if (debouncedIconUrl && autoValidateUrls) {
+      validateIcon(debouncedIconUrl);
     }
-  }, [autoValidateUrls, customMeta, validateIcon]);
+  }, [debouncedIconUrl, autoValidateUrls, validateIcon]);
 
   const handleMetaChange = (oldKey: string, newKey: string, value: string) => {
     setCustomMeta((prev) => {
@@ -77,17 +80,16 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
       return newMeta;
     });
 
-    if (isImageField(newKey) && autoValidateUrls) {
+    if (isImageField(newKey) && autoValidateUrls && value) {
       setIconValidity(true);
-      setLocalIconUrl(null);
       setValidationError('');
-      if (value) validateIcon(value);
+      setPendingIconUrl(value);
     }
   };
 
   const handleFieldBlur = (key: string, value: string) => {
     if (isImageField(key) && value && autoValidateUrls) {
-      validateIcon(value);
+      setPendingIconUrl(value);
     }
   };
 
