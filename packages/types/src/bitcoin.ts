@@ -31,4 +31,12 @@ export class Bip21Uri {
   }
 }
 
+// 0.5 check_bitcoin_status response shape
 export type BitcoinRpcConnectionStatus = 'Synced' | string;
+
+// 0.6 check_bitcoin_statusresponse shape
+export type BitcoinRpcConnectionStatusProgress = {
+  chain_top_block_height: number;
+  chain_top_block_time: number;
+  sync_percentage: number;
+};

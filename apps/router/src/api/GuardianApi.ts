@@ -2,6 +2,7 @@ import { JsonRpcError, JsonRpcWebsocket } from 'jsonrpc-client-websocket';
 import {
   AuditSummary,
   BitcoinRpcConnectionStatus,
+  BitcoinRpcConnectionStatusProgress,
   ClientConfig,
   ConfigGenParams,
   ConsensusState,
@@ -113,8 +114,19 @@ export class GuardianApi {
     return this.call(SharedRpc.status);
   };
 
-  checkBitcoinStatus = (): Promise<BitcoinRpcConnectionStatus> => {
-    return this.call(SharedRpc.checkBitcoinStatus);
+  // This handles both 0.5 and 0.6 shaped responses and returns just 0.5 response (string)
+  checkBitcoinStatus = async (): Promise<BitcoinRpcConnectionStatus> => {
+    const result:
+      | BitcoinRpcConnectionStatus
+      | BitcoinRpcConnectionStatusProgress = await this.call(
+      SharedRpc.checkBitcoinStatus
+    );
+
+    if (typeof result === 'object') {
+      return result?.sync_percentage > 0.9999 ? 'Synced' : 'NotSynced';
+    }
+
+    return result;
   };
 
   /*** Setup RPC methods ***/
