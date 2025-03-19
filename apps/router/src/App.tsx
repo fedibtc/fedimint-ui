@@ -6,33 +6,36 @@ import { Guardian } from './guardian-ui/Guardian';
 import { Gateway } from './gateway-ui/Gateway';
 import { Wrapper } from './components/Wrapper';
 import HomePage from './pages/Home';
+import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route
-          path='/guardians/:id'
-          element={
-            <Wrapper>
-              <GuardianContextProvider>
-                <Guardian />
-              </GuardianContextProvider>
-            </Wrapper>
-          }
-        />
-        <Route
-          path='/gateways/:id'
-          element={
-            <Wrapper>
-              <GatewayContextProvider>
-                <Gateway />
-              </GatewayContextProvider>
-            </Wrapper>
-          }
-        />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route
+            path='/guardians/:id'
+            element={
+              <Wrapper>
+                <GuardianContextProvider>
+                  <Guardian />
+                </GuardianContextProvider>
+              </Wrapper>
+            }
+          />
+          <Route
+            path='/gateways/:id'
+            element={
+              <Wrapper>
+                <GatewayContextProvider>
+                  <Gateway />
+                </GatewayContextProvider>
+              </Wrapper>
+            }
+          />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
