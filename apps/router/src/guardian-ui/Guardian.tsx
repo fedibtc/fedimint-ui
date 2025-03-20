@@ -92,8 +92,20 @@ export const Guardian: React.FC = () => {
   ]);
 
   return (
-    <Center>
-      <Box width='100%'>{content}</Box>
-    </Center>
+    <Box width='100%'>
+      {/* Top bar containing version message aligned to right */}
+      <Flex justifyContent='space-between' alignItems='center' p={4}>
+        {state.version && (
+          <Text fontSize='sm' color='gray.500'>
+            Connected to Fedimint version: {state.version}
+          </Text>
+        )}
+      </Flex>
+
+      {/* Main content */}
+      <Center>
+        <Box width='100%'>{content}</Box>
+      </Center>
+    </Box>
   );
 };

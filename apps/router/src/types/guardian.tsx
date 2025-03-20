@@ -1,4 +1,9 @@
-import { Peer, GuardianServerStatus, ConfigGenParams } from '@fedimint/types';
+import {
+  Peer,
+  GuardianServerStatus,
+  ConfigGenParams,
+  Version,
+} from '@fedimint/types';
 
 export type GuardianConfig = {
   id: string;
@@ -14,12 +19,14 @@ export enum GuardianStatus {
 export interface GuardianAppState {
   status: GuardianStatus;
   needsAuth: boolean;
+  version: string | null;
   initServerStatus?: GuardianServerStatus;
   guardianError?: string;
 }
 
 export enum GUARDIAN_APP_ACTION_TYPE {
   SET_STATUS = 'SET_STATUS',
+  SET_VERSION = 'SET_VERSION',
   SET_NEEDS_AUTH = 'SET_NEEDS_AUTH',
   SET_INIT_SERVER_STATUS = 'SET_INIT_SERVER_STATUS',
   SET_ERROR = 'SET_ERROR',
@@ -33,6 +40,10 @@ export type GuardianAppAction =
   | {
       type: GUARDIAN_APP_ACTION_TYPE.SET_NEEDS_AUTH;
       payload: boolean;
+    }
+  | {
+      type: GUARDIAN_APP_ACTION_TYPE.SET_VERSION;
+      payload: string | null;
     }
   | {
       type: GUARDIAN_APP_ACTION_TYPE.SET_INIT_SERVER_STATUS;

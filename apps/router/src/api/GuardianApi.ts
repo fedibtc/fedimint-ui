@@ -135,6 +135,40 @@ export class GuardianApi {
     return sessionStorage.getItem(this.guardianConfig.id) || null;
   };
 
+  fetchVersion = async (): Promise<string> => {
+    try {
+      const password = this.getPassword();
+      if (!password) {
+        throw new Error(
+          'Misconfigured Gateway API. Make sure gateway password is configured appropriately'
+        );
+      }
+
+      const res = await fetch(`/fedimintd_version`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${password}`,
+        },
+      });
+      if (res.ok) {
+        const result = await res.text();
+        return Promise.resolve(result);
+      } else {
+        return Promise.reject({
+          message: 'Failed to fetch version',
+          status: res.status,
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching version', err);
+      return Promise.reject({
+        message: 'Error fetching version',
+        err,
+      });
+    }
+  };
+
   public setSessionPassword = (password: string): void => {
     sessionStorage.setItem(this.guardianConfig.id, password);
   };

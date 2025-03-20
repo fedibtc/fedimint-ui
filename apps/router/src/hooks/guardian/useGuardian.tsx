@@ -81,6 +81,24 @@ export const useLoadGuardian = (): void => {
       }
     };
 
+    const fetchVersion = async () => {
+      try {
+        const version = await api.fetchVersion();
+        dispatch({
+          type: GUARDIAN_APP_ACTION_TYPE.SET_VERSION,
+          payload: version,
+        });
+      } catch (err) {
+        console.error('Failed to fetch version:', err);
+        dispatch({
+          type: GUARDIAN_APP_ACTION_TYPE.SET_ERROR,
+          payload: 'Failed to fetch version',
+        });
+      }
+    };
+
+    fetchVersion();
+
     if (state.status === GuardianStatus.Loading) {
       load().catch((err) => console.error(err));
     }
