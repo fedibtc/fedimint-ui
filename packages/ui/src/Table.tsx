@@ -9,8 +9,8 @@ import {
   Tr,
   Td,
   Box,
-  useTheme,
 } from '@chakra-ui/react';
+import { theme } from '../../../packages/ui/src/theme';
 
 export interface TableColumn<T extends string> {
   key: T;
@@ -35,7 +35,6 @@ export function Table<T extends string>({
   columns,
   rows,
 }: TableProps<T>): React.ReactElement {
-  const theme = useTheme();
   const hasHeading = Boolean(title || description);
   const border = `1px solid ${theme.colors.border.table}`;
   return (

@@ -1,5 +1,6 @@
-import { Flex, Text, useTheme } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
+import { theme } from './theme';
 
 interface KeyValue {
   key: string;
@@ -16,7 +17,6 @@ export const KeyValues: React.FC<KeyValuesProps> = ({
   keyValues,
   direction = 'column',
 }) => {
-  const theme = useTheme();
   return (
     <Flex
       direction={direction}

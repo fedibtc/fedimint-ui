@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Text,
-  useTheme,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -13,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { QRCodeSVG } from 'qrcode.react';
+import { theme } from '../../../../../../../packages/ui/src/theme';
 
 const QR_CODE_SIZE = 256;
 const FEDIMINT_GUARDIAN_PREFIX = 'fedimint:guardian:';
@@ -32,7 +32,6 @@ interface GuardianAuthenticationCodeProps {
 export const GuardianAuthenticationCode: React.FC<
   GuardianAuthenticationCodeProps
 > = ({ inviteCode, ourPeer }) => {
-  const theme = useTheme();
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [qrValue, setQrValue] = useState<string>('');

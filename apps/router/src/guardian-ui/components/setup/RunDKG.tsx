@@ -5,7 +5,6 @@ import {
   Heading,
   Text,
   Flex,
-  useTheme,
 } from '@chakra-ui/react';
 import { GuardianServerStatus } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
@@ -16,6 +15,7 @@ import {
   useGuardianSetupApi,
   useGuardianSetupContext,
 } from '../../../hooks';
+import { theme } from '../../../../../../packages/ui/src/theme';
 
 interface Props {
   next(): void;
@@ -27,7 +27,6 @@ export const RunDKG: React.FC<Props> = ({ next }) => {
   const {
     state: { peers },
   } = useGuardianSetupContext();
-  const theme = useTheme();
   const [isWaitingForOthers, setIsWaitingForOthers] = useState(false);
   const [error, setError] = useState<string>();
   const ellipsis = useEllipsis();

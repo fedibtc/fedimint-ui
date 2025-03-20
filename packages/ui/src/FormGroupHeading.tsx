@@ -1,5 +1,6 @@
 import React from 'react';
-import { Icon, Heading, Spacer, useTheme, Button } from '@chakra-ui/react';
+import { Icon, Heading, Spacer, Button } from '@chakra-ui/react';
+import { theme } from './theme';
 
 interface Props {
   icon?: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
@@ -15,7 +16,6 @@ export const FormGroupHeading: React.FC<Props> = ({
   onClick,
   chevronIcon,
 }) => {
-  const theme = useTheme();
   return (
     <Button
       mb={3}

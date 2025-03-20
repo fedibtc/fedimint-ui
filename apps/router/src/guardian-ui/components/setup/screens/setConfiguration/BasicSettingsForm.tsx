@@ -6,7 +6,6 @@ import {
   Input,
   Button,
   Text,
-  useTheme,
   InputGroup,
   IconButton,
   InputRightAddon,
@@ -16,6 +15,7 @@ import { FormGroup } from '@fedimint/ui';
 import LightbulbLogo from '../../../../assets/svgs/lightbulb.svg?react';
 import { generatePassword } from '../../../../utils';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { theme } from '../../../../../../../../packages/ui/src/theme';
 
 interface BasicSettingsFormProps {
   myName: string;
@@ -31,7 +31,6 @@ export const BasicSettingsForm: React.FC<BasicSettingsFormProps> = ({
   setPassword,
 }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
 
   return (

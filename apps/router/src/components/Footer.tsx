@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
-import { Flex, useTheme, Link, Icon } from '@chakra-ui/react';
+import { Flex, Link, Icon } from '@chakra-ui/react';
 import { FaDiscord, FaGithub } from 'react-icons/fa';
 import { LATEST_RELEASE_TAG } from '../constants';
+import { theme } from '../../../../packages/ui/src/theme';
 
 export const Footer = () => {
-  const theme = useTheme();
-
   interface CustomLinkProps {
     href: string;
     children: string | ReactElement;

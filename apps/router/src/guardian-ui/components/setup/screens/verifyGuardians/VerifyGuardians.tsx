@@ -11,7 +11,6 @@ import {
   Spinner,
   Input,
   Tag,
-  useTheme,
   CircularProgress,
   Hide,
   Show,
@@ -42,6 +41,7 @@ import {
   useGuardianSetupContext,
   useTrimmedInputArray,
 } from '../../../../../hooks';
+import { theme } from '../../../../../../../../packages/ui/src/theme';
 
 interface PeerWithHash {
   id: string;
@@ -60,7 +60,6 @@ export const VerifyGuardians: React.FC<Props> = ({ next }) => {
     state: { role, numPeers, peers, ourCurrentId },
     toggleConsensusPolling,
   } = useGuardianSetupContext();
-  const theme = useTheme();
   const isHost = role === GuardianRole.Host;
   const [myHash, setMyHash] = useState('');
   const [peersWithHash, setPeersWithHash] = useState<PeerWithHash[]>();

@@ -4,7 +4,6 @@ import {
   Box,
   Icon,
   Text,
-  useTheme,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -18,6 +17,7 @@ import { useTranslation } from '@fedimint/utils';
 import CopyIcon from '../../../assets/svgs/copy.svg?react';
 import QrIcon from '../../../assets/svgs/qr.svg?react';
 import { QRCodeSVG } from 'qrcode.react';
+import { theme } from '../../../../../../../packages/ui/src/theme';
 
 const QR_CODE_SIZE = 256;
 
@@ -26,7 +26,6 @@ interface InviteCodeProps {
 }
 
 export const InviteCode: React.FC<InviteCodeProps> = ({ inviteCode }) => {
-  const theme = useTheme();
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Text,
-  useTheme,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -13,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { NumberFormControl } from '../../NumberFormControl';
+import { theme } from '../../../../../../../packages/ui/src/theme';
 
 interface ScheduleShutdownProps {
   latestSession: number;
@@ -21,7 +21,6 @@ interface ScheduleShutdownProps {
 export const ScheduleShutdown: React.FC<ScheduleShutdownProps> = ({
   latestSession,
 }) => {
-  const theme = useTheme();
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);

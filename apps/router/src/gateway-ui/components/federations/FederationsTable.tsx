@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Flex, Link, useTheme, Button } from '@chakra-ui/react';
+import { Text, Flex, Link, Button } from '@chakra-ui/react';
 import { MSats } from '@fedimint/types';
 import { useTranslation, formatEllipsized, formatValue } from '@fedimint/utils';
 import { Table, TableColumn, TableRow } from '@fedimint/ui';
@@ -11,10 +11,10 @@ import {
   WalletModalType,
 } from '../../../types/gateway';
 import { useGatewayContext } from '../../../hooks';
+import { theme } from '../../../../../../packages/ui/src/theme';
 
 export const FederationsTable: React.FC = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const { state, dispatch } = useGatewayContext();
   const columns: TableColumn<'name' | 'id' | 'balance' | 'actions'>[] = [
     { key: 'name', heading: t('federation-card.name') },

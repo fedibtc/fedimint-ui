@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Flex,
-  Icon,
-  Button,
-  Text,
-  useTheme,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Flex, Icon, Button, Text, useDisclosure } from '@chakra-ui/react';
 import {
   BitcoinRpc,
   ConfigGenParams,
@@ -31,6 +24,7 @@ import {
   useGuardianSetupApi,
   useGuardianSetupContext,
 } from '../../../../../hooks';
+import { theme } from '../../../../../../../../packages/ui/src/theme';
 
 interface Props {
   next: () => void;
@@ -51,7 +45,6 @@ export const SetConfiguration: React.FC<Props> = ({ next }: Props) => {
     },
     submitConfiguration,
   } = useGuardianSetupContext();
-  const theme = useTheme();
   const isHost = role === GuardianRole.Host;
   const isSolo = role === GuardianRole.Solo;
   const [myName, setMyName] = useState(stateMyName);

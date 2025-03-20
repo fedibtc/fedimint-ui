@@ -9,14 +9,13 @@ import {
   ModalBody,
   Text,
   Flex,
-  useTheme,
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { hexToBlob } from '../../../utils/api';
 import { useGuardianAdminApi } from '../../../../hooks';
+import { theme } from '../../../../../../../packages/ui/src/theme';
 
 export const DownloadBackup: React.FC = () => {
-  const theme = useTheme();
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
   const api = useGuardianAdminApi();
   const { t } = useTranslation();

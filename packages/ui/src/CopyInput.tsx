@@ -4,10 +4,10 @@ import {
   Input,
   Button,
   InputRightElement,
-  useTheme,
   useClipboard,
   Flex,
 } from '@chakra-ui/react';
+import { theme } from '../../../packages/ui/src/theme';
 
 export interface CopyInputProps {
   value: string;
@@ -21,7 +21,6 @@ export const CopyInput: React.FC<CopyInputProps> = ({
   buttonLeftIcon,
 }) => {
   const { onCopy, hasCopied } = useClipboard(value);
-  const theme = useTheme();
   const buttonWidth = {
     lg: '115px',
     md: '100px',

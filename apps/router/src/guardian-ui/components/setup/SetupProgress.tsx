@@ -7,11 +7,11 @@ import {
   Progress,
   Show,
   Text,
-  useTheme,
 } from '@chakra-ui/react';
 import CheckIcon from '../../assets/svgs/white-check.svg?react';
 import { useTranslation } from '@fedimint/utils';
 import { StepState } from '../../../types/guardian';
+import { theme } from '../../../../../../packages/ui/src/theme';
 
 interface StepProps {
   text: string;
@@ -20,8 +20,6 @@ interface StepProps {
 }
 
 const Step: React.FC<StepProps> = ({ text, state, isFirst }) => {
-  const theme = useTheme();
-
   const colorState = (
     inActiveColor: string,
     activeColor: string,

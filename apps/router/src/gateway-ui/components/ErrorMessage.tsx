@@ -1,6 +1,7 @@
 import React from 'react';
-import { Flex, Heading, Text, useTheme } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { theme } from '../../../../../packages/ui/src/theme';
 
 interface ErrorMessageProps {
   error: string;
@@ -8,7 +9,6 @@ interface ErrorMessageProps {
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ error }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   return (
     <Flex

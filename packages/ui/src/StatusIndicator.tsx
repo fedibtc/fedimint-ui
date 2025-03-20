@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Box, Text, useColorModeValue, useTheme } from '@chakra-ui/react';
+import { Box, Text, useColorModeValue } from '@chakra-ui/react';
+import { theme } from './theme';
 
 interface StatusIndicatorProps {
   status?: 'error' | 'warning' | 'success';
@@ -11,7 +12,6 @@ export const StatusIndicator: FC<StatusIndicatorProps> = ({
   status,
   children,
 }) => {
-  const theme = useTheme();
   const color = theme.colors[status || 'gray'];
   const bgColor = useColorModeValue(
     status ? color[50] : color[100],

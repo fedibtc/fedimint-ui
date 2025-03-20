@@ -5,7 +5,6 @@ import {
   Heading,
   Stack,
   Text,
-  useTheme,
   Textarea,
   Modal,
   ModalBody,
@@ -17,6 +16,7 @@ import { GatewayInfo } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
 import { useGatewayApi, useGatewayContext, useGatewayInfo } from '../../hooks';
 import { GATEWAY_APP_ACTION_TYPE } from '../../types/gateway';
+import { theme } from '../../../../../packages/ui/src/theme';
 
 export type ConnectFederationModalProps = {
   isOpen: boolean;
@@ -35,7 +35,6 @@ export const ConnectFederationModal = React.memo(
     const [connectInfo, setConnectInfo] = useState<string>('');
     const [errorMsg, setErrorMsg] = useState<string>('');
     const [loading, setLoading] = useState(false);
-    const theme = useTheme();
 
     const handleInputString = (
       event: React.ChangeEvent<HTMLTextAreaElement>

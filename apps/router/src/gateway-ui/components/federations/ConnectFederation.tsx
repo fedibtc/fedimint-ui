@@ -5,7 +5,6 @@ import {
   Heading,
   Stack,
   Text,
-  useTheme,
   Flex,
   Textarea,
   Modal,
@@ -19,6 +18,7 @@ import {
 import { FederationInfo } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
 import { useGatewayApi } from '../../../hooks';
+import { theme } from '../../../../../../packages/ui/src/theme';
 
 export interface ConnectFedModalProps {
   isOpen: boolean;
@@ -29,7 +29,6 @@ export const ConnectFedModal: FC<ConnectFedModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const theme = useTheme();
   const { t } = useTranslation();
 
   return (
@@ -88,7 +87,6 @@ export const ConnectFederation = React.memo(function ConnectFederation({
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [connectInfo, setConnectInfo] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const theme = useTheme();
 
   const handleInputString = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
