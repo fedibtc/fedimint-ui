@@ -6,7 +6,9 @@ import {
   extendTheme,
   ThemeOverride,
   withDefaultColorScheme,
+  // eslint-disable-next-line no-restricted-imports
   useTheme as baseUseTheme,
+  baseTheme,
 } from '@chakra-ui/react';
 
 const INTER = 'Inter';
@@ -178,6 +180,7 @@ const inputSizes = Object.keys(buttonSizes).reduce((prev, key) => {
 }, {});
 
 const customTheme = {
+  ...baseTheme,
   colors,
   shadows,
   fonts: {
@@ -285,13 +288,13 @@ const customTheme = {
         _disabled: {
           pointerEvents: 'none',
         },
-      },
-      sizes: inputSizes,
-      field: {
-        _disabled: {
-          cursor: 'text',
+        field: {
+          _disabled: {
+            cursor: 'text',
+          },
         },
       },
+      sizes: inputSizes,
       variants: {
         outline: {
           field: {
