@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Icon, Text, Flex, useTheme } from '@chakra-ui/react';
+import { Button, Icon, Text, Flex } from '@chakra-ui/react';
+import { useTheme } from './theme';
 
 export interface RadioButtonOption<T extends string | number> {
   icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>;

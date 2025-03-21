@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Text,
-  useTheme,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -13,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { QRCodeSVG } from 'qrcode.react';
+import { useTheme } from '@fedimint/ui';
 
 const QR_CODE_SIZE = 256;
 const FEDIMINT_GUARDIAN_PREFIX = 'fedimint:guardian:';

@@ -9,11 +9,11 @@ import {
   ModalBody,
   Text,
   Flex,
-  useTheme,
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { hexToBlob } from '../../../utils/api';
 import { useGuardianAdminApi } from '../../../../hooks';
+import { useTheme } from '@fedimint/ui';
 
 export const DownloadBackup: React.FC = () => {
   const theme = useTheme();

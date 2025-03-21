@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Flex,
-  Icon,
-  Button,
-  Text,
-  useTheme,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Flex, Icon, Button, Text, useDisclosure } from '@chakra-ui/react';
 import {
   BitcoinRpc,
   ConfigGenParams,
@@ -31,6 +24,7 @@ import {
   useGuardianSetupApi,
   useGuardianSetupContext,
 } from '../../../../../hooks';
+import { useTheme } from '@fedimint/ui';
 
 interface Props {
   next: () => void;

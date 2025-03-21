@@ -3,9 +3,9 @@ import {
   Flex,
   CircularProgress,
   CircularProgressLabel,
-  useTheme,
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { useTheme } from '@fedimint/ui';
 
 export const Loading: React.FC = () => {
   const theme = useTheme();

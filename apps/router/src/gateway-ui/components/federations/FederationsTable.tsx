@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Flex, Link, useTheme, Button } from '@chakra-ui/react';
+import { Text, Flex, Link, Button } from '@chakra-ui/react';
 import { MSats } from '@fedimint/types';
 import { useTranslation, formatEllipsized, formatValue } from '@fedimint/utils';
 import { Table, TableColumn, TableRow } from '@fedimint/ui';
@@ -11,6 +11,7 @@ import {
   WalletModalType,
 } from '../../../types/gateway';
 import { useGatewayContext } from '../../../hooks';
+import { useTheme } from '@fedimint/ui';
 
 export const FederationsTable: React.FC = () => {
   const { t } = useTranslation();

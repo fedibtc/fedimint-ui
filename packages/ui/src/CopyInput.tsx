@@ -4,10 +4,10 @@ import {
   Input,
   Button,
   InputRightElement,
-  useTheme,
   useClipboard,
   Flex,
 } from '@chakra-ui/react';
+import { useTheme } from './theme';
 
 export interface CopyInputProps {
   value: string;

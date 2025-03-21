@@ -9,8 +9,8 @@ import {
   Tr,
   Td,
   Box,
-  useTheme,
 } from '@chakra-ui/react';
+import { useTheme } from './theme';
 
 export interface TableColumn<T extends string> {
   key: T;

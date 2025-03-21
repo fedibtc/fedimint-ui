@@ -5,7 +5,6 @@ import {
   Heading,
   Stack,
   Text,
-  useTheme,
   Textarea,
   Modal,
   ModalBody,
@@ -17,6 +16,7 @@ import { GatewayInfo } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
 import { useGatewayApi, useGatewayContext, useGatewayInfo } from '../../hooks';
 import { GATEWAY_APP_ACTION_TYPE } from '../../types/gateway';
+import { useTheme } from '@fedimint/ui';
 
 export type ConnectFederationModalProps = {
   isOpen: boolean;

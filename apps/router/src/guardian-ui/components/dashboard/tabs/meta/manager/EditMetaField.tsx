@@ -7,14 +7,13 @@ import {
   IconButton,
   Input,
   Link,
-  useTheme,
 } from '@chakra-ui/react';
 import React from 'react';
 import { MetaFields } from '@fedimint/types';
 import { useTranslation, Trans } from '@fedimint/utils';
 import TrashIcon from '../../../../assets/svgs/trash.svg?react';
 import PlusIcon from '../../../../assets/svgs/plus.svg?react';
-
+import { useTheme } from '@fedimint/ui';
 interface Props {
   metaFields: MetaFields;
   onChangeMetaFields: (value: MetaFields) => void;
