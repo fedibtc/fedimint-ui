@@ -162,7 +162,15 @@ const buttonSizes = {
   },
 };
 
-const inputSizes = Object.keys(buttonSizes).reduce((prev, key) => {
+const inputSizes = Object.keys(buttonSizes).reduce<
+  Record<
+    string,
+    {
+      field: { height: string; px: number; borderRadius: string };
+      addon: { height: string; px: number; borderRadius: string };
+    }
+  >
+>((prev, key) => {
   const size = key as keyof typeof buttonSizes;
   const css = {
     height: buttonSizes[size].height,
