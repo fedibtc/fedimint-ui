@@ -46,6 +46,8 @@ yarn dev
 
 For more advanced options and to learn how to spin up a Fedimint developer environment see here https://github.com/fedimint/fedimint/blob/master/HACKING.md and https://github.com/fedimint/fedimint/blob/master/docs/tutorial.md.
 
+In addition, see the [Nix Setup](docs/nix.md) guide for a step-by-step process to run the fedimint-ui development environment using Nix.
+
 ## Referencing Fedimint
 
 The docker containers and devimint are for specific releases or commits of `fedimint/fedimint`. At present, the reference commit-hash is `6da8ff595d1373e24f365d750872bd588fda17c9`
