@@ -1,7 +1,7 @@
 import React, { Component, ReactNode } from 'react';
 import { Box, Button, Text } from '@chakra-ui/react';
-import { Logo } from './Logo';
 import { Link } from 'react-router-dom';
+import { Logo } from './Logo';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -41,6 +41,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           justifyContent='center'
           flexDirection='column'
         >
+          <Logo />
           <Text
             fontSize='xl'
             fontWeight='bold'
