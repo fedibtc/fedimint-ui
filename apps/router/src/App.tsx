@@ -12,46 +12,43 @@ import { Guardian } from './guardian-ui/Guardian';
 import { Gateway } from './gateway-ui/Gateway';
 import { Wrapper } from './components/Wrapper';
 import HomePage from './pages/Home';
-import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   const { service } = useAppContext();
 
   return (
-    <ErrorBoundary>
-      <Router>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route
-            path='/guardians/:id'
-            element={
-              service ? (
-                <Wrapper>
-                  <GuardianContextProvider>
-                    <Guardian />
-                  </GuardianContextProvider>
-                </Wrapper>
-              ) : (
-                <Navigate replace to='/' />
-              )
-            }
-          />
-          <Route
-            path='/gateways/:id'
-            element={
-              service ? (
-                <Wrapper>
-                  <GatewayContextProvider>
-                    <Gateway />
-                  </GatewayContextProvider>
-                </Wrapper>
-              ) : (
-                <Navigate replace to='/' />
-              )
-            }
-          />
-        </Routes>
-      </Router>
-    </ErrorBoundary>
+    <Router>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route
+          path='/guardians/:id'
+          element={
+            service ? (
+              <Wrapper>
+                <GuardianContextProvider>
+                  <Guardian />
+                </GuardianContextProvider>
+              </Wrapper>
+            ) : (
+              <Navigate replace to='/' />
+            )
+          }
+        />
+        <Route
+          path='/gateways/:id'
+          element={
+            service ? (
+              <Wrapper>
+                <GatewayContextProvider>
+                  <Gateway />
+                </GatewayContextProvider>
+              </Wrapper>
+            ) : (
+              <Navigate replace to='/' />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
