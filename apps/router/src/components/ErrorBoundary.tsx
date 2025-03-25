@@ -25,11 +25,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     console.error('Caught Error: ', error, errorInfo);
   }
 
-  Reload = () => {
-    this.setState({ hasError: false });
-    window.location.reload();
-  };
-
   render() {
     if (this.state.hasError) {
       return (
@@ -49,7 +44,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             marginTop={8}
             color='red.500'
           >
-            Something went wrong
+            Something went wrong!
           </Text>
 
           <Link to={'/'}>
@@ -60,7 +55,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           <Button
             width={52}
             marginTop={2}
-            onClick={this.Reload}
+            onClick={() => window.location.reload()}
             colorScheme='blue'
           >
             Reload page
