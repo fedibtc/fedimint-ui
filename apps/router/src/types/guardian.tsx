@@ -2,7 +2,6 @@ import {
   Peer,
   GuardianServerStatus,
   ConfigGenParams,
-  Version,
 } from '@fedimint/types';
 
 export type GuardianConfig = {
@@ -188,6 +187,7 @@ export enum SharedRpc {
   status = 'status',
   checkBitcoinStatus = 'check_bitcoin_status',
   getVerifyConfigHash = 'verify_config_hash',
+  getVersion= 'fedimintd_version',
 }
 
 export enum ModuleRpc {

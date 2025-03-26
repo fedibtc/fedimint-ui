@@ -93,7 +93,6 @@ export const Guardian: React.FC = () => {
 
   return (
     <Box width='100%'>
-      {/* Top bar containing version message aligned to right */}
       <Flex justifyContent='space-between' alignItems='center' p={4}>
         {state.version && (
           <Text fontSize='sm' color='gray.500'>
@@ -101,8 +100,6 @@ export const Guardian: React.FC = () => {
           </Text>
         )}
       </Flex>
-
-      {/* Main content */}
       <Center>
         <Box width='100%'>{content}</Box>
       </Center>
