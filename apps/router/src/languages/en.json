@@ -35,6 +35,11 @@
     "ecash": "Ecash",
     "password": "Password"
   },
+  "errorBoundary": {
+    "something-went-wrong": "Something went wrong!",
+    "reload-page": "Reload page",
+    "visit-home": "Return to Home Page"
+  },
   "notConfigured": {
     "title": "Not Configured",
     "description": "Please enter the CONFIG_API_URL of the Fedimint guardian server to point at.",

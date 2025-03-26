@@ -2,8 +2,9 @@ import React, { Component, ReactNode } from 'react';
 import { Box, Button, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
-interface ErrorBoundaryProps {
+interface ErrorBoundaryProps extends WithTranslation {
   children: ReactNode;
 }
 
@@ -44,12 +45,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             marginTop={8}
             color='red.500'
           >
-            Something went wrong!
+            {this.props.t('errorBoundary.something-went-wrong')}
           </Text>
 
           <Link to={'/'}>
             <Button width={52} colorScheme='blue'>
-              Return to Home Page
+              {this.props.t('errorBoundary.visit-home')}
             </Button>
           </Link>
           <Button
@@ -58,7 +59,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             onClick={() => window.location.reload()}
             colorScheme='blue'
           >
-            Reload page
+            {this.props.t('errorBoundary.reload-page')}
           </Button>
         </Box>
       );
@@ -68,4 +69,4 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 }
 
-export default ErrorBoundary;
+export default withTranslation()(ErrorBoundary);
