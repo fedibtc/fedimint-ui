@@ -1,9 +1,9 @@
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    # v0.5.0-rc.1
+    # v0.6.2
     fedimint.url =
-      "github:fedimint/fedimint?rev=6da8ff595d1373e24f365d750872bd588fda17c9";
+      "github:fedimint/fedimint?rev=4d2a16540397f4a9e0d40cbb9bfa4a8839332725";
   };
   outputs = { self, flake-utils, fedimint }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -52,7 +52,7 @@
         # Used for a releasable build artifact 
         packages.guardian-ui = pkgs.stdenv.mkDerivation {
           pname = "guardian-ui";
-          version = "0.4.3";
+          version = "0.6.2";
           src = ./.;
 
           nativeBuildInputs = with pkgs; [
