@@ -28,7 +28,7 @@ RUN yarn turbo run build
 FROM base AS runner
 WORKDIR /app
 
-COPY --from=installer /app/apps/router/build build
+COPY --from=installer /app/apps/router/dist dist
 
 RUN yarn global add serve
-CMD serve -s build
+CMD serve -s dist

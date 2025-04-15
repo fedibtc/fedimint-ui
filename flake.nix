@@ -29,7 +29,7 @@
         # to build failures or inconsistent behavior.
         yarnOfflineCache = pkgs.fetchYarnDeps {
           yarnLock = ./yarn.lock;
-          hash = "sha256-a1YeZYvxstAqDCgK2qrlylkKYhIX1Xo28tCKt46hxrE=";
+          hash = "sha256-Bi9pyaYQcqw8sKWaeAfSrpeFXyrHilgE8eKXbSVg4sc=";
         };
       in
       {
@@ -91,7 +91,7 @@
           installPhase = ''
             mkdir -p $out
             # static files that can be served by reverse-proxies
-            cp -r apps/router/build/* $out
+            cp -r apps/router/dist/* $out
 
             # wrapper for "nix run .#guardian-ui" (based on https://wiki.nixos.org/wiki/Node.js#Packaging_with_yarn2nix)
             mkdir -p $out/bin
