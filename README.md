@@ -11,11 +11,11 @@ The Fedimint UI enables you to administer your Guardian from the browser. Once y
 Using Docker Desktop is a quick and easy way to get started. Run the following commands:
 
 ```bash
-docker image pull --platform linux/amd64 fedimintui/fedimint-ui:0.5.0
+docker image pull --platform linux/amd64 fedibtc/fedimint-ui:0.6.2
 ```
 
 ```bash
-docker run -p 3000:3000 --platform linux/amd64 fedimintui/fedimint-ui:0.5.0
+docker run -p 3000:3000 --platform linux/amd64 fedibtc/fedimint-ui:0.6.2
 ```
 
 The `--platform linux/amd64` flag is typically only required if you're using a Mac with an M chip.
@@ -27,7 +27,7 @@ You can now navigate to `http://localhost:3000` in your browser and connect to y
 You can also run the UI from source locally. Clone the repo using the following command:
 
 ```bash
-git clone git@github.com:fedimint/fedimint-ui.git fedimint-ui
+git clone git@github.com:fedibtc/fedimint-ui.git fedimint-ui
 ```
 
 Then install the npm packages by running the following command from the root directory:
