@@ -11,11 +11,11 @@ The Fedimint UI enables you to administer your Guardian from the browser. Once y
 Using Docker Desktop is a quick and easy way to get started. Run the following commands:
 
 ```bash
-docker image pull --platform linux/amd64 fedibtc/fedimint-ui:0.6.2
+docker image pull --platform linux/amd64 fedibtc/fedimint-ui:0.6.3
 ```
 
 ```bash
-docker run -p 3000:3000 --platform linux/amd64 fedibtc/fedimint-ui:0.6.2
+docker run -p 3000:3000 --platform linux/amd64 fedibtc/fedimint-ui:0.6.3
 ```
 
 The `--platform linux/amd64` flag is typically only required if you're using a Mac with an M chip.

@@ -52,7 +52,7 @@
         # Used for a releasable build artifact 
         packages.guardian-ui = pkgs.stdenv.mkDerivation {
           pname = "guardian-ui";
-          version = "0.6.2";
+          version = "0.6.3";
           src = ./.;
 
           nativeBuildInputs = with pkgs; [
