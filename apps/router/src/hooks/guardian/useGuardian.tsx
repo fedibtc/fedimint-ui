@@ -73,6 +73,21 @@ export const useLoadGuardian = (): void => {
           type: GUARDIAN_APP_ACTION_TYPE.SET_INIT_SERVER_STATUS,
           payload: server,
         });
+
+        try {
+          const version = await api.fetchVersion();
+          dispatch({
+            type: GUARDIAN_APP_ACTION_TYPE.SET_VERSION,
+            payload: version,
+          });
+        } catch (versionError) {
+          console.error('Failed to fetch version:', versionError);
+          dispatch({
+            type: GUARDIAN_APP_ACTION_TYPE.SET_ERROR,
+            payload: 'Failed to fetch version',
+          });
+        }
+
       } catch (err) {
         dispatch({
           type: GUARDIAN_APP_ACTION_TYPE.SET_ERROR,

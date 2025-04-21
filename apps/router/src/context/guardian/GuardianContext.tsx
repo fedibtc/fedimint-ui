@@ -25,6 +25,7 @@ export interface GuardianContextValue {
 const initialState = {
   status: GuardianStatus.Loading,
   needsAuth: false,
+  version: null,
   initServerStatus: undefined,
   guardianError: undefined,
 };
@@ -36,6 +37,8 @@ const reducer = (
   switch (action.type) {
     case GUARDIAN_APP_ACTION_TYPE.SET_STATUS:
       return { ...state, status: action.payload };
+    case GUARDIAN_APP_ACTION_TYPE.SET_VERSION:
+      return { ...state, version: action.payload };
     case GUARDIAN_APP_ACTION_TYPE.SET_NEEDS_AUTH:
       return { ...state, needsAuth: action.payload };
     case GUARDIAN_APP_ACTION_TYPE.SET_INIT_SERVER_STATUS:

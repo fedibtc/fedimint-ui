@@ -135,6 +135,22 @@ export class GuardianApi {
     return sessionStorage.getItem(this.guardianConfig.id) || null;
   };
 
+  getVersion = (): Promise<string> => {
+    return this.call(SharedRpc.getVersion);
+  };
+
+  public fetchVersion = async (): Promise<string> => {
+    try {
+      return await this.getVersion();
+    } catch (err) {
+      console.error('Error fetching version', err);
+      return Promise.reject({
+        message: 'Error fetching version',
+        err,
+      });
+    }
+  };
+
   public setSessionPassword = (password: string): void => {
     sessionStorage.setItem(this.guardianConfig.id, password);
   };
