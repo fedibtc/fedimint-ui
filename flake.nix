@@ -13,8 +13,6 @@
           inherit system;
           overlays = [ fedimint.overlays.all ];
         };
-        fmLib = fedimint.lib.${system};
-
 
         # When `yarn.lock` changes, follow these steps to update the `sha256` hash:
         # 1. Remove the existing `sha256` hash.
@@ -33,20 +31,29 @@
         };
       in
       {
-        devShells = fmLib.devShells // {
-          default = fmLib.devShells.default.overrideAttrs (prev: {
+        devShells =  {
+          default = pkgs.mkShell {
             nativeBuildInputs = [
               pkgs.mprocs
               pkgs.nodejs
               pkgs.yarn
+              pkgs.bitcoind
+              pkgs.electrs
+              pkgs.jq
+              pkgs.lnd
+              pkgs.netcat
+              pkgs.perl
+              pkgs.esplora-electrs
+              pkgs.procps
+              pkgs.which
               fedimint.packages.${system}.devimint
               fedimint.packages.${system}.gateway-pkgs
               fedimint.packages.${system}.fedimint-pkgs
-            ] ++ prev.nativeBuildInputs;
+            ];
             shellHook = ''
               yarn install
             '';
-          });
+          };
         };
 
         # Used for a releasable build artifact 
