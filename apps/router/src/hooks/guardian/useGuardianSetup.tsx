@@ -14,6 +14,8 @@ import { ConfigGenParams, GuardianServerStatus } from '@fedimint/types';
 import { LOCAL_STORAGE_SETUP_KEY } from '../../context/guardian/SetupContext';
 import { useGuardianApi } from './useGuardian';
 import { GuardianContext } from '../../context/guardian/GuardianContext';
+import { useToast } from '@fedimint/ui';
+import { formatApiErrorMessage } from '../../guardian-ui/utils/api';
 
 export const useGuardianSetupContext = (): SetupContextValue => {
   const setup = useContext(SetupContext);
@@ -140,8 +142,9 @@ export const useHandleBackgroundGuardianSetupActions = (
   toggleConsensusPolling: SetupContextValue['toggleConsensusPolling'];
 } => {
   const api = useGuardianApi();
-  const { password, myName } = state;
+  const { password, myName, configGenParams } = state;
   const [isPollingConsensus, setIsPollingConsensus] = useState(false);
+  const toast = useToast();
 
   const fetchConsensusState = useCallback(async () => {
     try {
@@ -159,11 +162,13 @@ export const useHandleBackgroundGuardianSetupActions = (
         payload: consensusState.consensus,
       });
     } catch (error) {
-      throw new Error(
-        `Failed to fetch consensus state: ${(error as Error).message}`
-      );
+      const errorMessage = formatApiErrorMessage(error);
+      if (configGenParams) {
+        toast.error('Failed to fetch consensus state', errorMessage);
+      }
+      throw new Error(`Failed to fetch consensus state: ${errorMessage}`);
     }
-  }, [api, dispatch]);
+  }, [api, dispatch, toast, configGenParams]);
 
   useEffect(() => {
     if (!isPollingConsensus) return;
@@ -172,6 +177,7 @@ export const useHandleBackgroundGuardianSetupActions = (
       fetchConsensusState()
         .catch((err) => {
           console.warn('Failed to poll for peers', err);
+          // Don't show toast for polling errors as it would be too noisy
         })
         .finally(() => {
           timeout = setTimeout(pollPeers, 2000);
@@ -184,57 +190,86 @@ export const useHandleBackgroundGuardianSetupActions = (
   const submitConfiguration: SetupContextValue['submitConfiguration'] =
     useCallback(
       async ({ password: newPassword, myName, configs }) => {
-        if (!myName) {
-          console.error('myName is required to submit configuration');
-          return;
-        }
+        try {
+          if (!myName) {
+            const errorMsg =
+              'Guardian name is required to submit configuration';
+            toast.error('Configuration Error', errorMsg);
+            throw new Error(errorMsg);
+          }
 
-        if (!password) {
-          await api.setPassword(newPassword);
+          if (!password) {
+            await api.setPassword(newPassword);
+
+            dispatch({
+              type: SETUP_ACTION_TYPE.SET_PASSWORD,
+              payload: newPassword,
+            });
+          }
 
           dispatch({
-            type: SETUP_ACTION_TYPE.SET_PASSWORD,
-            payload: newPassword,
-          });
-        }
-
-        dispatch({
-          type: SETUP_ACTION_TYPE.SET_MY_NAME,
-          payload: myName,
-        });
-
-        if (isHostConfigs(configs)) {
-          dispatch({
-            type: SETUP_ACTION_TYPE.SET_NUM_PEERS,
-            payload: configs.numPeers,
+            type: SETUP_ACTION_TYPE.SET_MY_NAME,
+            payload: myName,
           });
 
-          await api.setConfigGenConnections(myName);
+          if (isHostConfigs(configs)) {
+            dispatch({
+              type: SETUP_ACTION_TYPE.SET_NUM_PEERS,
+              payload: configs.numPeers,
+            });
 
-          await api.setConfigGenParams(configs);
-          dispatch({
-            type: SETUP_ACTION_TYPE.SET_CONFIG_GEN_PARAMS,
-            payload: configs,
-          });
-        }
+            await api.setConfigGenConnections(myName);
 
-        if (isFollowerConfigs(configs)) {
-          await api.setConfigGenConnections(myName, configs.hostServerUrl);
+            await api.setConfigGenParams(configs);
+            dispatch({
+              type: SETUP_ACTION_TYPE.SET_CONFIG_GEN_PARAMS,
+              payload: configs,
+            });
+            toast.success(
+              'Configuration Submitted',
+              'Guardian configuration has been saved successfully.'
+            );
+          }
 
-          await api.setConfigGenParams(configs);
+          if (isFollowerConfigs(configs)) {
+            await api.setConfigGenConnections(myName, configs.hostServerUrl);
 
-          await fetchConsensusState();
+            await api.setConfigGenParams(configs);
+
+            await fetchConsensusState();
+            toast.success(
+              'Connected to Host',
+              'Successfully connected to federation host.'
+            );
+          }
+        } catch (error) {
+          const errorMessage = formatApiErrorMessage(error);
+          toast.error('Configuration Error', errorMessage);
+          throw error;
         }
       },
-      [password, api, dispatch, fetchConsensusState]
+      [password, api, dispatch, fetchConsensusState, toast]
     );
 
   const connectToHost = useCallback(
     async (url: string) => {
-      await api.setConfigGenConnections(myName, url);
-      return await fetchConsensusState();
+      try {
+        await api.setConfigGenConnections(myName, url);
+        await fetchConsensusState();
+        toast.success(
+          'Connected to Host',
+          `Successfully connected to host at ${url}`
+        );
+      } catch (error) {
+        const errorMessage = formatApiErrorMessage(error);
+        toast.error(
+          'Connection Error',
+          `Failed to connect to host: ${errorMessage}`
+        );
+        throw error;
+      }
     },
-    [myName, api, fetchConsensusState]
+    [myName, api, fetchConsensusState, toast]
   );
 
   const toggleConsensusPolling = useCallback((poll: boolean) => {

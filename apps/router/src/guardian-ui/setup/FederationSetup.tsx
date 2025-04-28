@@ -20,6 +20,8 @@ import CancelIcon from '../assets/svgs/x-circle.svg?react';
 import { GuardianServerStatus } from '@fedimint/types';
 import { RestartModals } from './RestartModals';
 import { useGuardianSetupApi, useGuardianSetupContext } from '../../hooks';
+import { useToast } from '@fedimint/ui';
+import { formatApiErrorMessage } from '../utils/api';
 
 const PROGRESS_ORDER: SetupProgress[] = [
   SetupProgress.Start,
@@ -33,6 +35,7 @@ const PROGRESS_ORDER: SetupProgress[] = [
 export const FederationSetup: React.FC = () => {
   const { t } = useTranslation();
   const api = useGuardianSetupApi();
+  const toast = useToast();
   const {
     state: { progress, role, peers, tosConfig },
     dispatch,
@@ -72,11 +75,20 @@ export const FederationSetup: React.FC = () => {
       .then(() => {
         dispatch({ type: SETUP_ACTION_TYPE.SET_INITIAL_STATE, payload: null });
         window.scrollTo(0, 0);
+        toast.success(
+          'Setup Restarted',
+          'Federation setup has been restarted successfully.'
+        );
       })
       .catch((err) => {
         console.error(err);
+        const errorMessage = formatApiErrorMessage(err);
+        toast.error(
+          'Restart Error',
+          `Failed to restart setup: ${errorMessage}`
+        );
       });
-  }, [api, dispatch]);
+  }, [api, dispatch, toast]);
 
   let title: React.ReactNode;
   let subtitle: React.ReactNode;
