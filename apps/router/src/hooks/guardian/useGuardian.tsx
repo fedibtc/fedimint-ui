@@ -10,6 +10,7 @@ import {
 import { AdminApiInterface, GuardianApi } from '../../api/GuardianApi';
 import { formatApiErrorMessage } from '../../guardian-ui/utils/api';
 import { useAppContext } from '..';
+import { useToast } from '@fedimint/ui';
 
 export const useGuardianConfig = (): GuardianConfig => {
   const { service } = useAppContext();
@@ -37,11 +38,11 @@ export const useLoadGuardian = (): void => {
     throw new Error(
       'useLoadGuardian must be used within a GuardianContextProvider'
     );
-
-  const { api, id, dispatch } = guardian;
+  const { api, state, id, dispatch } = guardian;
+  const { error } = useToast();
 
   useEffect(() => {
-    const init = async () => {
+    const load = async () => {
       try {
         const status = await api.setupStatus();
 
@@ -50,15 +51,23 @@ export const useLoadGuardian = (): void => {
           payload: status,
         });
       } catch (err) {
+        const errorMessage = formatApiErrorMessage(err);
         dispatch({
           type: GUARDIAN_APP_ACTION_TYPE.SET_ERROR,
-          payload: formatApiErrorMessage(err),
+          payload: errorMessage,
         });
+        error('Guardian Error', errorMessage);
       }
     };
 
-    init();
-  }, [api, dispatch, id]);
+    if (state.status === undefined) {
+      load().catch((err) => {
+        console.error(err);
+        const errorMessage = formatApiErrorMessage(err);
+        error('Guardian Error', errorMessage);
+      });
+    }
+  }, [state.status, api, dispatch, id, error]);
 };
 
 export const useGuardianApi = (): GuardianApi => {
