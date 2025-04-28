@@ -1,5 +1,9 @@
 import React from 'react';
-import { ChakraProvider, ChakraProviderProps } from '@chakra-ui/react';
+import {
+  ChakraProvider,
+  ChakraProviderProps,
+  createStandaloneToast,
+} from '@chakra-ui/react';
 
 /**
  * Shared chakra provider avails the exact same context
@@ -9,5 +13,16 @@ export const SharedChakraProvider: React.FC<ChakraProviderProps> = ({
   theme,
   children,
 }: ChakraProviderProps) => {
-  return <ChakraProvider theme={theme}>{children}</ChakraProvider>;
+  // Create toast with the same theme
+  const { ToastContainer } = createStandaloneToast({ theme });
+
+  return (
+    <ChakraProvider theme={theme}>
+      {children}
+      <ToastContainer />
+    </ChakraProvider>
+  );
 };
+
+// Export useToast hook for convenience
+export { useToast } from '@chakra-ui/react';
