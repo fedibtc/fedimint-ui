@@ -10,6 +10,8 @@ import { DangerZone } from '../components/dashboard/danger/DangerZone';
 import { useGuardianAdminApi } from '../../hooks';
 import { InviteCode } from '../components/dashboard/admin/InviteCode';
 import { useTranslation } from '@fedimint/utils';
+import { useToast } from '@fedimint/ui';
+import { formatApiErrorMessage } from '../utils/api';
 
 const findOurPeerId = (
   configPeerIds: number[],
@@ -21,7 +23,7 @@ const findOurPeerId = (
 export const FederationAdmin: React.FC = () => {
   const { t } = useTranslation();
   const api = useGuardianAdminApi();
-
+  const toast = useToast();
   const [status, setStatus] = useState<StatusResponse>();
   const [inviteCode, setInviteCode] = useState<string>('');
   const [config, setConfig] = useState<ClientConfig>();
@@ -32,17 +34,43 @@ export const FederationAdmin: React.FC = () => {
   const [latestSession, setLatestSession] = useState<number>();
 
   const fetchData = useCallback(() => {
-    api.inviteCode().then(setInviteCode).catch(console.error);
-    api.config().then(setConfig).catch(console.error);
-    api.apiAnnouncements().then(setSignedApiAnnouncements).catch(console.error);
+    api
+      .inviteCode()
+      .then(setInviteCode)
+      .catch((err) => {
+        console.error('Failed to fetch invite code:', err);
+        // Don't show toast for every fetch error to avoid flooding
+      });
+
+    api
+      .config()
+      .then(setConfig)
+      .catch((err) => {
+        console.error('Failed to fetch config:', err);
+        // Don't show toast for periodic fetch errors
+      });
+
+    api
+      .apiAnnouncements()
+      .then(setSignedApiAnnouncements)
+      .catch((err) => {
+        console.error('Failed to fetch API announcements:', err);
+        // Don't show toast for periodic fetch errors
+      });
+
     api
       .status()
       .then((statusData) => {
         setStatus(statusData);
         setLatestSession(statusData?.federation?.session_count);
       })
-      .catch(console.error);
-  }, [api]);
+      .catch((err) => {
+        console.error('Failed to fetch status:', err);
+        const errorMessage = formatApiErrorMessage(err);
+        // Only show error toast when status fails, as this is critical
+        toast.error('Federation Status Error', errorMessage);
+      });
+  }, [api, toast]);
 
   useEffect(() => {
     fetchData();
