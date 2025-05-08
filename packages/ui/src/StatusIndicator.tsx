@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { Box, Text, useColorModeValue, useTheme } from '@chakra-ui/react';
+import { Box, Text, useColorModeValue } from '@chakra-ui/react';
+import { useTheme } from './theme';
 
 interface StatusIndicatorProps {
   status?: 'error' | 'warning' | 'success';

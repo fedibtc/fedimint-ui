@@ -4,7 +4,11 @@ import {
   AlertProps,
   cssVar,
   extendTheme,
+  ThemeOverride,
   withDefaultColorScheme,
+  // eslint-disable-next-line no-restricted-imports
+  useTheme as baseUseTheme,
+  baseTheme,
 } from '@chakra-ui/react';
 
 const INTER = 'Inter';
@@ -158,7 +162,15 @@ const buttonSizes = {
   },
 };
 
-const inputSizes = Object.keys(buttonSizes).reduce((prev, key) => {
+const inputSizes = Object.keys(buttonSizes).reduce<
+  Record<
+    string,
+    {
+      field: { height: string; px: number; borderRadius: string };
+      addon: { height: string; px: number; borderRadius: string };
+    }
+  >
+>((prev, key) => {
   const size = key as keyof typeof buttonSizes;
   const css = {
     height: buttonSizes[size].height,
@@ -175,258 +187,268 @@ const inputSizes = Object.keys(buttonSizes).reduce((prev, key) => {
   return prev;
 }, {});
 
-export const theme = extendTheme(
-  {
-    colors,
-    shadows,
-    fonts: {
-      heading: `'${INTER}', sans-serif`,
-      body: `'${INTER}', sans-serif`,
-    },
-    textStyles: textSizes,
-    components: {
-      Text: {
-        baseStyle: {
-          color: colors.text.primary,
-        },
-        variants: {
-          secondary: {
-            color: colors.text.secondary,
-          },
-        },
-        sizes: textSizes,
+const customTheme = {
+  ...baseTheme,
+  colors,
+  shadows,
+  fonts: {
+    heading: `'${INTER}', sans-serif`,
+    body: `'${INTER}', sans-serif`,
+  },
+  textStyles: textSizes,
+  components: {
+    Text: {
+      baseStyle: {
+        color: colors.text.primary,
       },
-      Heading: {
-        sizes: {
-          xs: {
-            fontSize: '24px',
-            lineHeight: '32px',
-          },
-          sm: {
-            fontSize: '30px',
-            lineHeight: '38px',
-          },
-          md: {
-            fontSize: '36px',
-            lineHeight: '44px',
-          },
-          lg: {
-            fontSize: '48px',
-            lineHeight: '60px',
-          },
-          xl: {
-            fontSize: '60px',
-            lineHeight: '72px',
-          },
-          '2xl': {
-            fontSize: '72px',
-            lineHeight: '90px',
-          },
-        },
-        variants: {
-          xs: {
-            fontSize: 100,
-          },
-        },
-      },
-      Button: {
-        defaultProps: {
-          size: 'md',
-        },
-        baseStyle: {
-          _disabled: {
-            pointerEvents: 'none',
-          },
-        },
-        sizes: buttonSizes,
-        variants: {
-          solid: {
-            bg: colors.blue[600],
-            color: colors.white,
-            _hover: {
-              bg: colors.blue[700],
-            },
-            _active: {
-              bg: colors.blue[600],
-              boxShadow: `0 0 0 2px ${colors.blue[200]}`,
-            },
-            _disabled: {
-              pointerEvents: 'none',
-            },
-          },
-          outline: {
-            bg: 'transparent',
-            borderColor: colors.border.button,
-            _hover: {
-              bg: colors.blue[50],
-              borderColor: colors.border.hover,
-            },
-          },
-        },
-      },
-      FormLabel: {
-        baseStyle: {
-          color: colors.text.label,
-          fontSize: '14px',
-          lineHeight: '20px',
-        },
-      },
-      FormHelperText: {
-        baseStyle: {
+      variants: {
+        secondary: {
           color: colors.text.secondary,
         },
       },
-      Input: {
-        defaultProps: {
-          size: 'md',
+      sizes: textSizes,
+    },
+    Heading: {
+      sizes: {
+        xs: {
+          fontSize: '24px',
+          lineHeight: '32px',
         },
-        baseStyle: {
+        sm: {
+          fontSize: '30px',
+          lineHeight: '38px',
+        },
+        md: {
+          fontSize: '36px',
+          lineHeight: '44px',
+        },
+        lg: {
+          fontSize: '48px',
+          lineHeight: '60px',
+        },
+        xl: {
+          fontSize: '60px',
+          lineHeight: '72px',
+        },
+        '2xl': {
+          fontSize: '72px',
+          lineHeight: '90px',
+        },
+      },
+      variants: {
+        xs: {
+          fontSize: 100,
+        },
+      },
+    },
+    Button: {
+      defaultProps: {
+        size: 'md',
+      },
+      baseStyle: {
+        _disabled: {
+          pointerEvents: 'none',
+        },
+      },
+      sizes: buttonSizes,
+      variants: {
+        solid: {
+          bg: colors.blue[600],
+          color: colors.white,
+          _hover: {
+            bg: colors.blue[700],
+          },
+          _active: {
+            bg: colors.blue[600],
+            boxShadow: `0 0 0 2px ${colors.blue[200]}`,
+          },
           _disabled: {
             pointerEvents: 'none',
           },
         },
-        sizes: inputSizes,
+        outline: {
+          bg: 'transparent',
+          borderColor: colors.border.button,
+          _hover: {
+            bg: colors.blue[50],
+            borderColor: colors.border.hover,
+          },
+        },
+      },
+    },
+    FormLabel: {
+      baseStyle: {
+        color: colors.text.label,
+        fontSize: '14px',
+        lineHeight: '20px',
+      },
+    },
+    FormHelperText: {
+      baseStyle: {
+        color: colors.text.secondary,
+      },
+    },
+    Input: {
+      defaultProps: {
+        size: 'md',
+      },
+      baseStyle: {
+        _disabled: {
+          pointerEvents: 'none',
+        },
         field: {
           _disabled: {
             cursor: 'text',
           },
         },
-        variants: {
-          outline: {
-            field: {
-              borderColor: colors.border.input,
-              boxShadow: shadows.xs,
-              _hover: {
-                borderColor: colors.border.hover,
-              },
-              _readOnly: {
-                color: colors.gray[500],
-              },
-            },
-          },
-          filled: {
-            field: {
-              bg: colors.gray[50],
-              color: colors.gray[600],
-              _placeholder: {
-                color: colors.gray[400],
-              },
-              _readOnly: {
-                bg: colors.white,
-              },
-            },
-          },
-        },
       },
-      Select: {
-        defaultProps: {
-          size: 'md',
-        },
-        variants: {
-          outline: {
-            field: {
-              borderColor: colors.border.input,
-              boxShadow: shadows.xs,
-              _hover: {
-                borderColor: colors.border.hover,
-              },
-            },
-          },
-        },
-      },
-      Table: {
-        defaultProps: {
-          colorScheme: 'gray',
-        },
-        baseStyle: {
-          th: {
-            color: colors.text.secondary,
-            fontFamily: 'body',
-            fontWeight: 'medium',
-            textTransform: 'initial',
-            letterSpacing: 'normal',
-          },
-          td: {
-            textStyle: 'sm',
-            fontWeight: 'medium',
-          },
-        },
-        variants: {
-          simple: {
-            colorScheme: 'gray',
-            padding: 4,
-            borderWidth: 1,
+      sizes: inputSizes,
+      variants: {
+        outline: {
+          field: {
             borderColor: colors.border.input,
-            borderRadius: 12,
-            borderCollapse: 'separate',
-          },
-        },
-      },
-      Card: {
-        baseStyle: {
-          container: {
-            boxShadow: shadows.sm,
-            borderBottom: `20px solid ${colors.gray[50]}`,
-          },
-        },
-        sizes: {
-          md: {
-            header: {
-              padding: '24px',
-              paddingBottom: '8px',
+            boxShadow: shadows.xs,
+            _hover: {
+              borderColor: colors.border.hover,
             },
-            body: {
-              padding: '24px',
-              paddingTop: '8px',
+            _readOnly: {
+              color: colors.gray[500],
             },
           },
         },
-      },
-      Alert: {
-        baseStyle: {
-          container: {
-            alignItems: 'flex-start',
-            padding: '16px',
-            borderRadius: '6px',
-          },
-        },
-        variants: {
-          subtle: (props: AlertProps) => {
-            const { status } = props;
-            const color =
-              status && STATUSES.includes(status as (typeof STATUSES)[number])
-                ? colors[status as (typeof STATUSES)[number]]
-                : colors.gray;
-            return {
-              container: {
-                [cssVar('alert-bg').variable]: color[50],
-                [cssVar('alert-fg').variable]: color[400],
-              },
-              icon: {
-                width: '20px',
-                height: '20px',
-              },
-              title: {
-                color: color[800],
-                fontWeight: '600',
-                marginBottom: '4px',
-                ...textSizes.sm,
-              },
-              description: {
-                color: color[700],
-                ...textSizes.sm,
-              },
-            };
+        filled: {
+          field: {
+            bg: colors.gray[50],
+            color: colors.gray[600],
+            _placeholder: {
+              color: colors.gray[400],
+            },
+            _readOnly: {
+              bg: colors.white,
+            },
           },
         },
       },
     },
+    Select: {
+      defaultProps: {
+        size: 'md',
+      },
+      variants: {
+        outline: {
+          field: {
+            borderColor: colors.border.input,
+            boxShadow: shadows.xs,
+            _hover: {
+              borderColor: colors.border.hover,
+            },
+          },
+        },
+      },
+    },
+    Table: {
+      defaultProps: {
+        colorScheme: 'gray',
+      },
+      baseStyle: {
+        th: {
+          color: colors.text.secondary,
+          fontFamily: 'body',
+          fontWeight: 'medium',
+          textTransform: 'initial',
+          letterSpacing: 'normal',
+        },
+        td: {
+          textStyle: 'sm',
+          fontWeight: 'medium',
+        },
+      },
+      variants: {
+        simple: {
+          colorScheme: 'gray',
+          padding: 4,
+          borderWidth: 1,
+          borderColor: colors.border.input,
+          borderRadius: 12,
+          borderCollapse: 'separate',
+        },
+      },
+    },
+    Card: {
+      baseStyle: {
+        container: {
+          boxShadow: shadows.sm,
+          borderBottom: `20px solid ${colors.gray[50]}`,
+        },
+      },
+      sizes: {
+        md: {
+          header: {
+            padding: '24px',
+            paddingBottom: '8px',
+          },
+          body: {
+            padding: '24px',
+            paddingTop: '8px',
+          },
+        },
+      },
+    },
+    Alert: {
+      baseStyle: {
+        container: {
+          alignItems: 'flex-start',
+          padding: '16px',
+          borderRadius: '6px',
+        },
+      },
+      variants: {
+        subtle: (props: AlertProps) => {
+          const { status } = props;
+          const color =
+            status && STATUSES.includes(status as (typeof STATUSES)[number])
+              ? colors[status as (typeof STATUSES)[number]]
+              : colors.gray;
+          return {
+            container: {
+              [cssVar('alert-bg').variable]: color[50],
+              [cssVar('alert-fg').variable]: color[400],
+            },
+            icon: {
+              width: '20px',
+              height: '20px',
+            },
+            title: {
+              color: color[800],
+              fontWeight: '600',
+              marginBottom: '4px',
+              ...textSizes.sm,
+            },
+            description: {
+              color: color[700],
+              ...textSizes.sm,
+            },
+          };
+        },
+      },
+    },
   },
+} satisfies ThemeOverride;
+
+export const theme = extendTheme(
+  customTheme,
   // By default all components use blue color scheme
   withDefaultColorScheme({ colorScheme: 'blue' }),
   // Override some components to use gray color scheme
   withDefaultColorScheme({ colorScheme: 'gray', components: ['Table'] })
 );
+
+/**
+ * Overrides chakra-ui useTheme to provide better types
+ */
+export const useTheme = () => {
+  return baseUseTheme<typeof customTheme>();
+};
 
 export const Fonts = () => (
   <Global

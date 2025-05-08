@@ -1,5 +1,6 @@
-import { Flex, Text, useTheme } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import React from 'react';
+import { useTheme } from './theme';
 
 interface KeyValue {
   key: string;

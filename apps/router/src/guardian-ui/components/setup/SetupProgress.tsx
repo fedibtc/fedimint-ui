@@ -7,11 +7,11 @@ import {
   Progress,
   Show,
   Text,
-  useTheme,
 } from '@chakra-ui/react';
 import CheckIcon from '../../assets/svgs/white-check.svg?react';
 import { useTranslation } from '@fedimint/utils';
 import { StepState } from '../../../types/guardian';
+import { useTheme } from '@fedimint/ui';
 
 interface StepProps {
   text: string;

@@ -4,7 +4,6 @@ import {
   Box,
   Icon,
   Text,
-  useTheme,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -18,6 +17,7 @@ import { useTranslation } from '@fedimint/utils';
 import CopyIcon from '../../../assets/svgs/copy.svg?react';
 import QrIcon from '../../../assets/svgs/qr.svg?react';
 import { QRCodeSVG } from 'qrcode.react';
+import { useTheme } from '@fedimint/ui';
 
 const QR_CODE_SIZE = 256;
 

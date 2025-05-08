@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
-import { Flex, useTheme, Link, Icon } from '@chakra-ui/react';
+import { Flex, Link, Icon } from '@chakra-ui/react';
+import { useTheme } from '@fedimint/ui';
 import { FaDiscord, FaGithub } from 'react-icons/fa';
 import { LATEST_RELEASE_TAG } from '../constants';
 

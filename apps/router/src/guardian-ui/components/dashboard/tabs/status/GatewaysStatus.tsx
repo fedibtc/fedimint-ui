@@ -8,7 +8,6 @@ import {
   Flex,
   Link,
   Text,
-  useTheme,
 } from '@chakra-ui/react';
 import { ClientConfig, Gateway, ModuleKind } from '@fedimint/types';
 import { Table, TableColumn, TableRow } from '@fedimint/ui';
@@ -16,6 +15,7 @@ import { useTranslation, formatEllipsized } from '@fedimint/utils';
 import InfoIcon from '../../../../assets/svgs/info.svg?react';
 import { useGuardianAdminApi } from '../../../../../hooks';
 import { ModuleRpc } from '../../../../../types/guardian';
+import { useTheme } from '@fedimint/ui';
 
 type TableKey = 'nodeId' | 'gatewayId' | 'fee';
 

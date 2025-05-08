@@ -1,5 +1,6 @@
 import React from 'react';
-import { Icon, Heading, Spacer, useTheme, Button } from '@chakra-ui/react';
+import { Icon, Heading, Spacer, Button } from '@chakra-ui/react';
+import { useTheme } from './theme';
 
 interface Props {
   icon?: React.FunctionComponent<React.SVGAttributes<SVGElement>>;

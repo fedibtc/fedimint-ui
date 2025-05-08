@@ -5,7 +5,6 @@ import {
   Heading,
   Stack,
   Text,
-  useTheme,
   Flex,
   Textarea,
   Modal,
@@ -19,6 +18,7 @@ import {
 import { FederationInfo } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
 import { useGatewayApi } from '../../../hooks';
+import { useTheme } from '@fedimint/ui';
 
 export interface ConnectFedModalProps {
   isOpen: boolean;

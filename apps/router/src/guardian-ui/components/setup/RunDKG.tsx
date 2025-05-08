@@ -5,7 +5,6 @@ import {
   Heading,
   Text,
   Flex,
-  useTheme,
 } from '@chakra-ui/react';
 import { GuardianServerStatus } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
@@ -16,7 +15,7 @@ import {
   useGuardianSetupApi,
   useGuardianSetupContext,
 } from '../../../hooks';
-
+import { useTheme } from '@fedimint/ui';
 interface Props {
   next(): void;
 }

@@ -4,10 +4,10 @@ import {
   Input,
   Button,
   InputRightElement,
-  useTheme,
   useClipboard,
   Flex,
 } from '@chakra-ui/react';
+import { useTheme } from './theme';
 
 export interface CopyInputProps {
   value: string;
@@ -54,7 +54,7 @@ export const CopyInput: React.FC<CopyInputProps> = ({
             </Flex>
           }
           onClick={onCopy}
-          borderRadius={theme.components.Input.sizes[size].borderRadius}
+          borderRadius={theme.components.Input.sizes[size].addon.borderRadius}
           borderTopLeftRadius={0}
           borderBottomLeftRadius={0}
           size={size}

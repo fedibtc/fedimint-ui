@@ -1,6 +1,7 @@
 import React from 'react';
-import { Flex, Heading, Text, useTheme } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { useTheme } from '@fedimint/ui';
 
 interface ErrorMessageProps {
   error: string;

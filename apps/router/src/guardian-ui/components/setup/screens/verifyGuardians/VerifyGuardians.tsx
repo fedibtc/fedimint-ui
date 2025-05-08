@@ -11,7 +11,6 @@ import {
   Spinner,
   Input,
   Tag,
-  useTheme,
   CircularProgress,
   Hide,
   Show,
@@ -29,7 +28,7 @@ import {
 } from '@chakra-ui/react';
 import { GuardianServerStatus, Peer } from '@fedimint/types';
 import { useTranslation } from '@fedimint/utils';
-import { CopyInput, Table } from '@fedimint/ui';
+import { CopyInput, Table, useTheme } from '@fedimint/ui';
 import { GuardianRole } from '../../../../../types/guardian';
 import { formatApiErrorMessage } from '../../../../utils/api';
 import ArrowRightIcon from '../../../../assets/svgs/arrow-right.svg?react';

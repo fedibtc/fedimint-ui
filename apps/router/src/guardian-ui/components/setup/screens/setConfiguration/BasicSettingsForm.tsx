@@ -6,13 +6,12 @@ import {
   Input,
   Button,
   Text,
-  useTheme,
   InputGroup,
   IconButton,
   InputRightAddon,
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
-import { FormGroup } from '@fedimint/ui';
+import { FormGroup, useTheme } from '@fedimint/ui';
 import LightbulbLogo from '../../../../assets/svgs/lightbulb.svg?react';
 import { generatePassword } from '../../../../utils';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
