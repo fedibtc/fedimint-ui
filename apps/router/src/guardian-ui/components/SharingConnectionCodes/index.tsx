@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -20,43 +20,73 @@ import {
   useTrimmedInput,
 } from '../../../hooks';
 import { FiRefreshCw } from 'react-icons/fi';
-import { GUARDIAN_APP_ACTION_TYPE } from '../../../types/guardian';
+import { SETUP_ACTION_TYPE } from '../../../types/guardian';
 import { GuardianApi } from '../../../api/GuardianApi';
+import { Spinner } from '@chakra-ui/react';
+
+const truncateCode = (code: string) =>
+  `${code?.substring(0, 20)}...${code?.substring(code.length - 5)}`;
 
 export const SharingConnectionCodes: React.FC = () => {
   const { t } = useTranslation();
   const api = useGuardianSetupApi();
-  const { state } = useGuardianSetupContext();
-  const guardianDispatch = useGuardianDispatch();
+  const { state, dispatch } = useGuardianSetupContext();
+  // const guardianDispatch = useGuardianDispatch();
   const config = useGuardianConfig();
 
-  const { code, password, guardianName, federationName } = state;
+  const { code, guardians, password, guardianName, federationName } = state;
 
-  const [refreshRequired, setRefreshRequired] = useState<boolean>(false);
+  const [consensusRunning, setConsensusRunning] = useState<boolean>(false);
+  const [guardianCode, setGuardianCode] = useState<string>('');
 
-  const handleOnSubmit = async () => {
-    try {
-      api.setPassword(password);
-      await api.startDkg();
+  const POLL_RATE = 5000; // check every 5 seconds
 
-      setRefreshRequired(true);
-    } catch (err) {
-      console.log('error', err);
-    }
-  };
+  // During consensus on 0.7 the api switches off and doesn't come online
+  // again until dkg has finished!
+  useEffect(() => {
+    if (!consensusRunning) return;
 
-  const handleTryReconnect = async () => {
-    const api = new GuardianApi(config);
-
-    try {
+    const intervalId = setInterval(async () => {
+      const api = new GuardianApi(config);
       await api.connect();
       const connected = await api.testPassword(password);
 
       if (connected) {
         window.location.reload();
       }
-    } catch {
-      console.log('COULD NOT CONNECT');
+    }, POLL_RATE);
+
+    return () => clearInterval(intervalId);
+  }, [config, consensusRunning, password]);
+
+  const handleOnSubmit = async () => {
+    try {
+      api.setPassword(password);
+      await api.startDkg();
+
+      setConsensusRunning(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleAddCode = async () => {
+    try {
+      const guardianName = await api.addPeerSetupCode(guardianCode);
+
+      const newGuardian = {
+        name: guardianName,
+        code: guardianCode,
+      };
+
+      dispatch({
+        type: SETUP_ACTION_TYPE.ADD_CODE,
+        payload: newGuardian,
+      });
+
+      setGuardianCode('');
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -79,8 +109,7 @@ export const SharingConnectionCodes: React.FC = () => {
     );
   }
 
-  // page was refreshed so code no longer available
-  if (refreshRequired) {
+  if (consensusRunning) {
     return (
       <Center>
         <Box bg='white' padding='5' borderRadius='10' width={500}>
@@ -90,9 +119,10 @@ export const SharingConnectionCodes: React.FC = () => {
               The consensus is now running so please allow a few minutes for
               this to complete.
             </Text>
-            <Button leftIcon={<FiRefreshCw />} onClick={handleTryReconnect}>
+            <Spinner size='md' />
+            {/* <Button leftIcon={<FiRefreshCw />} onClick={handleTryReconnect}>
               Refresh
-            </Button>
+            </Button> */}
           </Flex>
         </Box>
       </Center>
@@ -101,20 +131,27 @@ export const SharingConnectionCodes: React.FC = () => {
 
   return (
     <Center>
-      <Box bg='white' padding='5' borderRadius='10' width={500}>
+      <Box
+        bg='white'
+        padding='5'
+        boxSizing='border-box'
+        borderRadius='10'
+        overflow='hidden'
+        width={500}
+      >
         <Flex gap='5' flexDirection='column'>
-          <Heading size='sm'>Launch</Heading>
+          <Heading size='sm'>{`${guardianName} Setup`}</Heading>
           <Text>
             Here&#39;s your setup code to share with other guardians (if
             required).
           </Text>
 
           {/* Show truncated code */}
-          <Code padding={2}>{`${code?.substring(0, 20)}...${code?.substring(
-            code.length - 20
-          )}`}</Code>
+          <Code padding={2} borderRadius={5}>
+            {code}
+          </Code>
 
-          <Button
+          {/* <Button
             borderRadius='8px'
             isDisabled={false}
             onClick={handleOnSubmit}
@@ -122,22 +159,48 @@ export const SharingConnectionCodes: React.FC = () => {
             variant={'outline'}
           >
             Copy to Clipboard
+          </Button> */}
+
+          <Divider></Divider>
+          <Heading size='xs'>Add Guardians</Heading>
+          <Text>Add other Guardian codes below:</Text>
+
+          {guardians.map((guardian: Record<string, string>) => (
+            <Box key={code}>
+              <Text fontWeight={'bold'}>{guardian.name}</Text>
+              <Code padding={2} borderRadius={5} width='100%'>
+                {truncateCode(guardian.code)}
+              </Code>
+            </Box>
+          ))}
+
+          <Input
+            value={guardianCode}
+            name='code'
+            type='text'
+            placeholder='Enter code'
+            onChange={(ev) => setGuardianCode(ev.currentTarget.value)}
+          />
+          <Button
+            variant={'outline'}
+            borderRadius='8px'
+            isDisabled={false}
+            onClick={handleAddCode}
+          >
+            Add Code
           </Button>
 
           <Divider></Divider>
 
           <Button
             borderRadius='8px'
-            isDisabled={false}
+            isDisabled={
+              consensusRunning || (guardians.length > 0 && guardians.length < 3)
+            } // need 3 or more other guardians (for multi guardian setup)
             onClick={handleOnSubmit}
-            isLoading={false}
           >
             Launch Federation
           </Button>
-          <Text size={'sm'} color={'gray.500'}>
-            Your are about to launch with one Guardian which is recommended for
-            testing only.
-          </Text>
         </Flex>
       </Box>
     </Center>

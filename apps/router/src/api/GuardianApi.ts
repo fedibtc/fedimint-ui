@@ -120,6 +120,10 @@ export class GuardianApi {
     return this.call(LatestRpc.setLocalParams, params);
   };
 
+  addPeerSetupCode = (code: string): Promise<string> => {
+    return this.call(LatestRpc.addPeerSetupCode, code);
+  };
+
   startDkg = (): Promise<boolean> => {
     return this.call(LatestRpc.startDkg);
   };

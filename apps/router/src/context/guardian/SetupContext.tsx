@@ -70,7 +70,8 @@ function makeInitialState(): NewSetupState {
     guardianName: '',
     federationName: '',
     password: '',
-    code: null,
+    code: null, // own code
+    guardians: [], // other guardian names and codes
     error: false,
   };
 
@@ -94,6 +95,8 @@ const reducer = (state: NewSetupState, action: SetupAction): NewSetupState => {
       return initialState;
     case SETUP_ACTION_TYPE.SET_DATA:
       return { ...state, ...action.payload };
+    case SETUP_ACTION_TYPE.ADD_CODE:
+      return { ...state, guardians: [...state.guardians, action.payload] };
     case SETUP_ACTION_TYPE.SET_ERROR:
       return { ...state, error: action.payload };
     // case SETUP_ACTION_TYPE.SET_ROLE:

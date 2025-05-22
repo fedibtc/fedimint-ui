@@ -43,7 +43,7 @@ export const AwaitingLocalParams: React.FC = () => {
     api.setPassword(state.password);
     const code = await api.setLocalParams({
       name: state.guardianName,
-      federation_name: state.federationName,
+      federation_name: state.federationName || undefined,
     });
 
     dispatch({

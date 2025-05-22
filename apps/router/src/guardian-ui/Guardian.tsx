@@ -26,6 +26,12 @@ export const Guardian: React.FC = () => {
   const { t } = useTranslation();
   useLoadGuardian();
 
+  // return (
+  //   <SetupContextProvider>
+  //     <SharingConnectionCodes />
+  //   </SetupContextProvider>
+  // );
+
   if (state.error) {
     return (
       <Flex

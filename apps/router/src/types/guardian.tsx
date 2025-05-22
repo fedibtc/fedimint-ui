@@ -87,12 +87,14 @@ export interface NewSetupState {
   federationName: string;
   password: string;
   code: string | null;
+  guardians: Record<string, string>[];
   error: boolean;
 }
 
 export enum SETUP_ACTION_TYPE {
   RESET = 'RESET',
   SET_DATA = 'SET_DATA',
+  ADD_CODE = 'ADD_CODE',
   SET_ERROR = 'SET_ERROR',
 
   // Old ones
@@ -116,6 +118,10 @@ export type SetupAction =
     }
   | {
       type: SETUP_ACTION_TYPE.SET_DATA;
+      payload: Record<string, string>;
+    }
+  | {
+      type: SETUP_ACTION_TYPE.ADD_CODE;
       payload: Record<string, string>;
     }
   | {
@@ -217,7 +223,7 @@ export enum ModuleRpc {
 export enum LatestRpc {
   setupStatus = 'setup_status',
   setLocalParams = 'set_local_params',
-  // addPeerSetupCode = 'add_peer_setup_code',
+  addPeerSetupCode = 'add_peer_setup_code',
   // resetPeerSetupCodes = 'reset_peer_setup_codes',
   startDkg = 'start_dkg',
 }

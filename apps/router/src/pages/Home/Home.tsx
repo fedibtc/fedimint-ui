@@ -119,7 +119,7 @@ const HomePage: React.FC = () => {
 
       {/* Right */}
       <Box
-        background='#FFFFF'
+        background='#FFFFFF'
         flex='1'
         display='flex'
         alignItems='center'
