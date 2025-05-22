@@ -2,10 +2,12 @@ import { Dispatch, useContext, useEffect } from 'react';
 import { GuardianContext } from '../../context/guardian/GuardianContext';
 import {
   GUARDIAN_APP_ACTION_TYPE,
+  SETUP_ACTION_TYPE,
   GuardianAppAction,
   GuardianAppState,
   GuardianConfig,
   GuardianStatus,
+  NewGuardianStatus,
 } from '../../types/guardian';
 import { AdminApiInterface, GuardianApi } from '../../api/GuardianApi';
 import { GuardianServerStatus } from '@fedimint/types';
@@ -33,45 +35,23 @@ export const useGuardianDispatch = (): Dispatch<GuardianAppAction> => {
 
 export const useLoadGuardian = (): void => {
   const guardian = useContext(GuardianContext);
+
   if (!guardian)
     throw new Error(
       'useLoadGuardian must be used within a GuardianContextProvider'
     );
-  const { api, state, id, dispatch } = guardian;
+
+  const { api, id, dispatch } = guardian;
+
   useEffect(() => {
-    const load = async () => {
+    const init = async () => {
       try {
-        await api.connect();
-        const server = (await api.status()).server;
-
-        if (server !== GuardianServerStatus.AwaitingPassword) {
-          const password = api.getPassword();
-          const hasValidPassword = password
-            ? await api.testPassword(password)
-            : false;
-          if (!hasValidPassword) {
-            dispatch({
-              type: GUARDIAN_APP_ACTION_TYPE.SET_NEEDS_AUTH,
-              payload: true,
-            });
-          }
-        }
-
-        if (server === GuardianServerStatus.ConsensusRunning) {
-          dispatch({
-            type: GUARDIAN_APP_ACTION_TYPE.SET_STATUS,
-            payload: GuardianStatus.Admin,
-          });
-        } else {
-          dispatch({
-            type: GUARDIAN_APP_ACTION_TYPE.SET_STATUS,
-            payload: GuardianStatus.Setup,
-          });
-        }
+        // await api.connect();
+        const status = await api.setupStatus();
 
         dispatch({
-          type: GUARDIAN_APP_ACTION_TYPE.SET_INIT_SERVER_STATUS,
-          payload: server,
+          type: GUARDIAN_APP_ACTION_TYPE.SET_STATUS,
+          payload: status,
         });
       } catch (err) {
         dispatch({
@@ -81,10 +61,11 @@ export const useLoadGuardian = (): void => {
       }
     };
 
-    if (state.status === GuardianStatus.Loading) {
-      load().catch((err) => console.error(err));
-    }
-  }, [state.status, api, dispatch, id]);
+    init();
+    // if (state.status === GuardianStatus.Loading) {
+    //   load().catch((err) => console.error(err));
+    // }
+  }, [api, dispatch, id]);
 };
 
 export const useGuardianApi = (): GuardianApi => {
@@ -105,14 +86,15 @@ export const useGuardianState = (): GuardianAppState => {
   return guardian.state;
 };
 
-export const useGuardianStatus = (): GuardianStatus => {
-  const guardian = useContext(GuardianContext);
-  if (!guardian)
-    throw new Error(
-      'useGuardianStatus must be used within a GuardianContextProvider'
-    );
-  return guardian.state.status;
-};
+// export const useGuardianStatus = (): NewGuardianStatus | undefined => {
+//   const guardian = useContext(GuardianContext);
+//   if (!guardian)
+//     throw new Error(
+//       'useGuardianStatus must be used within a GuardianContextProvider'
+//     );
+
+//   return guardian.state.status;
+// };
 
 export const useGuardianId = (): string => {
   const guardian = useContext(GuardianContext);
@@ -129,5 +111,6 @@ export const useGuardianAdminApi = (): AdminApiInterface => {
     throw new Error(
       'useGuardianAdminApi must be used within a GuardianContextProvider'
     );
+
   return guardian.api;
 };

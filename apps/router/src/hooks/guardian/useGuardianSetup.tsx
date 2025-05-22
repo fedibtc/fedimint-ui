@@ -8,6 +8,7 @@ import {
   SetupAction,
   SetupProgress,
   SetupState,
+  NewSetupState,
 } from '../../types/guardian';
 import { SetupApiInterface } from '../../api/GuardianApi';
 import { ConfigGenParams, GuardianServerStatus } from '@fedimint/types';
@@ -33,15 +34,15 @@ export const useGuardianSetupApi = (): SetupApiInterface => {
   return guardian.api;
 };
 
-export function useConsensusPolling(shouldPoll = true) {
-  const { toggleConsensusPolling } = useGuardianSetupContext();
+// export function useConsensusPolling(shouldPoll = true) {
+//   const { toggleConsensusPolling } = useGuardianSetupContext();
 
-  useEffect(() => {
-    if (!shouldPoll) return;
-    toggleConsensusPolling(true);
-    return () => toggleConsensusPolling(false);
-  }, [shouldPoll, toggleConsensusPolling]);
-}
+//   useEffect(() => {
+//     if (!shouldPoll) return;
+//     toggleConsensusPolling(true);
+//     return () => toggleConsensusPolling(false);
+//   }, [shouldPoll, toggleConsensusPolling]);
+// }
 
 export const useHandleSetupServerStatus = (
   initServerStatus: GuardianServerStatus,
@@ -80,34 +81,17 @@ export const useHandleSetupServerStatus = (
 };
 
 export const useUpdateLocalStorageOnSetupStateChange = (
-  state: SetupState
+  state: NewSetupState
 ): void => {
   useEffect(() => {
-    localStorage.setItem(
-      LOCAL_STORAGE_SETUP_KEY,
-      JSON.stringify({
-        role: state.role,
-        progress: state.progress,
-        myName: state.myName,
-        numPeers: state.numPeers,
-        configGenParams: state.configGenParams,
-        ourCurrentId: state.ourCurrentId,
-      })
-    );
-  }, [
-    state.role,
-    state.progress,
-    state.myName,
-    state.numPeers,
-    state.configGenParams,
-    state.ourCurrentId,
-  ]);
+    localStorage.setItem(LOCAL_STORAGE_SETUP_KEY, JSON.stringify(state));
+  }, [state]);
 
-  useEffect(() => {
-    if (state.progress === SetupProgress.SetupComplete) {
-      localStorage.removeItem(LOCAL_STORAGE_SETUP_KEY);
-    }
-  }, [state.progress]);
+  // useEffect(() => {
+  //   if (state.progress === SetupProgress.SetupComplete) {
+  //     localStorage.removeItem(LOCAL_STORAGE_SETUP_KEY);
+  //   }
+  // }, [state.progress]);
 };
 
 export type HostConfigs = ConfigGenParams & {

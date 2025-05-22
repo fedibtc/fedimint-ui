@@ -13,10 +13,10 @@ export interface AdminContextProviderProps {
 export const AdminContextProvider: React.FC<AdminContextProviderProps> = ({
   children,
 }: AdminContextProviderProps) => {
-  const status = useGuardianStatus();
-  if (status !== GuardianStatus.Admin) {
-    return null;
-  }
+  // const status = useGuardianStatus();
+  // if (status !== GuardianStatus.Admin) {
+  //   return null;
+  // }
 
   return <AdminContext.Provider value={null}>{children}</AdminContext.Provider>;
 };

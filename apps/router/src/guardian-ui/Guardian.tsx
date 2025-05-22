@@ -4,6 +4,8 @@ import { Login } from '@fedimint/ui';
 import { SetupContextProvider } from '../context/guardian/SetupContext';
 import { AdminContextProvider } from '../context/guardian/AdminContext';
 import { FederationSetup } from './setup/FederationSetup';
+import { AwaitingLocalParams } from './components/AwaitingLocalParams';
+import { SharingConnectionCodes } from './components/SharingConnectionCodes';
 import { FederationAdmin } from './admin/FederationAdmin';
 import {
   useGuardianState,
@@ -21,79 +23,72 @@ export const Guardian: React.FC = () => {
   const dispatch = useGuardianDispatch();
   const api = useGuardianApi();
   const id = useGuardianId();
-  useLoadGuardian();
   const { t } = useTranslation();
+  useLoadGuardian();
 
-  const content = useMemo(() => {
-    if (state.guardianError) {
-      return (
-        <Flex
-          direction='column'
-          align='center'
-          width='100%'
-          paddingTop='10vh'
-          paddingX='4'
-          textAlign='center'
-        >
-          <Heading size='lg' marginBottom='4'>
-            {t('common.error')}
-          </Heading>
-          <Text fontSize='md'>{state.guardianError}</Text>
-        </Flex>
-      );
-    }
-
-    if (state.needsAuth) {
-      return (
-        <Login
-          serviceId={id}
-          checkAuth={(password) => api.testPassword(password || '')}
-          setAuthenticated={() =>
-            dispatch({
-              type: GUARDIAN_APP_ACTION_TYPE.SET_NEEDS_AUTH,
-              payload: false,
-            })
-          }
-          parseError={formatApiErrorMessage}
-        />
-      );
-    }
-
-    if (state.status === GuardianStatus.Setup && state.initServerStatus) {
-      return (
-        <SetupContextProvider initServerStatus={state.initServerStatus}>
-          <FederationSetup />
-        </SetupContextProvider>
-      );
-    }
-
-    if (state.status === GuardianStatus.Admin) {
-      return (
-        <AdminContextProvider>
-          <FederationAdmin />
-        </AdminContextProvider>
-      );
-    }
-
+  if (state.error) {
     return (
-      <Center p={12}>
-        <Spinner size='xl' />
-      </Center>
+      <Flex
+        direction='column'
+        align='center'
+        width='100%'
+        paddingTop='10vh'
+        paddingX='4'
+        textAlign='center'
+      >
+        <Heading size='lg' marginBottom='4'>
+          {t('common.error')}
+        </Heading>
+        <Text fontSize='md'>Something has gone wrong</Text>
+      </Flex>
     );
-  }, [
-    state.status,
-    state.needsAuth,
-    state.guardianError,
-    state.initServerStatus,
-    api,
-    dispatch,
-    t,
-    id,
-  ]);
+  }
+
+  if (state.status === 'AwaitingLocalParams') {
+    return (
+      <SetupContextProvider>
+        <AwaitingLocalParams />
+      </SetupContextProvider>
+    );
+  }
+
+  if (state.status === 'SharingConnectionCodes') {
+    return (
+      <SetupContextProvider>
+        <SharingConnectionCodes />
+      </SetupContextProvider>
+    );
+  }
+
+  // Check user is authed
+  if (state.status !== undefined && !state.authed) {
+    return (
+      <Login
+        serviceId={id}
+        checkAuth={(password) => api.testPassword(password || '')}
+        setAuthenticated={() => {
+          dispatch({
+            type: GUARDIAN_APP_ACTION_TYPE.SET_AUTHED,
+            payload: true,
+          });
+        }}
+        parseError={formatApiErrorMessage}
+      />
+    );
+  }
+
+  // We can now render the admin panel
+  if (state.status === 'ConsensusIsRunning') {
+    return (
+      <AdminContextProvider>
+        <FederationAdmin />
+      </AdminContextProvider>
+    );
+  }
 
   return (
-    <Center>
-      <Box width='100%'>{content}</Box>
+    <Center p={12}>
+      <Spinner size='xl' />
     </Center>
   );
 };

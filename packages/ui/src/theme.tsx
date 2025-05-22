@@ -435,7 +435,7 @@ export const Fonts = () => (
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap');
       `,
       {
-        body: { fontFamily: 'Inter' },
+        body: { fontFamily: 'Inter', background: '#F9F9F9' },
       },
     ]}
   />

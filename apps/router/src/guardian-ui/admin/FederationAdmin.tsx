@@ -21,6 +21,7 @@ const findOurPeerId = (
 export const FederationAdmin: React.FC = () => {
   const { t } = useTranslation();
   const api = useGuardianAdminApi();
+
   const [status, setStatus] = useState<StatusResponse>();
   const [inviteCode, setInviteCode] = useState<string>('');
   const [config, setConfig] = useState<ClientConfig>();

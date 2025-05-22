@@ -11,36 +11,35 @@ export enum GuardianStatus {
   Admin,
 }
 
+export type NewGuardianStatus =
+  | 'AwaitingLocalParams'
+  | 'SharingConnectionCodes'
+  | 'ConsensusIsRunning';
+
 export interface GuardianAppState {
-  status: GuardianStatus;
-  needsAuth: boolean;
-  initServerStatus?: GuardianServerStatus;
-  guardianError?: string;
+  status: NewGuardianStatus | undefined;
+  authed: boolean;
+  error: string;
 }
 
 export enum GUARDIAN_APP_ACTION_TYPE {
   SET_STATUS = 'SET_STATUS',
-  SET_NEEDS_AUTH = 'SET_NEEDS_AUTH',
-  SET_INIT_SERVER_STATUS = 'SET_INIT_SERVER_STATUS',
+  SET_AUTHED = 'SET_AUTHED',
   SET_ERROR = 'SET_ERROR',
 }
 
 export type GuardianAppAction =
   | {
       type: GUARDIAN_APP_ACTION_TYPE.SET_STATUS;
-      payload: GuardianStatus;
+      payload: NewGuardianStatus | undefined;
     }
   | {
-      type: GUARDIAN_APP_ACTION_TYPE.SET_NEEDS_AUTH;
+      type: GUARDIAN_APP_ACTION_TYPE.SET_AUTHED;
       payload: boolean;
     }
   | {
-      type: GUARDIAN_APP_ACTION_TYPE.SET_INIT_SERVER_STATUS;
-      payload: GuardianServerStatus | undefined;
-    }
-  | {
       type: GUARDIAN_APP_ACTION_TYPE.SET_ERROR;
-      payload: string | undefined;
+      payload: string;
     };
 
 export enum GuardianRole {
@@ -83,7 +82,20 @@ export interface SetupState {
   guardianName?: string;
 }
 
+export interface NewSetupState {
+  guardianName: string;
+  federationName: string;
+  password: string;
+  code: string | null;
+  error: boolean;
+}
+
 export enum SETUP_ACTION_TYPE {
+  RESET = 'RESET',
+  SET_DATA = 'SET_DATA',
+  SET_ERROR = 'SET_ERROR',
+
+  // Old ones
   SET_INITIAL_STATE = 'SET_INITIAL_STATE',
   SET_ROLE = 'SET_ROLE',
   SET_PROGRESS = 'SET_PROGRESS',
@@ -98,6 +110,18 @@ export enum SETUP_ACTION_TYPE {
 }
 
 export type SetupAction =
+  | {
+      type: SETUP_ACTION_TYPE.RESET;
+      payload: boolean;
+    }
+  | {
+      type: SETUP_ACTION_TYPE.SET_DATA;
+      payload: Record<string, string>;
+    }
+  | {
+      type: SETUP_ACTION_TYPE.SET_ERROR;
+      payload: boolean;
+    }
   | {
       type: SETUP_ACTION_TYPE.SET_INITIAL_STATE;
       payload: null;
@@ -188,4 +212,12 @@ export enum ModuleRpc {
   getConsensus = 'get_consensus',
   getConsensusRev = 'get_consensus_rev',
   getSubmissions = 'get_submission',
+}
+
+export enum LatestRpc {
+  setupStatus = 'setup_status',
+  setLocalParams = 'set_local_params',
+  // addPeerSetupCode = 'add_peer_setup_code',
+  // resetPeerSetupCodes = 'reset_peer_setup_codes',
+  startDkg = 'start_dkg',
 }

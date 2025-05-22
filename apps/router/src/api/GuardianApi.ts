@@ -9,6 +9,7 @@ import {
   DownloadGuardianBackupResponse,
   FederationStatus,
   ModuleKind,
+  NewStatusResponse,
   PeerHashMap,
   GuardianServerStatus,
   SignedApiAnnouncement,
@@ -18,6 +19,7 @@ import {
 import {
   AdminRpc,
   GuardianConfig,
+  LatestRpc,
   ModuleRpc,
   SetupRpc,
   SharedRpc,
@@ -27,6 +29,7 @@ export class GuardianApi {
   private websocket: JsonRpcWebsocket | null = null;
   private connectPromise: Promise<JsonRpcWebsocket> | null = null;
   private guardianConfig: GuardianConfig;
+  private password?: string;
 
   constructor(guardianConfig: GuardianConfig) {
     this.guardianConfig = guardianConfig;
@@ -38,6 +41,7 @@ export class GuardianApi {
     if (this.websocket !== null) {
       return this.websocket;
     }
+
     if (this.connectPromise) {
       return await this.connectPromise;
     }
@@ -53,6 +57,7 @@ export class GuardianApi {
           this.shutdown_internal();
         }
       );
+
       websocket
         .open()
         .then(() => {
@@ -86,7 +91,7 @@ export class GuardianApi {
   };
 
   public testPassword = async (password: string): Promise<boolean> => {
-    this.setSessionPassword(password);
+    this.setPassword(password);
 
     // Attempt a 'status' rpc call with the temporary password.
     try {
@@ -103,7 +108,21 @@ export class GuardianApi {
     sessionStorage.removeItem(this.guardianConfig.id);
   };
 
-  /*** Shared RPC methods */
+  /*** New 0.7 Methods */
+  setupStatus = (): Promise<NewStatusResponse> => {
+    return this.call(LatestRpc.setupStatus);
+  };
+
+  setLocalParams = (params: {
+    name: string;
+    federation_name?: string;
+  }): Promise<string> => {
+    return this.call(LatestRpc.setLocalParams, params);
+  };
+
+  startDkg = (): Promise<boolean> => {
+    return this.call(LatestRpc.startDkg);
+  };
 
   /*** Shared RPC methods */
   auth = (): Promise<void> => {
@@ -139,15 +158,8 @@ export class GuardianApi {
     sessionStorage.setItem(this.guardianConfig.id, password);
   };
 
-  public setPassword = async (password: string): Promise<void> => {
-    this.setSessionPassword(password);
-    try {
-      await this.call(SetupRpc.setPassword);
-    } catch (err) {
-      // If the call failed, clear the password first then re-throw
-      this.clearPassword();
-      throw err;
-    }
+  public setPassword = (password: string): void => {
+    this.password = password;
   };
 
   public setConfigGenConnections = async (
@@ -304,7 +316,7 @@ export class GuardianApi {
   };
 
   private call = async <T>(
-    method: SetupRpc | AdminRpc | SharedRpc,
+    method: SetupRpc | AdminRpc | SharedRpc | LatestRpc,
     params: unknown = null
   ): Promise<T> => {
     return this.call_any_method(method, params);
@@ -316,19 +328,18 @@ export class GuardianApi {
     params: unknown = null
   ): Promise<T> => {
     try {
-      const password = this.getPassword();
       if (!this.guardianConfig?.baseUrl) {
         throw new Error('guardian baseUrl not found in config');
       }
+
       const websocket = await this.connect();
-      // console.log('method', method);
+
       const response = await websocket.call(method, [
         {
-          auth: password || null,
+          auth: this.password || null,
           params,
         },
       ]);
-      // console.log('response', response);
 
       if (response.error) {
         throw response.error;
@@ -348,9 +359,10 @@ export class GuardianApi {
 
 export type SetupApiInterface = Pick<
   GuardianApi,
-  keyof typeof SetupRpc | keyof typeof SharedRpc
+  keyof typeof SetupRpc | keyof typeof SharedRpc | keyof typeof LatestRpc
 >;
+
 export type AdminApiInterface = Pick<
   GuardianApi,
-  keyof typeof AdminRpc | keyof typeof SharedRpc
+  keyof typeof AdminRpc | keyof typeof SharedRpc | keyof typeof LatestRpc
 >;

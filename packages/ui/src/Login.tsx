@@ -15,8 +15,8 @@ import { useTranslation } from '@fedimint/utils';
 
 interface LoginProps {
   serviceId: string;
-  checkAuth: (password?: string) => Promise<boolean>;
-  setAuthenticated: () => void;
+  checkAuth: (password: string) => Promise<boolean>;
+  setAuthenticated: (password: string) => void;
   parseError: (err: unknown) => string;
 }
 
@@ -40,7 +40,7 @@ export const Login: React.FC<LoginProps> = ({
       try {
         const isValid = await checkAuth(password);
         if (isValid) {
-          setAuthenticated();
+          setAuthenticated(password);
         } else {
           setError(t('login.errors.invalid-password'));
         }
