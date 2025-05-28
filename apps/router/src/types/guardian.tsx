@@ -88,7 +88,7 @@ export interface NewSetupState {
   password: string;
   code: string | null;
   guardians: Record<string, string>[];
-  error: boolean;
+  error: string | null;
 }
 
 export enum SETUP_ACTION_TYPE {
@@ -126,7 +126,7 @@ export type SetupAction =
     }
   | {
       type: SETUP_ACTION_TYPE.SET_ERROR;
-      payload: boolean;
+      payload: string | null;
     }
   | {
       type: SETUP_ACTION_TYPE.SET_INITIAL_STATE;

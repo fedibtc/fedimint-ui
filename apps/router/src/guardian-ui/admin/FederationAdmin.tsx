@@ -70,7 +70,7 @@ export const FederationAdmin: React.FC = () => {
   }, [config, status, signedApiAnnouncements]);
 
   return (
-    <Flex flexDirection='column' gap='3'>
+    <Flex flexDirection='column' gap='3' width='100%' p='10'>
       {config ? (
         <Flex
           alignItems={{ md: 'center' }}

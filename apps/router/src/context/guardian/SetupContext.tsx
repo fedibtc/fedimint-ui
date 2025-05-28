@@ -72,7 +72,7 @@ function makeInitialState(): NewSetupState {
     password: '',
     code: null, // own code
     guardians: [], // other guardian names and codes
-    error: false,
+    error: null,
   };
 
   // try {

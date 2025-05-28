@@ -178,7 +178,7 @@ export const FederationTabsCard: React.FC<FederationTabsCardProps> = ({
   }, [config]);
 
   return config ? (
-    <Card flex='1' width='100%'>
+    <Card flex='1' width='100%' overflowX='hidden'>
       <Tabs
         variant='soft-rounded'
         colorScheme='blue'
@@ -231,7 +231,7 @@ export const FederationTabsCard: React.FC<FederationTabsCardProps> = ({
             )}
           </TabList>
           <Divider orientation='vertical' />
-          <TabPanels flex={1} width='100%'>
+          <TabPanels flex={1} width='100%' overflow={'hidden'}>
             <TabPanel>
               <FederationInfo
                 status={status}
@@ -256,7 +256,6 @@ export const FederationTabsCard: React.FC<FederationTabsCardProps> = ({
                 theme={githubLight}
                 extensions={[json()]}
                 basicSetup={{ autocompletion: true }}
-                maxWidth={'900px'}
                 height={'500px'}
                 readOnly
               />

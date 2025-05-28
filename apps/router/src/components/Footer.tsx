@@ -32,8 +32,10 @@ export const Footer = () => {
   return (
     <Flex
       bgColor={theme.colors.gray[100]}
-      p='15px'
+      h='50px'
       w='100%'
+      pl={5}
+      pr={5}
       align='center'
       justify='space-between'
       position='fixed'
