@@ -49,7 +49,7 @@ export interface StatusResponse {
 }
 
 // 0.7 status response
-export type NewStatusResponse =
+export type SetupStatusResponse =
   | 'AwaitingLocalParams'
   | 'SharingConnectionCodes'
   | 'ConsensusIsRunning';

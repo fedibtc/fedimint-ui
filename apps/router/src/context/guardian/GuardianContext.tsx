@@ -10,8 +10,6 @@ import {
   GUARDIAN_APP_ACTION_TYPE,
   GuardianAppAction,
   GuardianAppState,
-  // GuardianStatus,
-  // NewGuardianStatus,
 } from '../../types/guardian';
 import { useGuardianConfig } from '../../hooks';
 import { useLocation } from 'react-router-dom';

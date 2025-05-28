@@ -4,14 +4,11 @@ import {
   BitcoinRpcConnectionStatus,
   BitcoinRpcConnectionStatusProgress,
   ClientConfig,
-  ConfigGenParams,
-  ConsensusState,
   DownloadGuardianBackupResponse,
   FederationStatus,
   ModuleKind,
-  NewStatusResponse,
+  SetupStatusResponse,
   PeerHashMap,
-  GuardianServerStatus,
   SignedApiAnnouncement,
   StatusResponse,
   Versions,
@@ -19,7 +16,6 @@ import {
 import {
   AdminRpc,
   GuardianConfig,
-  LatestRpc,
   ModuleRpc,
   SetupRpc,
   SharedRpc,
@@ -29,10 +25,11 @@ export class GuardianApi {
   private websocket: JsonRpcWebsocket | null = null;
   private connectPromise: Promise<JsonRpcWebsocket> | null = null;
   private guardianConfig: GuardianConfig;
-  private password?: string;
+  private password: string | null;
 
   constructor(guardianConfig: GuardianConfig) {
     this.guardianConfig = guardianConfig;
+    this.password = null;
   }
 
   /*** WebSocket methods ***/
@@ -90,42 +87,28 @@ export class GuardianApi {
     return true;
   };
 
+  public setPassword = (password: string | null): void => {
+    this.password = password;
+  };
+
+  public getPassword = (): string | null => {
+    return this.password;
+  };
+
   public testPassword = async (password: string): Promise<boolean> => {
+    // set password here so that auth call below can use it
     this.setPassword(password);
 
     // Attempt a 'status' rpc call with the temporary password.
+    // It will throw if there's an issue
     try {
       await this.auth();
       return true;
     } catch (err) {
       // TODO: make sure error is auth error, not unrelated
-      this.clearPassword();
+      this.setPassword(null);
       return false;
     }
-  };
-
-  private clearPassword = () => {
-    sessionStorage.removeItem(this.guardianConfig.id);
-  };
-
-  /*** New 0.7 Methods */
-  setupStatus = (): Promise<NewStatusResponse> => {
-    return this.call(LatestRpc.setupStatus);
-  };
-
-  setLocalParams = (params: {
-    name: string;
-    federation_name?: string;
-  }): Promise<string> => {
-    return this.call(LatestRpc.setLocalParams, params);
-  };
-
-  addPeerSetupCode = (code: string): Promise<string> => {
-    return this.call(LatestRpc.addPeerSetupCode, code);
-  };
-
-  startDkg = (): Promise<boolean> => {
-    return this.call(LatestRpc.startDkg);
   };
 
   /*** Shared RPC methods */
@@ -152,101 +135,29 @@ export class GuardianApi {
     return result;
   };
 
-  /*** Setup RPC methods ***/
-
-  public getPassword = (): string | null => {
-    return sessionStorage.getItem(this.guardianConfig.id) || null;
-  };
-
-  public setSessionPassword = (password: string): void => {
-    sessionStorage.setItem(this.guardianConfig.id, password);
-  };
-
-  public setPassword = (password: string): void => {
-    this.password = password;
-  };
-
-  public setConfigGenConnections = async (
-    ourName: string,
-    leaderUrl?: string
-  ): Promise<void> => {
-    const connections = {
-      our_name: ourName,
-      leader_api_url: leaderUrl,
-    };
-
-    return this.call(SetupRpc.setConfigGenConnections, connections);
-  };
-
-  public getDefaultConfigGenParams = (): Promise<ConfigGenParams> => {
-    return this.call(SetupRpc.getDefaultConfigGenParams);
-  };
-
-  public getConsensusConfigGenParams = (): Promise<ConsensusState> => {
-    return this.call(SetupRpc.getConsensusConfigGenParams);
-  };
-
-  public setConfigGenParams = (params: ConfigGenParams): Promise<void> => {
-    return this.call(SetupRpc.setConfigGenParams, params);
-  };
-
   public getVerifyConfigHash = (): Promise<PeerHashMap> => {
     return this.call(SharedRpc.getVerifyConfigHash);
   };
 
-  public runDkg = (): Promise<void> => {
-    return this.call(SetupRpc.runDkg);
+  /*** Setup RPC methods ***/
+
+  public setupStatus = (): Promise<SetupStatusResponse> => {
+    return this.call(SetupRpc.setupStatus);
   };
 
-  public verifiedConfigs = (): Promise<void> => {
-    return this.call(SetupRpc.verifiedConfigs);
+  public setLocalParams = (params: {
+    name: string;
+    federation_name?: string;
+  }): Promise<string> => {
+    return this.call(SetupRpc.setLocalParams, params);
   };
 
-  public startConsensus = async (): Promise<void> => {
-    const sleep = (time: number) =>
-      new Promise((resolve) => setTimeout(resolve, time));
-
-    // Special case: start_consensus kills the server, which sometimes causes it not to respond.
-    // If it doesn't respond within 5 seconds, continue on with status checks.
-    await Promise.any([this.call<null>(SetupRpc.startConsensus), sleep(5000)]);
-
-    // Try to reconnect and confirm that status is ConsensusRunning. Retry multiple
-    // times, but eventually give up and just throw.
-    let tries = 0;
-    const maxTries = 10;
-    const attemptConfirmConsensusRunning = async (): Promise<void> => {
-      try {
-        if (!this.guardianConfig?.baseUrl) {
-          throw new Error('guardian baseUrl not found in config');
-        }
-        await this.connect();
-        await this.shutdown_internal();
-        const status = await this.status();
-        if (status.server === GuardianServerStatus.ConsensusRunning) {
-          return;
-        } else {
-          throw new Error(
-            `Expected status ConsensusRunning, got ${status.server}`
-          );
-        }
-      } catch (err) {
-        console.warn('Failed to confirm consensus running:', err);
-      }
-      // Retry after a delay if we haven't exceeded the max number of tries, otherwise give up.
-      if (tries < maxTries) {
-        tries++;
-        await sleep(1000);
-        return attemptConfirmConsensusRunning();
-      } else {
-        throw new Error('Failed to start consensus, see logs for more info.');
-      }
-    };
-
-    return attemptConfirmConsensusRunning();
+  public addPeerSetupCode = (code: string): Promise<string> => {
+    return this.call(SetupRpc.addPeerSetupCode, code);
   };
 
-  public restartSetup: () => Promise<void> = () => {
-    return this.call(SetupRpc.restartSetup);
+  public startDkg = (): Promise<boolean> => {
+    return this.call(SetupRpc.startDkg);
   };
 
   /*** Running RPC methods */
@@ -320,7 +231,7 @@ export class GuardianApi {
   };
 
   private call = async <T>(
-    method: SetupRpc | AdminRpc | SharedRpc | LatestRpc,
+    method: SetupRpc | AdminRpc | SharedRpc,
     params: unknown = null
   ): Promise<T> => {
     return this.call_any_method(method, params);
@@ -363,10 +274,10 @@ export class GuardianApi {
 
 export type SetupApiInterface = Pick<
   GuardianApi,
-  keyof typeof SetupRpc | keyof typeof SharedRpc | keyof typeof LatestRpc
+  keyof typeof SetupRpc | keyof typeof SharedRpc
 >;
 
 export type AdminApiInterface = Pick<
   GuardianApi,
-  keyof typeof AdminRpc | keyof typeof SharedRpc | keyof typeof LatestRpc
+  keyof typeof AdminRpc | keyof typeof SharedRpc
 >;

@@ -2,15 +2,12 @@ import { Dispatch, useContext, useEffect } from 'react';
 import { GuardianContext } from '../../context/guardian/GuardianContext';
 import {
   GUARDIAN_APP_ACTION_TYPE,
-  SETUP_ACTION_TYPE,
   GuardianAppAction,
   GuardianAppState,
   GuardianConfig,
   GuardianStatus,
-  NewGuardianStatus,
 } from '../../types/guardian';
 import { AdminApiInterface, GuardianApi } from '../../api/GuardianApi';
-import { GuardianServerStatus } from '@fedimint/types';
 import { formatApiErrorMessage } from '../../guardian-ui/utils/api';
 import { useAppContext } from '..';
 
@@ -46,7 +43,6 @@ export const useLoadGuardian = (): void => {
   useEffect(() => {
     const init = async () => {
       try {
-        // await api.connect();
         const status = await api.setupStatus();
 
         dispatch({
@@ -62,9 +58,6 @@ export const useLoadGuardian = (): void => {
     };
 
     init();
-    // if (state.status === GuardianStatus.Loading) {
-    //   load().catch((err) => console.error(err));
-    // }
   }, [api, dispatch, id]);
 };
 
@@ -86,15 +79,15 @@ export const useGuardianState = (): GuardianAppState => {
   return guardian.state;
 };
 
-// export const useGuardianStatus = (): NewGuardianStatus | undefined => {
-//   const guardian = useContext(GuardianContext);
-//   if (!guardian)
-//     throw new Error(
-//       'useGuardianStatus must be used within a GuardianContextProvider'
-//     );
+export const useGuardianStatus = (): GuardianStatus | undefined => {
+  const guardian = useContext(GuardianContext);
+  if (!guardian)
+    throw new Error(
+      'useGuardianStatus must be used within a GuardianContextProvider'
+    );
 
-//   return guardian.state.status;
-// };
+  return guardian.state.status;
+};
 
 export const useGuardianId = (): string => {
   const guardian = useContext(GuardianContext);

@@ -18,6 +18,7 @@ import {
   useTrimmedInput,
 } from '../../../hooks';
 import { SETUP_ACTION_TYPE } from '../../../types/guardian';
+import { LOCAL_STORAGE_SETUP_KEY } from '../../../context/guardian/SetupContext';
 import { GuardianApi } from '../../../api/GuardianApi';
 import { CenterBox } from '../CenterBox';
 import { Spinner } from '@chakra-ui/react';
@@ -31,25 +32,26 @@ export const SharingConnectionCodes: React.FC = () => {
   const { state, dispatch } = useGuardianSetupContext();
   const config = useGuardianConfig();
 
-  const { code, guardians, password, guardianName } = state;
+  const { code, peers, password, guardianName, federationName } = state;
 
   const [consensusRunning, setConsensusRunning] = useState<boolean>(false);
   const [guardianCode, setGuardianCode] = useTrimmedInput('');
   const { onCopy, hasCopied } = useClipboard(code || '');
 
-  const POLL_RATE = 5000; // check every 5 seconds
+  const POLL_RATE = 3000; // check every 3 seconds
 
-  // During consensus on 0.7 the api switches off and doesn't come online
-  // again until dkg has finished!
+  // During consensus on 0.7 the api switches off and doesn't come online again until dkg has finished!
+  // Nice to have - own hook to handle this
   useEffect(() => {
     if (!consensusRunning) return;
 
     const intervalId = setInterval(async () => {
-      const api = new GuardianApi(config);
+      const api = new GuardianApi(config); // seems to require a new instance
       await api.connect();
       const connected = await api.testPassword(password);
 
       if (connected) {
+        localStorage.removeItem(LOCAL_STORAGE_SETUP_KEY);
         window.location.reload();
       }
     }, POLL_RATE);
@@ -93,10 +95,10 @@ export const SharingConnectionCodes: React.FC = () => {
     }
   };
 
-  // page was refreshed so code no longer available
+  // code no longer in localstorage - may have been deleted
   if (!code) {
     return (
-      <CenterBox heading='Setup Interrupted'>
+      <CenterBox heading={t('setup.step2.error-title')}>
         <>
           <Text>{t('setup.step2.error-desc')}</Text>
           <Link href='/' color='blue.600'>
@@ -109,7 +111,7 @@ export const SharingConnectionCodes: React.FC = () => {
 
   if (consensusRunning) {
     return (
-      <CenterBox heading='Running Consensus'>
+      <CenterBox heading={t('setup.step2.consensus-title')}>
         <>
           <Text>{t('setup.step2.consensus-desc')}</Text>
           <Spinner size='md' />
@@ -131,6 +133,7 @@ export const SharingConnectionCodes: React.FC = () => {
             cursor='pointer'
             onClick={onCopy}
             marginBottom={2}
+            userSelect='none'
           >
             {truncateCode(code, 150)}
           </Code>
@@ -145,7 +148,7 @@ export const SharingConnectionCodes: React.FC = () => {
           <Text>{t('setup.step2.add-desc')}</Text>
         </Box>
 
-        {guardians.map((guardian: Record<string, string>) => (
+        {peers.map((guardian: Record<string, string>) => (
           <Box key={code}>
             <Text fontWeight={'bold'}>{guardian.name}</Text>
             <Code padding={2} borderRadius={5} width='100%'>
@@ -174,13 +177,15 @@ export const SharingConnectionCodes: React.FC = () => {
 
         <Button
           borderRadius='8px'
-          // need 3 or more other guardians (for multi guardian setup)
+          // 1 or 2 peers is invalid.
           isDisabled={
-            consensusRunning || (guardians.length > 0 && guardians.length < 3)
+            consensusRunning || peers.length === 1 || peers.length === 2
           }
           onClick={handleOnSubmit}
         >
-          Launch Federation
+          {federationName.trim().length > 0
+            ? t('setup.step2.launch-button-label')
+            : t('setup.step2.run-button-label')}
         </Button>
       </>
     </CenterBox>

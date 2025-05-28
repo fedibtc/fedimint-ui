@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
+import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { LOCAL_STORAGE_SETUP_KEY } from '../../../context/guardian/SetupContext';
 import {
   useGuardianSetupApi,
   useGuardianSetupContext,
@@ -32,12 +33,18 @@ export const AwaitingLocalParams: React.FC = () => {
   };
 
   const handleOnSubmit = async () => {
-    // Set password to make it available until refresh
+    // Initialize password
     api.setPassword(password);
+
     const code = await api.setLocalParams({
       name: guardianName,
       federation_name: federationName || undefined,
     });
+
+    localStorage.setItem(
+      LOCAL_STORAGE_SETUP_KEY,
+      JSON.stringify({ code, federationName, guardianName, password })
+    );
 
     dispatch({
       type: SETUP_ACTION_TYPE.SET_DATA,

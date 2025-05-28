@@ -3,7 +3,6 @@ import {
   Box,
   Input,
   FormControl,
-  FormLabel,
   Button,
   Flex,
   FormErrorMessage,
@@ -18,7 +17,7 @@ import { useTranslation } from '@fedimint/utils';
 interface LoginProps {
   serviceId: string;
   checkAuth: (password: string) => Promise<boolean>;
-  setAuthenticated: (password: string) => void;
+  setAuthenticated: () => void;
   parseError: (err: unknown) => string;
 }
 
@@ -42,7 +41,7 @@ export const Login: React.FC<LoginProps> = ({
       try {
         const isValid = await checkAuth(password);
         if (isValid) {
-          setAuthenticated(password);
+          setAuthenticated();
         } else {
           setError(t('login.errors.invalid-password'));
         }

@@ -1,23 +1,15 @@
-import { Peer, GuardianServerStatus, ConfigGenParams } from '@fedimint/types';
-
 export type GuardianConfig = {
   id: string;
   baseUrl: string;
 };
 
-export enum GuardianStatus {
-  Loading,
-  Setup,
-  Admin,
-}
-
-export type NewGuardianStatus =
+export type GuardianStatus =
   | 'AwaitingLocalParams'
   | 'SharingConnectionCodes'
   | 'ConsensusIsRunning';
 
 export interface GuardianAppState {
-  status: NewGuardianStatus | undefined;
+  status: GuardianStatus | undefined;
   authed: boolean;
   error: string;
 }
@@ -31,7 +23,7 @@ export enum GUARDIAN_APP_ACTION_TYPE {
 export type GuardianAppAction =
   | {
       type: GUARDIAN_APP_ACTION_TYPE.SET_STATUS;
-      payload: NewGuardianStatus | undefined;
+      payload: GuardianStatus | undefined;
     }
   | {
       type: GUARDIAN_APP_ACTION_TYPE.SET_AUTHED;
@@ -70,24 +62,11 @@ export interface tosConfigState {
 }
 
 export interface SetupState {
-  role: GuardianRole | null;
-  progress: SetupProgress;
-  myName: string;
-  password: string | null;
-  ourCurrentId: number | null;
-  configGenParams: ConfigGenParams | null;
-  numPeers: number;
-  peers: Peer[];
-  tosConfig: tosConfigState;
-  guardianName?: string;
-}
-
-export interface NewSetupState {
   guardianName: string;
   federationName: string;
   password: string;
   code: string | null;
-  guardians: Record<string, string>[];
+  peers: Record<string, string>[];
   error: string | null;
 }
 
@@ -96,19 +75,6 @@ export enum SETUP_ACTION_TYPE {
   SET_DATA = 'SET_DATA',
   ADD_CODE = 'ADD_CODE',
   SET_ERROR = 'SET_ERROR',
-
-  // Old ones
-  SET_INITIAL_STATE = 'SET_INITIAL_STATE',
-  SET_ROLE = 'SET_ROLE',
-  SET_PROGRESS = 'SET_PROGRESS',
-  SET_MY_NAME = 'SET_MY_NAME',
-  SET_PASSWORD = 'SET_PASSWORD',
-  SET_CONFIG_GEN_PARAMS = 'SET_CONFIG_GEN_PARAMS',
-  SET_NUM_PEERS = 'SET_NUM_PEERS',
-  SET_PEERS = 'SET_PEERS',
-  SET_IS_SETUP_COMPLETE = 'SET_IS_SETUP_COMPLETE',
-  SET_OUR_CURRENT_ID = 'SET_OUR_CURRENT_ID',
-  SET_TOS_CONFIG = 'SET_TOS_CONFIG',
 }
 
 export type SetupAction =
@@ -127,63 +93,16 @@ export type SetupAction =
   | {
       type: SETUP_ACTION_TYPE.SET_ERROR;
       payload: string | null;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_INITIAL_STATE;
-      payload: null;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_ROLE;
-      payload: GuardianRole;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_PROGRESS;
-      payload: SetupProgress;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_MY_NAME;
-      payload: string;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_CONFIG_GEN_PARAMS;
-      payload: ConfigGenParams | null;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_PASSWORD;
-      payload: string;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_NUM_PEERS;
-      payload: number;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_PEERS;
-      payload: Peer[];
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_IS_SETUP_COMPLETE;
-      payload: boolean;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_TOS_CONFIG;
-      payload: tosConfigState;
-    }
-  | {
-      type: SETUP_ACTION_TYPE.SET_OUR_CURRENT_ID;
-      payload: number;
     };
 
 // Setup RPC methods (only exist during setup)
 export enum SetupRpc {
+  setupStatus = 'setup_status',
+  setLocalParams = 'set_local_params',
+  addPeerSetupCode = 'add_peer_setup_code',
+  startDkg = 'start_dkg',
   setPassword = 'set_password',
-  setConfigGenConnections = 'set_config_gen_connections',
-  getDefaultConfigGenParams = 'default_config_gen_params',
-  getConsensusConfigGenParams = 'consensus_config_gen_params',
-  setConfigGenParams = 'set_config_gen_params',
-  runDkg = 'run_dkg',
-  verifiedConfigs = 'verified_configs',
-  startConsensus = 'start_consensus',
-  restartSetup = 'restart_federation_setup',
+  // resetPeerSetupCodes = 'reset_peer_setup_codes', // to be implemented if required
 }
 
 // Admin RPC methods (only exist after run_consensus)
@@ -218,12 +137,4 @@ export enum ModuleRpc {
   getConsensus = 'get_consensus',
   getConsensusRev = 'get_consensus_rev',
   getSubmissions = 'get_submission',
-}
-
-export enum LatestRpc {
-  setupStatus = 'setup_status',
-  setLocalParams = 'set_local_params',
-  addPeerSetupCode = 'add_peer_setup_code',
-  // resetPeerSetupCodes = 'reset_peer_setup_codes',
-  startDkg = 'start_dkg',
 }

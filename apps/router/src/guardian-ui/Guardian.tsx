@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
-import { Box, Flex, Spinner, Heading, Text, Center } from '@chakra-ui/react';
+import React from 'react';
+import { Flex, Spinner, Heading, Text, Center } from '@chakra-ui/react';
 import { Login } from '@fedimint/ui';
 import { SetupContextProvider } from '../context/guardian/SetupContext';
 import { AdminContextProvider } from '../context/guardian/AdminContext';
-import { FederationSetup } from './setup/FederationSetup';
 import { AwaitingLocalParams } from './components/AwaitingLocalParams';
 import { SharingConnectionCodes } from './components/SharingConnectionCodes';
 import { FederationAdmin } from './admin/FederationAdmin';
@@ -13,24 +12,20 @@ import {
   useLoadGuardian,
   useGuardianApi,
   useGuardianId,
+  useGuardianStatus,
 } from '../hooks';
 import { useTranslation } from '@fedimint/utils';
-import { GUARDIAN_APP_ACTION_TYPE, GuardianStatus } from '../types/guardian';
+import { GUARDIAN_APP_ACTION_TYPE } from '../types/guardian';
 import { formatApiErrorMessage } from './utils/api';
 
 export const Guardian: React.FC = () => {
   const state = useGuardianState();
+  const status = useGuardianStatus();
   const dispatch = useGuardianDispatch();
   const api = useGuardianApi();
   const id = useGuardianId();
   const { t } = useTranslation();
   useLoadGuardian();
-
-  // return (
-  //   <SetupContextProvider>
-  //     <SharingConnectionCodes />
-  //   </SetupContextProvider>
-  // );
 
   if (state.error) {
     return (
@@ -42,7 +37,7 @@ export const Guardian: React.FC = () => {
         paddingX='4'
         textAlign='center'
       >
-        <Heading size='lg' marginBottom='4'>
+        <Heading size='md' marginBottom='4'>
           {t('common.error')}
         </Heading>
         <Text fontSize='md'>Something has gone wrong</Text>
@@ -50,7 +45,7 @@ export const Guardian: React.FC = () => {
     );
   }
 
-  if (state.status === 'AwaitingLocalParams') {
+  if (status === 'AwaitingLocalParams') {
     return (
       <SetupContextProvider>
         <AwaitingLocalParams />
@@ -58,7 +53,7 @@ export const Guardian: React.FC = () => {
     );
   }
 
-  if (state.status === 'SharingConnectionCodes') {
+  if (status === 'SharingConnectionCodes') {
     return (
       <SetupContextProvider>
         <SharingConnectionCodes />
@@ -67,7 +62,7 @@ export const Guardian: React.FC = () => {
   }
 
   // Check user is authed
-  if (state.status !== undefined && !state.authed) {
+  if (status !== undefined && !state.authed) {
     return (
       <Login
         serviceId={id}
@@ -84,7 +79,7 @@ export const Guardian: React.FC = () => {
   }
 
   // We can now render the admin panel
-  if (state.status === 'ConsensusIsRunning') {
+  if (status === 'ConsensusIsRunning') {
     return (
       <AdminContextProvider>
         <FederationAdmin />
@@ -92,6 +87,7 @@ export const Guardian: React.FC = () => {
     );
   }
 
+  // Fallback to spinner
   return (
     <Center p={12}>
       <Spinner size='xl' />
