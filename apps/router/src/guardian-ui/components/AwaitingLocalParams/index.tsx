@@ -52,12 +52,9 @@ export const AwaitingLocalParams: React.FC = () => {
   };
 
   return (
-    <CenterBox heading='Get Started'>
+    <CenterBox heading={t('setup.step1.title')}>
       <Flex gap='5' flexDirection='column'>
-        <Text>
-          Setting up your federation only takes few minutes. Enter your details
-          below:
-        </Text>
+        <Text>{t('setup.step1.desc')}</Text>
         <Input
           value={guardianName}
           name='guardianName'
@@ -76,7 +73,9 @@ export const AwaitingLocalParams: React.FC = () => {
         <Input
           value={federationName}
           name='federationName'
-          placeholder={`${t('common.federation-name')} (leaders only)`}
+          placeholder={`${t('common.federation-name')} (${t(
+            'setup.step1.placeholder-label'
+          )})`}
           onChange={handleOnChange}
         />
 

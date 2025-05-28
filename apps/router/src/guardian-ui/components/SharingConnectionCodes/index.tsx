@@ -4,7 +4,6 @@ import {
   Button,
   Code,
   Divider,
-  Flex,
   Input,
   Link,
   Heading,
@@ -97,11 +96,9 @@ export const SharingConnectionCodes: React.FC = () => {
   // page was refreshed so code no longer available
   if (!code) {
     return (
-      <CenterBox heading='No Setup Code'>
+      <CenterBox heading='Setup Interrupted'>
         <>
-          <Text>
-            No setup code found in state. Please start with a new guardian.
-          </Text>
+          <Text>{t('setup.step2.error-desc')}</Text>
           <Link href='/' color='blue.600'>
             Back to homepage
           </Link>
@@ -114,10 +111,7 @@ export const SharingConnectionCodes: React.FC = () => {
     return (
       <CenterBox heading='Running Consensus'>
         <>
-          <Text>
-            The consensus is now running so please allow a few minutes for this
-            to complete.
-          </Text>
+          <Text>{t('setup.step2.consensus-desc')}</Text>
           <Spinner size='md' />
         </>
       </CenterBox>
@@ -125,12 +119,9 @@ export const SharingConnectionCodes: React.FC = () => {
   }
 
   return (
-    <CenterBox heading={`${guardianName} Setup`}>
-      <Flex gap='5' flexDirection='column'>
-        <Text>
-          Here&#39;s your setup code to share with other guardians (if
-          required).
-        </Text>
+    <CenterBox heading={guardianName}>
+      <>
+        <Text>{t('setup.step2.desc')}</Text>
 
         <Box textAlign='center' overflow='auto' wordBreak={'break-word'}>
           <Code
@@ -144,13 +135,15 @@ export const SharingConnectionCodes: React.FC = () => {
             {truncateCode(code, 150)}
           </Code>
           <Text size='xs' color='gray.400'>
-            {hasCopied ? 'Copied' : 'Click on the code to copy to clipboard'}
+            {hasCopied ? t('common.copied') : t('setup.step2.copy-text')}
           </Text>
         </Box>
 
         <Divider></Divider>
-        <Heading size='xs'>Add Guardians</Heading>
-        <Text>Add other Guardian codes below:</Text>
+        <Box>
+          <Heading size='xs'>{t('setup.step2.add-title')}</Heading>
+          <Text>{t('setup.step2.add-desc')}</Text>
+        </Box>
 
         {guardians.map((guardian: Record<string, string>) => (
           <Box key={code}>
@@ -165,7 +158,7 @@ export const SharingConnectionCodes: React.FC = () => {
           value={guardianCode}
           name='code'
           type='text'
-          placeholder='Enter code'
+          placeholder={t('setup.step2.add-placeholder')}
           onChange={(ev) => setGuardianCode(ev.currentTarget.value)}
         />
         <Button
@@ -174,21 +167,22 @@ export const SharingConnectionCodes: React.FC = () => {
           isDisabled={false}
           onClick={handleAddCode}
         >
-          Add Code
+          {t('setup.step2.add-button-label')}
         </Button>
 
         <Divider></Divider>
 
         <Button
           borderRadius='8px'
+          // need 3 or more other guardians (for multi guardian setup)
           isDisabled={
             consensusRunning || (guardians.length > 0 && guardians.length < 3)
-          } // need 3 or more other guardians (for multi guardian setup)
+          }
           onClick={handleOnSubmit}
         >
           Launch Federation
         </Button>
-      </Flex>
+      </>
     </CenterBox>
   );
 };

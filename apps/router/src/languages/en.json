@@ -215,14 +215,13 @@
     }
   },
   "login": {
-    "title": "Welcome back!",
+    "title": "Login",
+    "help": "Enter your password to access the dashboard.",
     "password": "Password",
     "submit": "Submit",
     "errors": {
       "invalid-password": "Invalid password"
-    },
-    "alert-title": "The Gateway UI is under maintenance.",
-    "alert-description": "Please use the gateway-cli for now and monitor our release channels for updates."
+    }
   },
   "role-selector": {
     "disclaimer-title": "Fedimint is beta software",
@@ -360,6 +359,22 @@
         "title": "Unknown step",
         "subtitle": "How did you get here?!"
       }
+    },
+    "step1": {
+      "title": "Get Started",
+      "desc": "Setting up your federation only takes few minutes. Enter your details below:",
+      "placeholder-label": "Leaders Only"
+    },
+    "step2": {
+      "desc": "Here's your setup code to share with other guardians (if required):",
+      "error-desc": "This setup was interrupted. Please reset the Guardian and try again.",
+      "consensus-desc": "The consensus is now running so please allow a few minutes for this to complete.",
+      "copy-text": "Click on the code to copy to clipboard",
+      "add-title": "Add Guardians",
+      "add-desc": "Add other Guardian codes below:",
+      "add-placeholder": "Enter code...",
+      "add-button-label": "Add Code",
+      "launch-button-label": "Launch Federation"
     }
   },
   "setup-complete": {

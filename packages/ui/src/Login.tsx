@@ -10,6 +10,7 @@ import {
   Heading,
   InputRightElement,
   InputGroup,
+  Text,
 } from '@chakra-ui/react';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import { useTranslation } from '@fedimint/utils';
@@ -55,27 +56,28 @@ export const Login: React.FC<LoginProps> = ({
   );
 
   return (
-    <Box width={{ base: '100%', md: '400px' }} p={3}>
+    <Box width={{ base: '100%', md: '400px' }} p={3} mt={3}>
       <form onSubmit={handleSubmit}>
-        <Flex direction='column' pt={8} gap={4} width='100%'>
+        <Flex direction='column' gap={4} width='100%'>
           <Flex direction='column' align='start' gap={4}>
-            <Heading size='sm' fontWeight='medium'>
-              {t('login.title')}
-            </Heading>
+            <Box>
+              <Heading size='sm' fontWeight='medium' mb={1}>
+                {t('login.title')}
+              </Heading>
+              <Text size='sm'>{t('login.help')}</Text>
+            </Box>
           </Flex>
           <FormControl isInvalid={!!error} maxW='480px'>
-            <FormLabel htmlFor={`password-${serviceId}`}>
-              {t('login.password')}
-            </FormLabel>
             <InputGroup size='md'>
               <Input
                 id={`password-${serviceId}`}
+                placeholder={t('login.password')}
                 name={`password-${serviceId}`}
                 pr='4.5rem'
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(ev) => setPassword(ev.currentTarget.value)}
-                autoComplete='current-password'
+                autoComplete='off'
               />
               <InputRightElement onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
