@@ -1,9 +1,9 @@
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    # v0.6.2
+    # v0.7.2 latest commit 
     fedimint.url =
-      "github:fedimint/fedimint?rev=4d2a16540397f4a9e0d40cbb9bfa4a8839332725";
+      "github:fedimint/fedimint?rev=bc0044a335767b96824d2bf4d1df08509c85de9a";
   };
   outputs = { self, flake-utils, fedimint }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -42,6 +42,7 @@
               fedimint.packages.${system}.devimint
               fedimint.packages.${system}.gateway-pkgs
               fedimint.packages.${system}.fedimint-pkgs
+              fedimint.packages.${system}.fedimint-recurringd
             ] ++ prev.nativeBuildInputs;
             shellHook = ''
               yarn install
@@ -52,7 +53,7 @@
         # Used for a releasable build artifact 
         packages.guardian-ui = pkgs.stdenv.mkDerivation {
           pname = "guardian-ui";
-          version = "0.6.3";
+          version = "0.7.0";
           src = ./.;
 
           nativeBuildInputs = with pkgs; [
