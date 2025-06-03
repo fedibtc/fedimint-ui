@@ -208,7 +208,8 @@
       "invalid-password": "잘못된 비밀번호"
     },
     "alert-title": "게이트웨이 UI가 유지보수 중입니다.",
-    "alert-description": "현재는 gateway-cli를 사용하고 업데이트를 위해 우리의 릴리스 채널을 모니터링해 주세요."
+    "alert-description": "현재는 gateway-cli를 사용하고 업데이트를 위해 우리의 릴리스 채널을 모니터링해 주세요.",
+    "help": "계속하려면 비밀번호를 입력하세요."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint는 베타 소프트웨어입니다",
@@ -346,6 +347,29 @@
         "title": "알 수 없는 단계",
         "subtitle": "여기 어떻게 왔어요?!"
       }
+    },
+    "step1": {
+      "title": "시작하기",
+      "desc": "연합 설정은 몇 분밖에 걸리지 않습니다. 아래에 귀하의 정보를 입력하세요:",
+      "placeholder-label": "리더 전용"
+    },
+    "step2": {
+      "desc": "다른 수호자와 공유할 설정 코드입니다(필요한 경우):",
+      "copy-text": "코드를 클릭하여 복사하세요.",
+      "add-title": "피어 추가",
+      "add-desc": "이 연합에 다른 수호자를 추가하세요:",
+      "add-placeholder": "코드를 입력하세요",
+      "add-button-label": "코드 추가",
+      "error-invalid-code": "코드가 유효하지 않습니다.",
+      "reset-title": "재설정",
+      "reset-desc": "모든 코드를 지우고 다시 시작하세요.",
+      "reset-button-label": "피어 재설정",
+      "launch-button-label": "연합 발사",
+      "run-button-label": "연합에 가입하다",
+      "error-title": "설치 중단",
+      "error-desc": "이 설정이 중단되었습니다. 가디언을 재설정하고 다시 시도해 주세요.",
+      "consensus-title": "운영 합의",
+      "consensus-desc": "모든 다른 수호자들이 설정을 완료할 때까지 기다려 주십시오. 페이지를 새로 고치지 마십시오."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "연결 서비스"
     },
-    "contribute-link": "Fedimint 프로젝트에 기여하는 데 관심이 있으시다면"
+    "contribute-link": "Fedimint 프로젝트에 기여하는 데 관심이 있으시다면",
+    "title": "환영합니다"
   },
   "bitcoin-deposit": "비트코인 예금",
   "card_header": "비트코인 입금",

@@ -208,7 +208,8 @@
       "invalid-password": "Contraseña inválida"
     },
     "alert-title": "La interfaz de usuario de Gateway está en mantenimiento.",
-    "alert-description": "Por favor, use o gateway-cli por enquanto e monitore nossos canais de lançamento para atualizações."
+    "alert-description": "Por favor, use o gateway-cli por enquanto e monitore nossos canais de lançamento para atualizações.",
+    "help": "Ingrese su contraseña para continuar."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint è un software beta",
@@ -346,6 +347,29 @@
         "title": "Passo sconosciuto",
         "subtitle": "Come sei arrivato qui?!"
       }
+    },
+    "step1": {
+      "title": "Comenzar",
+      "desc": "Die Einrichtung Ihrer Föderation dauert nur wenige Minuten. Geben Sie Ihre Daten unten ein:",
+      "placeholder-label": "Líderes solamente"
+    },
+    "step2": {
+      "desc": "Aquí está tu código de configuración para compartir con otros Guardianes (si es necesario):",
+      "copy-text": "Cliquez sur le code pour copier",
+      "add-title": "Añadir Pares",
+      "add-desc": "Añadir otros Guardianes a esta Federación:",
+      "add-placeholder": "Ingrese el código",
+      "add-button-label": "Añadir código",
+      "error-invalid-code": "El código no es válido",
+      "reset-title": "Réinitialiser",
+      "reset-desc": "Clear all codes and start again:",
+      "reset-button-label": "Resetear pares",
+      "launch-button-label": "Lanzar Federación",
+      "run-button-label": "Join Federation",
+      "error-title": "Configuración interrumpida",
+      "error-desc": "Esta configuración fue interrumpida. Por favor, reinicie el Guardián e intente de nuevo.",
+      "consensus-title": "Consensus en cours",
+      "consensus-desc": "Por favor, espera hasta que todos los demás Guardianes hayan completado su configuración. NO actualices la página."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "Conectar Servicio"
     },
-    "contribute-link": "Si estás interesado en contribuir al proyecto Fedimint"
+    "contribute-link": "Si estás interesado en contribuir al proyecto Fedimint",
+    "title": "Bienvenido"
   },
   "address-label": "Tu dirección:",
   "address-placeholder": "Введите ваш btc-адрес",

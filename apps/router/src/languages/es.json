@@ -208,7 +208,8 @@
       "invalid-password": "Contraseña inválida"
     },
     "alert-title": "La interfaz de Gateway está en mantenimiento.",
-    "alert-description": "Por favor, utiliza el gateway-cli por ahora y monitorea nuestros canales de lanzamiento para actualizaciones."
+    "alert-description": "Por favor, utiliza el gateway-cli por ahora y monitorea nuestros canales de lanzamiento para actualizaciones.",
+    "help": "Introduce tu contraseña para continuar."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint es un software beta.",
@@ -346,6 +347,29 @@
         "title": "Paso desconocido",
         "subtitle": "¿Cómo llegaste aquí?!"
       }
+    },
+    "step1": {
+      "title": "Comenzar",
+      "desc": "Configurar tu federación solo toma unos minutos. Ingresa tus detalles a continuación:",
+      "placeholder-label": "Solo líderes"
+    },
+    "step2": {
+      "desc": "Aquí está tu código de configuración para compartir con otros Guardianes (si es necesario):",
+      "copy-text": "Haz clic en el código para copiar",
+      "add-title": "Agregar pares",
+      "add-desc": "Agrega otros Guardianes a esta Federación:",
+      "add-placeholder": "Ingrese el código",
+      "add-button-label": "Agregar código",
+      "error-invalid-code": "El código no es válido.",
+      "reset-title": "Restablecer",
+      "reset-desc": "Borrar todos los códigos y empezar de nuevo:",
+      "reset-button-label": "Restablecer pares",
+      "launch-button-label": "Lanzar Federación",
+      "run-button-label": "Unirse a la Federación",
+      "error-title": "Configuración interrumpida",
+      "error-desc": "Esta configuración fue interrumpida. Por favor, reinicie el Guardian y vuelva a intentarlo.",
+      "consensus-title": "Consenso en ejecución",
+      "consensus-desc": "Por favor, espera hasta que todos los demás Guardianes hayan completado su configuración. NO actualices la página."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "Conectar Servicio"
     },
-    "contribute-link": "Si estás interesado en contribuir al proyecto Fedimint"
+    "contribute-link": "Si estás interesado en contribuir al proyecto Fedimint",
+    "title": "Bienvenido"
   },
   "card_header": "saldo de eCash",
   "sentence": "Denominado en Sats",

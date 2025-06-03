@@ -208,7 +208,8 @@
       "invalid-password": "Contrasenya no vàlida"
     },
     "alert-title": "La interfície de Gateway està en manteniment.",
-    "alert-description": "Si us plau, utilitzeu el gateway-cli per ara i controleu els nostres canals de llançament per a actualitzacions."
+    "alert-description": "Si us plau, utilitzeu el gateway-cli per ara i controleu els nostres canals de llançament per a actualitzacions.",
+    "help": "Introdueix la teva contrasenya per continuar."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint és un programari beta.",
@@ -346,6 +347,29 @@
         "title": "Pas desconegut",
         "subtitle": "Com has arribat aquí?!"
       }
+    },
+    "step1": {
+      "title": "Comença",
+      "desc": "Configurar la teva federació només triga uns minuts. Introdueix les teves dades a continuació:",
+      "placeholder-label": "Només líders"
+    },
+    "step2": {
+      "desc": "Aquí tens el teu codi de configuració per compartir amb altres Guardians (si és necessari):",
+      "copy-text": "Fes clic al codi per copiar",
+      "add-title": "Afegir companys",
+      "add-desc": "Afegeix altres Guardians a aquesta Federació:",
+      "add-placeholder": "Introdueix el codi",
+      "add-button-label": "Afegir codi",
+      "error-invalid-code": "El codi no és vàlid",
+      "reset-title": "Restablir",
+      "reset-desc": "Esborra tots els codis i comença de nou:",
+      "reset-button-label": "Restableix companys",
+      "launch-button-label": "Llançament de la Federació",
+      "run-button-label": "Uneix-te a la Federació",
+      "error-title": "Configuració interrompuda",
+      "error-desc": "Aquesta configuració va ser interrompuda. Si us plau, reinicieu el Guardian i torneu-ho a intentar.",
+      "consensus-title": "Consens en curs",
+      "consensus-desc": "Si us plau, espera fins que tots els altres Guardians hagin completat la seva configuració. NO actualitzis la pàgina."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "Connect Servei"
     },
-    "contribute-link": "Si estàs interessat a contribuir al projecte Fedimint"
+    "contribute-link": "Si estàs interessat a contribuir al projecte Fedimint",
+    "title": "Benvingut"
   },
   "deposit-card": {
     "bitcoin-deposit": "Dipòsit de Bitcoin",

@@ -208,7 +208,8 @@
       "invalid-password": "無効なパスワード"
     },
     "alert-title": "ゲートウェイUIはメンテナンス中です。",
-    "alert-description": "今のところgateway-cliを使用し、更新のためにリリースチャンネルを監視してください。"
+    "alert-description": "今のところgateway-cliを使用し、更新のためにリリースチャンネルを監視してください。",
+    "help": "続行するにはパスワードを入力してください。"
   },
   "role-selector": {
     "disclaimer-title": "Fedimintはベータ版ソフトウェアです",
@@ -346,6 +347,29 @@
         "title": "未知のステップ",
         "subtitle": "あなたはどうやってここに来たの？！"
       }
+    },
+    "step1": {
+      "title": "始める",
+      "desc": "フェデレーションの設定は数分で完了します。以下にあなたの詳細を入力してください：",
+      "placeholder-label": "リーダーのみ"
+    },
+    "step2": {
+      "desc": "こちらが他のガーディアンと共有するためのセットアップコードです（必要に応じて）：",
+      "copy-text": "コードをクリックしてコピーしてください",
+      "add-title": "ピアを追加",
+      "add-desc": "この連邦に他のガーディアンを追加してください：",
+      "add-placeholder": "コードを入力してください",
+      "add-button-label": "コードを追加",
+      "error-invalid-code": "コードが無効です",
+      "reset-title": "リセット",
+      "reset-desc": "すべてのコードをクリアして再スタートします。",
+      "reset-button-label": "ピアをリセット",
+      "launch-button-label": "連邦を開始する",
+      "run-button-label": "連邦に参加する",
+      "error-title": "セットアップが中断されました",
+      "error-desc": "このセットアップは中断されました。ガーディアンをリセットして、もう一度お試しください。",
+      "consensus-title": "ランニングコンセンサス",
+      "consensus-desc": "すべての他のガーディアンがセットアップを完了するまでお待ちください。ページを更新しないでください。"
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "接続サービス"
     },
-    "contribute-link": "Fedimintプロジェクトに貢献することに興味がある場合"
+    "contribute-link": "Fedimintプロジェクトに貢献することに興味がある場合",
+    "title": "ようこそ"
   },
   "deposit-card": {
     "bitcoin-deposit": "ビットコイン入金",
