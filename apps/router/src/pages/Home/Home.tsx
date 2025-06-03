@@ -119,7 +119,7 @@ const HomePage: React.FC = () => {
 
       {/* Right */}
       <Box
-        background='#FFFFF'
+        background='#FFFFFF'
         flex='1'
         display='flex'
         alignItems='center'
@@ -128,7 +128,7 @@ const HomePage: React.FC = () => {
       >
         <Logo />
         <Text mt='5' fontSize='28'>
-          {t('login.title')}
+          {t('home.title')}
         </Text>
         <Box
           maxWidth='720px'

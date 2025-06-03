@@ -10,7 +10,6 @@ import {
   GUARDIAN_APP_ACTION_TYPE,
   GuardianAppAction,
   GuardianAppState,
-  GuardianStatus,
 } from '../../types/guardian';
 import { useGuardianConfig } from '../../hooks';
 import { useLocation } from 'react-router-dom';
@@ -23,10 +22,9 @@ export interface GuardianContextValue {
 }
 
 const initialState = {
-  status: GuardianStatus.Loading,
-  needsAuth: false,
-  initServerStatus: undefined,
-  guardianError: undefined,
+  status: undefined,
+  authed: false,
+  error: '',
 };
 
 const reducer = (
@@ -36,12 +34,10 @@ const reducer = (
   switch (action.type) {
     case GUARDIAN_APP_ACTION_TYPE.SET_STATUS:
       return { ...state, status: action.payload };
-    case GUARDIAN_APP_ACTION_TYPE.SET_NEEDS_AUTH:
-      return { ...state, needsAuth: action.payload };
-    case GUARDIAN_APP_ACTION_TYPE.SET_INIT_SERVER_STATUS:
-      return { ...state, initServerStatus: action.payload };
+    case GUARDIAN_APP_ACTION_TYPE.SET_AUTHED:
+      return { ...state, authed: action.payload };
     case GUARDIAN_APP_ACTION_TYPE.SET_ERROR:
-      return { ...state, guardianError: action.payload };
+      return { ...state, error: action.payload };
     default:
       return state;
   }
@@ -60,6 +56,7 @@ export const GuardianContextProvider: React.FC<
   const location = useLocation();
   const guardianId = location.pathname.split('/')[2];
   const config = useGuardianConfig();
+
   const guardianApi = useMemo(() => new GuardianApi(config), [config]);
 
   return (

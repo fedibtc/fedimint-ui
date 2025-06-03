@@ -1,21 +1,22 @@
 import React, { useCallback, useState } from 'react';
 import {
+  Box,
   Input,
   FormControl,
-  FormLabel,
   Button,
   Flex,
   FormErrorMessage,
   Heading,
   InputRightElement,
   InputGroup,
+  Text,
 } from '@chakra-ui/react';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import { useTranslation } from '@fedimint/utils';
 
 interface LoginProps {
   serviceId: string;
-  checkAuth: (password?: string) => Promise<boolean>;
+  checkAuth: (password: string) => Promise<boolean>;
   setAuthenticated: () => void;
   parseError: (err: unknown) => string;
 }
@@ -54,37 +55,40 @@ export const Login: React.FC<LoginProps> = ({
   );
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Flex direction='column' pt={8} gap={4} align='start' justify='start'>
-        <Flex direction='column' align='start' gap={4}>
-          <Heading size='sm' fontWeight='medium'>
-            {t('login.title')}
-          </Heading>
+    <Box width={{ base: '100%' }} maxW={'440px'} p={3} mt={3}>
+      <form onSubmit={handleSubmit}>
+        <Flex direction='column' gap={4} width='100%'>
+          <Flex direction='column' align='start' gap={4}>
+            <Box>
+              <Heading size='sm' fontWeight='medium' mb={1}>
+                {t('login.title')}
+              </Heading>
+              <Text size='sm'>{t('login.help')}</Text>
+            </Box>
+          </Flex>
+          <FormControl isInvalid={!!error} maxW='480px'>
+            <InputGroup size='md'>
+              <Input
+                id={`password-${serviceId}`}
+                placeholder={t('login.password')}
+                name={`password-${serviceId}`}
+                pr='4.5rem'
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(ev) => setPassword(ev.currentTarget.value)}
+                autoComplete='off'
+              />
+              <InputRightElement onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+              </InputRightElement>
+            </InputGroup>
+            {error && <FormErrorMessage>{error}</FormErrorMessage>}
+          </FormControl>
+          <Button isLoading={loading} type='submit'>
+            {t('login.submit')}
+          </Button>
         </Flex>
-        <FormControl isInvalid={!!error} maxW='480px'>
-          <FormLabel htmlFor={`password-${serviceId}`}>
-            {t('login.password')}
-          </FormLabel>
-          <InputGroup size='md'>
-            <Input
-              id={`password-${serviceId}`}
-              name={`password-${serviceId}`}
-              pr='4.5rem'
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(ev) => setPassword(ev.currentTarget.value)}
-              autoComplete='current-password'
-            />
-            <InputRightElement onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
-            </InputRightElement>
-          </InputGroup>
-          {error && <FormErrorMessage>{error}</FormErrorMessage>}
-        </FormControl>
-        <Button isLoading={loading} type='submit'>
-          {t('login.submit')}
-        </Button>
-      </Flex>
-    </form>
+      </form>
+    </Box>
   );
 };

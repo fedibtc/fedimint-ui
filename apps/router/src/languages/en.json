@@ -200,29 +200,18 @@
     }
   },
   "home": {
-    "services": "Services",
-    "addService": "Add a Service",
-    "guardians": "Guardians",
-    "guardian-url": "Guardian URL",
-    "actions": "Actions",
-    "view": "View",
-    "gateways": "Gateways",
-    "gatewayUrl": "Gateway URL",
+    "title": "Welcome",
     "learn-more-link": "To learn more about Fedimint",
-    "contribute-link": "If you're interested in contributing to the Fedimint project",
-    "connect-service-button": {
-      "label": "Connect Service"
-    }
+    "contribute-link": "If you're interested in contributing to the Fedimint project"
   },
   "login": {
-    "title": "Welcome back!",
+    "title": "Login",
+    "help": "Enter your password to continue.",
     "password": "Password",
-    "submit": "Submit",
+    "submit": "Login",
     "errors": {
       "invalid-password": "Invalid password"
-    },
-    "alert-title": "The Gateway UI is under maintenance.",
-    "alert-description": "Please use the gateway-cli for now and monitor our release channels for updates."
+    }
   },
   "role-selector": {
     "disclaimer-title": "Fedimint is beta software",
@@ -360,6 +349,29 @@
         "title": "Unknown step",
         "subtitle": "How did you get here?!"
       }
+    },
+    "step1": {
+      "title": "Get Started",
+      "desc": "Setting up your federation only takes a few minutes. Enter your details below:",
+      "placeholder-label": "Leaders Only"
+    },
+    "step2": {
+      "desc": "Here's your setup code to share with other Guardians (if required):",
+      "copy-text": "Click on the code to copy",
+      "add-title": "Add Peers",
+      "add-desc": "Add other Guardians to this Federation:",
+      "add-placeholder": "Enter code",
+      "add-button-label": "Add Code",
+      "error-invalid-code": "Code is invalid",
+      "reset-title": "Reset",
+      "reset-desc": "Clear all codes and start again:",
+      "reset-button-label": "Reset Peers",
+      "launch-button-label": "Launch Federation",
+      "run-button-label": "Join Federation",
+      "error-title": "Setup Interrupted",
+      "error-desc": "This setup was interrupted. Please reset the Guardian and try again.",
+      "consensus-title": "Running Consensus",
+      "consensus-desc": "Please wait until all other Guardians have completed their setup. DO NOT refresh the page."
     }
   },
   "setup-complete": {

@@ -48,6 +48,12 @@ export interface StatusResponse {
   federation?: FederationStatus;
 }
 
+// 0.7 status response
+export type SetupStatusResponse =
+  | 'AwaitingLocalParams'
+  | 'SharingConnectionCodes'
+  | 'ConsensusIsRunning';
+
 export interface Versions {
   core: {
     core_consensus: CoreConsensusVersion;

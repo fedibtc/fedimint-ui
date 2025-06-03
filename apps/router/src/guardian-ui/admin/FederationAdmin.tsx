@@ -21,6 +21,7 @@ const findOurPeerId = (
 export const FederationAdmin: React.FC = () => {
   const { t } = useTranslation();
   const api = useGuardianAdminApi();
+
   const [status, setStatus] = useState<StatusResponse>();
   const [inviteCode, setInviteCode] = useState<string>('');
   const [config, setConfig] = useState<ClientConfig>();
@@ -69,7 +70,7 @@ export const FederationAdmin: React.FC = () => {
   }, [config, status, signedApiAnnouncements]);
 
   return (
-    <Flex flexDirection='column' gap='3'>
+    <Flex flexDirection='column' gap='3' width='100%' p='10'>
       {config ? (
         <Flex
           alignItems={{ md: 'center' }}
