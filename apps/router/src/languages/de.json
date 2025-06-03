@@ -208,7 +208,8 @@
       "invalid-password": "Ungültiges Passwort"
     },
     "alert-title": "Die Gateway-Benutzeroberfläche befindet sich in Wartung.",
-    "alert-description": "Bitte verwenden Sie vorerst die gateway-cli und überwachen Sie unsere Release-Kanäle auf Updates."
+    "alert-description": "Bitte verwenden Sie vorerst die gateway-cli und überwachen Sie unsere Release-Kanäle auf Updates.",
+    "help": "Geben Sie Ihr Passwort ein, um fortzufahren."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint ist Beta-Software",
@@ -346,6 +347,29 @@
         "title": "Unbekannter Schritt",
         "subtitle": "Wie bist du hierher gekommen?!"
       }
+    },
+    "step1": {
+      "title": "Loslegen",
+      "desc": "Die Einrichtung Ihrer Föderation dauert nur wenige Minuten. Geben Sie Ihre Daten unten ein:",
+      "placeholder-label": "Nur für Führungskräfte"
+    },
+    "step2": {
+      "desc": "Hier ist dein Setup-Code, den du mit anderen Hütern teilen kannst (falls erforderlich):",
+      "copy-text": "Klicken Sie auf den Code, um ihn zu kopieren.",
+      "add-title": "Peers hinzufügen",
+      "add-desc": "Füge andere Wächter zu dieser Föderation hinzu:",
+      "add-placeholder": "Code eingeben",
+      "add-button-label": "Code hinzufügen",
+      "error-invalid-code": "Der Code ist ungültig.",
+      "reset-title": "Zurücksetzen",
+      "reset-desc": "Alle Codes löschen und neu starten:",
+      "reset-button-label": "Peers zurücksetzen",
+      "launch-button-label": "Starten Föderation",
+      "run-button-label": "Tritt der Föderation bei",
+      "error-title": "Einrichtung Unterbrochen",
+      "error-desc": "Dieses Setup wurde unterbrochen. Bitte setzen Sie den Guardian zurück und versuchen Sie es erneut.",
+      "consensus-title": "Laufender Konsens",
+      "consensus-desc": "Bitte warten Sie, bis alle anderen Wächter ihre Einrichtung abgeschlossen haben. Aktualisieren Sie die Seite NICHT."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "Verbindungsdienst"
     },
-    "contribute-link": "Wenn Sie daran interessiert sind, zum Fedimint-Projekt beizutragen"
+    "contribute-link": "Wenn Sie daran interessiert sind, zum Fedimint-Projekt beizutragen",
+    "title": "Willkommen"
   },
   "address-label": "Ihre Adresse:",
   "address-placeholder": "Geben Sie Ihre BTC-Adresse ein",

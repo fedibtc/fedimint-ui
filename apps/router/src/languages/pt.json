@@ -208,7 +208,8 @@
       "invalid-password": "Senha inválida"
     },
     "alert-title": "A interface do Gateway está em manutenção.",
-    "alert-description": "Por favor, use o gateway-cli por enquanto e monitore nossos canais de lançamento para atualizações."
+    "alert-description": "Por favor, use o gateway-cli por enquanto e monitore nossos canais de lançamento para atualizações.",
+    "help": "Digite sua senha para continuar."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint é um software beta",
@@ -346,6 +347,29 @@
         "title": "Passo desconhecido",
         "subtitle": "Como você chegou aqui?!"
       }
+    },
+    "step1": {
+      "title": "Começar",
+      "desc": "Configurar sua federação leva apenas alguns minutos. Insira seus dados abaixo:",
+      "placeholder-label": "Apenas Líderes"
+    },
+    "step2": {
+      "desc": "Aqui está o seu código de configuração para compartilhar com outros Guardiões (se necessário):",
+      "copy-text": "Clique no código para copiar",
+      "add-title": "Adicionar Pares",
+      "add-desc": "Adicione outros Guardiões a esta Federação:",
+      "add-placeholder": "Digite o código",
+      "add-button-label": "Adicionar Código",
+      "error-invalid-code": "O código é inválido",
+      "reset-title": "Redefinir",
+      "reset-desc": "Limpe todos os códigos e comece novamente:",
+      "reset-button-label": "Redefinir Pares",
+      "launch-button-label": "Lançar Federação",
+      "run-button-label": "Junte-se à Federação",
+      "error-title": "Configuração Interrompida",
+      "error-desc": "Esta configuração foi interrompida. Por favor, reinicie o Guardian e tente novamente.",
+      "consensus-title": "Consenso em Execução",
+      "consensus-desc": "Por favor, aguarde até que todos os outros Guardiões tenham concluído sua configuração. NÃO atualize a página."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "Conectar Serviço"
     },
-    "contribute-link": "Se você está interessado em contribuir para o projeto Fedimint"
+    "contribute-link": "Se você está interessado em contribuir para o projeto Fedimint",
+    "title": "Bem-vindo"
   },
   "connect": "Conectar 🚀",
   "connect-federation-button": "Adicionar Federação",

@@ -208,7 +208,8 @@
       "invalid-password": "Érvénytelen jelszó"
     },
     "alert-title": "A Gateway UI karbantartás alatt áll.",
-    "alert-description": "Kérjük, használja a gateway-cli-t most, és figyelje a kiadási csatornáinkat a frissítésekért."
+    "alert-description": "Kérjük, használja a gateway-cli-t most, és figyelje a kiadási csatornáinkat a frissítésekért.",
+    "help": "Írd be a jelszavad a folytatáshoz."
   },
   "role-selector": {
     "disclaimer-title": "A Fedimint bétaszoftver.",
@@ -346,6 +347,29 @@
         "title": "Ismeretlen lépés",
         "subtitle": "Hogy jutottál ide?!"
       }
+    },
+    "step1": {
+      "title": "Kezdj el",
+      "desc": "A szövetség létrehozása csak néhány percet vesz igénybe. Kérjük, adja meg adatait az alábbiakban:",
+      "placeholder-label": "Csak vezetők"
+    },
+    "step2": {
+      "desc": "Itt van a beállító kódod, amit megoszthatsz más Őrzőkkel (ha szükséges):",
+      "copy-text": "Kattints a kódra a másoláshoz",
+      "add-title": "Hozzáadás partnerek",
+      "add-desc": "Adjon hozzá más Őrzőket ehhez a Szövetséghez:",
+      "add-placeholder": "Írja be a kódot",
+      "add-button-label": "Kód hozzáadása",
+      "error-invalid-code": "A kód érvénytelen",
+      "reset-title": "Visszaállítás",
+      "reset-desc": "Töröld az összes kódot, és kezdj újra:",
+      "reset-button-label": "Párok visszaállítása",
+      "launch-button-label": "Indítsd el a Szövetséget",
+      "run-button-label": "Csatlakozz a Szövetséghez",
+      "error-title": "A telepítés megszakítva",
+      "error-desc": "Ez a beállítás megszakadt. Kérjük, állítsa vissza a Guardian-t, és próbálja újra.",
+      "consensus-title": "Futó Konszenzus",
+      "consensus-desc": "Kérjük, várjon, amíg az összes többi Őrző befejezi a beállítását. NE frissítse az oldalt."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "Csatlakoztassa a szolgáltatást"
     },
-    "contribute-link": "Ha érdekel, hogy hozzájárulj a Fedimint projekthez"
+    "contribute-link": "Ha érdekel, hogy hozzájárulj a Fedimint projekthez",
+    "title": "Üdvözöljük"
   },
   "deposit-card": {
     "bitcoin-deposit": "Bitcoin Betét",

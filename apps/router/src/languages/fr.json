@@ -208,7 +208,8 @@
       "invalid-password": "Mot de passe invalide"
     },
     "alert-title": "L'interface utilisateur de Gateway est en maintenance.",
-    "alert-description": "Veuillez utiliser le gateway-cli pour l'instant et surveiller nos canaux de publication pour les mises à jour."
+    "alert-description": "Veuillez utiliser le gateway-cli pour l'instant et surveiller nos canaux de publication pour les mises à jour.",
+    "help": "Entrez votre mot de passe pour continuer."
   },
   "role-selector": {
     "disclaimer-title": "Fedimint est un logiciel bêta",
@@ -346,6 +347,29 @@
         "title": "Étape inconnue",
         "subtitle": "Comment es-tu arrivé ici ?!"
       }
+    },
+    "step1": {
+      "title": "Commencer",
+      "desc": "La configuration de votre fédération ne prend que quelques minutes. Entrez vos coordonnées ci-dessous :",
+      "placeholder-label": "Leaders uniquement"
+    },
+    "step2": {
+      "desc": "Voici votre code de configuration à partager avec d'autres Gardiens (si nécessaire) :",
+      "copy-text": "Cliquez sur le code pour copier",
+      "add-title": "Ajouter des pairs",
+      "add-desc": "Ajoutez d'autres Gardiens à cette Fédération :",
+      "add-placeholder": "Entrez le code",
+      "add-button-label": "Ajouter du code",
+      "error-invalid-code": "Le code est invalide",
+      "reset-title": "Réinitialiser",
+      "reset-desc": "Effacer tous les codes et recommencer.",
+      "reset-button-label": "Réinitialiser les pairs",
+      "launch-button-label": "Lancer la Fédération",
+      "run-button-label": "Rejoindre la Fédération",
+      "error-title": "Installation interrompue",
+      "error-desc": "Cette configuration a été interrompue. Veuillez réinitialiser le Gardien et réessayer.",
+      "consensus-title": "Consensus en cours",
+      "consensus-desc": "Veuillez attendre que tous les autres Gardiens aient terminé leur configuration. NE PAS actualiser la page."
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "Service de connexion"
     },
-    "contribute-link": "Si vous êtes intéressé à contribuer au projet Fedimint"
+    "contribute-link": "Si vous êtes intéressé à contribuer au projet Fedimint",
+    "title": "Bienvenue"
   },
   "deposit-card": {
     "bitcoin-deposit": "Dépôt Bitcoin",

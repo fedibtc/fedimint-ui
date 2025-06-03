@@ -228,7 +228,7 @@ async function main() {
     await installOpenAI();
     const { default: OpenAI } = await import('openai');
     const openai = new OpenAI({
-      apiKey: import.meta.env.OPENAI_API_KEY,
+      apiKey: process.env.OPENAI_API_KEY,
     });
     await translateAndFill(openai);
   } finally {

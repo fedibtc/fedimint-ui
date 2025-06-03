@@ -208,7 +208,8 @@
       "invalid-password": "无效的密码"
     },
     "alert-title": "网关用户界面正在维护中。",
-    "alert-description": "请暂时使用gateway-cli，并关注我们的发布渠道以获取更新。"
+    "alert-description": "请暂时使用gateway-cli，并关注我们的发布渠道以获取更新。",
+    "help": "请输入您的密码以继续。"
   },
   "role-selector": {
     "disclaimer-title": "Fedimint是测试版软件",
@@ -346,6 +347,29 @@
         "title": "未知步骤",
         "subtitle": "你是怎么来到这里的？！"
       }
+    },
+    "step1": {
+      "title": "开始使用",
+      "desc": "设置您的联合只需几分钟。请在下面输入您的详细信息：",
+      "placeholder-label": "仅限领导者"
+    },
+    "step2": {
+      "desc": "这是您可以与其他守护者分享的设置代码（如有需要）：",
+      "copy-text": "点击代码以复制",
+      "add-title": "添加节点",
+      "add-desc": "将其他守护者添加到这个联邦：",
+      "add-placeholder": "输入代码",
+      "add-button-label": "添加代码",
+      "error-invalid-code": "代码无效",
+      "reset-title": "重置",
+      "reset-desc": "清除所有代码并重新开始：",
+      "reset-button-label": "重置对等节点",
+      "launch-button-label": "启动联邦",
+      "run-button-label": "加入联邦",
+      "error-title": "安装中断",
+      "error-desc": "此设置被中断。请重置守护者并重试。",
+      "consensus-title": "运行共识",
+      "consensus-desc": "请等待所有其他守护者完成他们的设置。请勿刷新页面。"
     }
   },
   "setup-complete": {
@@ -544,7 +568,8 @@
     "connect-service-button": {
       "label": "连接服务"
     },
-    "contribute-link": "如果您有兴趣为 Fedimint 项目贡献力量"
+    "contribute-link": "如果您有兴趣为 Fedimint 项目贡献力量",
+    "title": "欢迎"
   },
   "deposit-card": {
     "bitcoin-deposit": "比特币存款",
