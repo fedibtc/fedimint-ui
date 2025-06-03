@@ -156,6 +156,10 @@ export class GuardianApi {
     return this.call(SetupRpc.addPeerSetupCode, code);
   };
 
+  public resetPeerSetupCodes = (): Promise<void> => {
+    return this.call(SetupRpc.resetPeerSetupCodes);
+  };
+
   public startDkg = (): Promise<boolean> => {
     return this.call(SetupRpc.startDkg);
   };

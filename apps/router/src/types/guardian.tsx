@@ -64,6 +64,7 @@ export interface tosConfigState {
 export interface SetupState {
   guardianName: string;
   federationName: string;
+  isLeader: boolean;
   password: string;
   code: string | null;
   peers: Record<string, string>[];
@@ -73,22 +74,25 @@ export interface SetupState {
 export enum SETUP_ACTION_TYPE {
   RESET = 'RESET',
   SET_DATA = 'SET_DATA',
-  ADD_CODE = 'ADD_CODE',
+  ADD_PEER = 'ADD_PEER',
+  RESET_PEERS = 'RESET_PEERS',
   SET_ERROR = 'SET_ERROR',
 }
 
 export type SetupAction =
   | {
       type: SETUP_ACTION_TYPE.RESET;
-      payload: boolean;
     }
   | {
       type: SETUP_ACTION_TYPE.SET_DATA;
+      payload: Record<string, string | boolean>;
+    }
+  | {
+      type: SETUP_ACTION_TYPE.ADD_PEER;
       payload: Record<string, string>;
     }
   | {
-      type: SETUP_ACTION_TYPE.ADD_CODE;
-      payload: Record<string, string>;
+      type: SETUP_ACTION_TYPE.RESET_PEERS;
     }
   | {
       type: SETUP_ACTION_TYPE.SET_ERROR;
@@ -102,7 +106,7 @@ export enum SetupRpc {
   addPeerSetupCode = 'add_peer_setup_code',
   startDkg = 'start_dkg',
   setPassword = 'set_password',
-  // resetPeerSetupCodes = 'reset_peer_setup_codes', // to be implemented if required
+  resetPeerSetupCodes = 'reset_peer_setup_codes',
 }
 
 // Admin RPC methods (only exist after run_consensus)

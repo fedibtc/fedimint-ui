@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react() as PluginOption[], svgr() as Plugin],
   server: {
     open: true,
-    port: 8080,
+    port: 3000,
   },
   // "vite build" requires resolver to point to separate packages
   resolve: {

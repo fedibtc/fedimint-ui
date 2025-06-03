@@ -11,6 +11,7 @@ function makeInitialState(): SetupState {
   let state = {
     guardianName: '',
     federationName: '',
+    isLeader: false,
     password: '',
     code: null,
     peers: [],
@@ -37,8 +38,10 @@ const reducer = (state: SetupState, action: SetupAction): SetupState => {
       return initialState;
     case SETUP_ACTION_TYPE.SET_DATA:
       return { ...state, ...action.payload };
-    case SETUP_ACTION_TYPE.ADD_CODE:
+    case SETUP_ACTION_TYPE.ADD_PEER:
       return { ...state, peers: [...state.peers, action.payload] };
+    case SETUP_ACTION_TYPE.RESET_PEERS:
+      return { ...state, peers: [] };
     case SETUP_ACTION_TYPE.SET_ERROR:
       return { ...state, error: action.payload };
     default:

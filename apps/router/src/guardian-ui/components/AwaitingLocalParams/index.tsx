@@ -36,19 +36,27 @@ export const AwaitingLocalParams: React.FC = () => {
     // Initialize password
     api.setPassword(password);
 
+    const isLeader = federationName.trim().length > 0;
+
     const code = await api.setLocalParams({
       name: guardianName,
-      federation_name: federationName || undefined,
+      federation_name: isLeader ? federationName.trim() : undefined,
     });
 
     localStorage.setItem(
       LOCAL_STORAGE_SETUP_KEY,
-      JSON.stringify({ code, federationName, guardianName, password })
+      JSON.stringify({
+        code,
+        isLeader,
+        federationName: federationName.trim(),
+        guardianName,
+        password,
+      })
     );
 
     dispatch({
       type: SETUP_ACTION_TYPE.SET_DATA,
-      payload: { code },
+      payload: { code, isLeader },
     });
 
     // This will render SharingConnectionCodes

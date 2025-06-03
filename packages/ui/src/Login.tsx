@@ -55,7 +55,7 @@ export const Login: React.FC<LoginProps> = ({
   );
 
   return (
-    <Box width={{ base: '100%', md: '400px' }} p={3} mt={3}>
+    <Box width={{ base: '100%' }} maxW={'440px'} p={3} mt={3}>
       <form onSubmit={handleSubmit}>
         <Flex direction='column' gap={4} width='100%'>
           <Flex direction='column' align='start' gap={4}>

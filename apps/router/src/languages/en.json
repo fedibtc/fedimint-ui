@@ -208,7 +208,7 @@
     "title": "Login",
     "help": "Enter your password to continue.",
     "password": "Password",
-    "submit": "Submit",
+    "submit": "Login",
     "errors": {
       "invalid-password": "Invalid password"
     }
@@ -356,18 +356,22 @@
       "placeholder-label": "Leaders Only"
     },
     "step2": {
-      "desc": "Here's your setup code to share with other guardians (if required):",
+      "desc": "Here's your setup code to share with other Guardians (if required):",
       "copy-text": "Click on the code to copy",
-      "add-title": "Add Guardians",
-      "add-desc": "Add other Guardian codes below:",
+      "add-title": "Add Peers",
+      "add-desc": "Add other Guardians to this Federation:",
       "add-placeholder": "Enter code",
       "add-button-label": "Add Code",
+      "error-invalid-code": "Code is invalid",
+      "reset-title": "Reset",
+      "reset-desc": "Clear all codes and start again:",
+      "reset-button-label": "Reset Peers",
       "launch-button-label": "Launch Federation",
-      "run-button-label": "Run Consensus",
+      "run-button-label": "Join Federation",
       "error-title": "Setup Interrupted",
       "error-desc": "This setup was interrupted. Please reset the Guardian and try again.",
       "consensus-title": "Running Consensus",
-      "consensus-desc": "The consensus is now running so please allow a few minutes for this to complete."
+      "consensus-desc": "Please wait until all other Guardians have completed their setup. DO NOT refresh the page."
     }
   },
   "setup-complete": {

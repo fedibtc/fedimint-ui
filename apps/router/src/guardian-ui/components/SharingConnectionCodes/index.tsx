@@ -32,13 +32,20 @@ export const SharingConnectionCodes: React.FC = () => {
   const { state, dispatch } = useGuardianSetupContext();
   const config = useGuardianConfig();
 
-  const { code, peers, password, guardianName, federationName } = state;
+  const { code, peers, password, guardianName, isLeader, error } = state;
 
   const [consensusRunning, setConsensusRunning] = useState<boolean>(false);
   const [guardianCode, setGuardianCode] = useTrimmedInput('');
   const { onCopy, hasCopied } = useClipboard(code || '');
 
   const POLL_RATE = 3000; // check every 3 seconds
+
+  useEffect(() => {
+    (async () => {
+      api.setPassword(password);
+      await api.resetPeerSetupCodes();
+    })();
+  }, [api, password]);
 
   // During consensus on 0.7 the api switches off and doesn't come online again until dkg has finished!
   // Nice to have - own hook to handle this
@@ -61,7 +68,6 @@ export const SharingConnectionCodes: React.FC = () => {
 
   const handleOnSubmit = async () => {
     try {
-      api.setPassword(password);
       await api.startDkg();
 
       setConsensusRunning(true);
@@ -70,28 +76,46 @@ export const SharingConnectionCodes: React.FC = () => {
     }
   };
 
-  const handleAddCode = async () => {
+  const handleAddPeer = async () => {
     try {
       if (guardianCode.trim().length === 0) return;
 
+      // Check code doesn't already exist in peers
+      const match = peers.find((peer) => peer.code === guardianCode);
+      if (match) {
+        throw Error();
+      }
+
       const guardianName = await api.addPeerSetupCode(guardianCode);
 
-      const newGuardian = {
+      const peer = {
         name: guardianName,
         code: guardianCode,
       };
 
       dispatch({
-        type: SETUP_ACTION_TYPE.ADD_CODE,
-        payload: newGuardian,
+        type: SETUP_ACTION_TYPE.ADD_PEER,
+        payload: peer,
       });
 
       setGuardianCode('');
     } catch (err: unknown) {
       dispatch({
         type: SETUP_ACTION_TYPE.SET_ERROR,
-        payload: 'Code could not be added',
+        payload: t('setup.step2.error-invalid-code'),
       });
+    }
+  };
+
+  const handleOnResetCodes = async () => {
+    try {
+      await api.resetPeerSetupCodes();
+
+      dispatch({
+        type: SETUP_ACTION_TYPE.RESET_PEERS,
+      });
+    } catch {
+      // empty catch
     }
   };
 
@@ -148,8 +172,8 @@ export const SharingConnectionCodes: React.FC = () => {
           <Text>{t('setup.step2.add-desc')}</Text>
         </Box>
 
-        {peers.map((guardian: Record<string, string>) => (
-          <Box key={code}>
+        {peers.map((guardian: Record<string, string>, idx: number) => (
+          <Box key={`${code}-${idx}`}>
             <Text fontWeight={'bold'}>{guardian.name}</Text>
             <Code padding={2} borderRadius={5} width='100%'>
               {truncateCode(guardian.code)}
@@ -157,6 +181,11 @@ export const SharingConnectionCodes: React.FC = () => {
           </Box>
         ))}
 
+        {error && (
+          <Text size='sm' color='red'>
+            {error}
+          </Text>
+        )}
         <Input
           value={guardianCode}
           name='code'
@@ -168,24 +197,44 @@ export const SharingConnectionCodes: React.FC = () => {
           variant={'outline'}
           borderRadius='8px'
           isDisabled={false}
-          onClick={handleAddCode}
+          onClick={handleAddPeer}
         >
           {t('setup.step2.add-button-label')}
         </Button>
 
-        <Divider></Divider>
+        <Divider />
 
         <Button
           borderRadius='8px'
           // 1 or 2 peers is invalid.
           isDisabled={
-            consensusRunning || peers.length === 1 || peers.length === 2
+            consensusRunning ||
+            peers.length === 1 ||
+            peers.length === 2 ||
+            (peers.length === 0 && !isLeader)
           }
           onClick={handleOnSubmit}
         >
-          {federationName.trim().length > 0
+          {isLeader
             ? t('setup.step2.launch-button-label')
             : t('setup.step2.run-button-label')}
+        </Button>
+
+        <Divider />
+
+        <Box>
+          <Heading size='xs'>{t('setup.step2.reset-title')}</Heading>
+          <Text>{t('setup.step2.reset-desc')}</Text>
+        </Box>
+
+        <Button
+          bg='red'
+          colorScheme='red'
+          _hover={{ bg: 'red.500' }}
+          onClick={handleOnResetCodes}
+          isDisabled={peers.length === 0}
+        >
+          {t('setup.step2.reset-button-label')}
         </Button>
       </>
     </CenterBox>
