@@ -5,8 +5,6 @@ import {
 } from '../../context/guardian/SetupContext';
 import { SetupApiInterface } from '../../api/GuardianApi';
 import { GuardianContext } from '../../context/guardian/GuardianContext';
-import { useToast } from '@fedimint/ui';
-import { formatApiErrorMessage } from '../../guardian-ui/utils/api';
 
 export const useGuardianSetupContext = (): SetupContextValue => {
   const setup = useContext(SetupContext);
