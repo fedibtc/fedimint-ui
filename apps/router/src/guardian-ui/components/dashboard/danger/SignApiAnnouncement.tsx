@@ -18,6 +18,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { useToast } from '@fedimint/ui';
 import { SignedApiAnnouncement } from '@fedimint/types';
 import { normalizeUrl } from '../../../utils';
 import { FiCheckCircle, FiAlertTriangle, FiEdit2 } from 'react-icons/fi';
@@ -34,26 +35,44 @@ export const SignApiAnnouncement: React.FC<SignApiAnnouncementProps> = ({
   signedApiAnnouncements,
   currentApiUrl,
 }) => {
-  const api = useGuardianAdminApi();
   const { t } = useTranslation();
-  const [isSigningNew, setIsSigningNew] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [apiUrl, setApiUrl] = useState(currentApiUrl);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const api = useGuardianAdminApi();
+  const toast = useToast();
+  const [apiUrl, setApiUrl] = useState(currentApiUrl);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSigningNew, setIsSigningNew] = useState(false);
 
-  const currentAnnouncement = ourPeer
-    ? signedApiAnnouncements[ourPeer.id.toString()]?.api_announcement
-    : undefined;
+  const normalizedCurrentUrl = normalizeUrl(apiUrl);
+  const normalizedAnnouncedUrl = normalizeUrl(
+    signedApiAnnouncements[ourPeer.id.toString()]?.api_announcement?.api_url ||
+      ''
+  );
 
   const announcementMatches = useMemo(() => {
-    if (!currentAnnouncement?.api_url || !apiUrl) return false;
-    return normalizeUrl(currentAnnouncement.api_url) === normalizeUrl(apiUrl);
-  }, [currentAnnouncement, apiUrl]);
+    return normalizedCurrentUrl === normalizedAnnouncedUrl;
+  }, [normalizedCurrentUrl, normalizedAnnouncedUrl]);
 
-  const handleClose = () => {
-    setApiUrl(currentApiUrl);
-    setIsEditing(false);
-    onClose();
+  const handleSignNewAnnouncement = async () => {
+    setIsSigningNew(true);
+    try {
+      await api.signApiAnnouncement(apiUrl);
+      toast.success(
+        t('admin.danger-zone.sign-api-announcement.label'),
+        t('admin.danger-zone.sign-api-announcement.description')
+      );
+      onClose();
+    } catch (error) {
+      console.error('Failed to sign API announcement:', error);
+      toast.error(
+        t('federation-dashboard.danger-zone.sign-api-announcement.error-title'),
+        t(
+          'federation-dashboard.danger-zone.sign-api-announcement.error-description'
+        )
+      );
+    } finally {
+      setIsSigningNew(false);
+    }
   };
 
   const handleEditApiUrl = () => {
@@ -64,18 +83,10 @@ export const SignApiAnnouncement: React.FC<SignApiAnnouncementProps> = ({
     setIsEditing(false);
   };
 
-  const handleSignNewAnnouncement = () => {
-    setIsSigningNew(true);
-    api
-      .signApiAnnouncement(apiUrl)
-      .then(() => {
-        setIsSigningNew(false);
-        onClose();
-      })
-      .catch((error) => {
-        setIsSigningNew(false);
-        console.error('Failed to sign API announcement:', error);
-      });
+  const handleClose = () => {
+    setIsEditing(false);
+    setApiUrl(currentApiUrl);
+    onClose();
   };
 
   return (

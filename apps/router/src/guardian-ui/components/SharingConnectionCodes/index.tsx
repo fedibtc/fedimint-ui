@@ -11,6 +11,7 @@ import {
   useClipboard,
 } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { useToast } from '@fedimint/ui';
 import {
   useGuardianSetupApi,
   useGuardianSetupContext,
@@ -31,6 +32,7 @@ export const SharingConnectionCodes: React.FC = () => {
   const api = useGuardianSetupApi();
   const { state, dispatch } = useGuardianSetupContext();
   const config = useGuardianConfig();
+  const toast = useToast();
 
   const { code, peers, password, guardianName, isLeader, error } = state;
 
@@ -59,20 +61,31 @@ export const SharingConnectionCodes: React.FC = () => {
 
       if (connected) {
         localStorage.removeItem(LOCAL_STORAGE_SETUP_KEY);
+        toast.success(
+          t('setup-complete.congratulations'),
+          t('setup-complete.leader-message')
+        );
         window.location.reload();
       }
     }, POLL_RATE);
 
     return () => clearInterval(intervalId);
-  }, [config, consensusRunning, password]);
+  }, [config, consensusRunning, password, toast, t]);
 
   const handleOnSubmit = async () => {
     try {
       await api.startDkg();
-
+      toast.success(
+        t('setup.progress.run-dkg.title'),
+        t('setup.progress.run-dkg.subtitle')
+      );
       setConsensusRunning(true);
     } catch (err) {
       console.log(err);
+      toast.error(
+        t('setup.step2.dkg-error-title'),
+        t('setup.step2.dkg-error-description')
+      );
     }
   };
 
@@ -83,7 +96,11 @@ export const SharingConnectionCodes: React.FC = () => {
       // Check code doesn't already exist in peers
       const match = peers.find((peer) => peer.code === guardianCode);
       if (match) {
-        throw Error();
+        toast.error(
+          t('setup.step2.error-duplicate-code-title'),
+          t('setup.step2.error-duplicate-code-description')
+        );
+        return;
       }
 
       const guardianName = await api.addPeerSetupCode(guardianCode);
@@ -98,12 +115,21 @@ export const SharingConnectionCodes: React.FC = () => {
         payload: peer,
       });
 
+      toast.success(
+        t('setup.step2.add-button-label'),
+        `${t('setup.step2.add-desc')} ${guardianName}`
+      );
+
       setGuardianCode('');
     } catch (err: unknown) {
       dispatch({
         type: SETUP_ACTION_TYPE.SET_ERROR,
         payload: t('setup.step2.error-invalid-code'),
       });
+      toast.error(
+        t('setup.step2.error-invalid-code-title'),
+        t('setup.step2.error-invalid-code-description')
+      );
     }
   };
 
@@ -114,8 +140,13 @@ export const SharingConnectionCodes: React.FC = () => {
       dispatch({
         type: SETUP_ACTION_TYPE.RESET_PEERS,
       });
-    } catch {
-      // empty catch
+
+      toast.success(t('setup.step2.reset-title'), t('setup.step2.reset-desc'));
+    } catch (err) {
+      toast.error(
+        t('setup.step2.codes-reset-error-title'),
+        t('setup.step2.codes-reset-error-description')
+      );
     }
   };
 

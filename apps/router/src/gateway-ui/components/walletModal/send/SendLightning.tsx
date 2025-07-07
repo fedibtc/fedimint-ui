@@ -1,13 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import {
-  Flex,
-  Input,
-  Button,
-  useToast,
-  FormControl,
-  FormLabel,
-} from '@chakra-ui/react';
+import { Flex, Input, Button, FormControl, FormLabel } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { useToast } from '@fedimint/ui';
 import FederationSelector from '../FederationSelector';
 
 const SendLightning: React.FC = () => {
@@ -17,21 +11,23 @@ const SendLightning: React.FC = () => {
 
   const handleSendLightning = useCallback(() => {
     if (!invoice) {
-      toast({
-        title: t('wallet-modal.send.lightning-invoice-error'),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast.error(t('wallet-modal.send.lightning-invoice-error'));
       return;
     }
 
-    toast({
-      title: 'Unimplemented',
-      status: 'info',
-      duration: 3000,
-      isClosable: true,
-    });
+    // Warning for very long invoices (might be spam or malicious)
+    if (invoice.length > 1000) {
+      toast.warning(
+        'Long Invoice Warning',
+        'This invoice is unusually long. Please verify it is correct.'
+      );
+    }
+
+    // Info toast for unimplemented feature
+    toast.info(
+      'Feature Not Implemented',
+      'Lightning payments are not yet implemented'
+    );
   }, [invoice, t, toast]);
 
   return (

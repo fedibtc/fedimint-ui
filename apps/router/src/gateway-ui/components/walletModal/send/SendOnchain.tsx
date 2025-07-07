@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Flex,
-  Input,
-  Button,
-  useToast,
-  FormControl,
-  FormLabel,
-} from '@chakra-ui/react';
+import { Flex, Input, Button, FormControl, FormLabel } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
 import { Sats } from '@fedimint/types';
+import { useToast } from '@fedimint/ui';
 import FederationSelector from '../FederationSelector';
 import SendOnchainSuccess from './SendOnchainSuccess';
 import { useGatewayContext } from '../../../../hooks';
@@ -24,32 +18,17 @@ const SendOnchain: React.FC = () => {
 
   const handlePegOut = async () => {
     if (!state.walletModalState.selectedFederation) {
-      toast({
-        title: t('wallet-modal.send.select-federation'),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast.error(t('wallet-modal.send.select-federation'));
       return;
     }
 
     if (!bitcoinAddress) {
-      toast({
-        title: t('wallet-modal.send.enter-bitcoin-address'),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast.error(t('wallet-modal.send.enter-bitcoin-address'));
       return;
     }
 
     if (amountSats <= 0) {
-      toast({
-        title: t('wallet-modal.send.enter-valid-amount'),
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast.error(t('wallet-modal.send.enter-valid-amount'));
       return;
     }
 
@@ -62,13 +41,10 @@ const SendOnchain: React.FC = () => {
       setSuccessTxid(txid.txid);
     } catch (error) {
       console.error('Peg-out error:', error);
-      toast({
-        title: t('wallet-modal.send.peg-out-error'),
-        description: error instanceof Error ? error.message : String(error),
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
+      toast.error(
+        t('wallet-modal.send.peg-out-error'),
+        error instanceof Error ? error.message : String(error)
+      );
     }
   };
 

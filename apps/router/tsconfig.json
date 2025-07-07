@@ -4,5 +4,5 @@
     "typeRoots": ["node_modules/@types/", "../node_modules/@types/"]
   },
   "exclude": ["dist", "node_modules"],
-  "include": ["src"]
+  "include": ["src", "../../packages/ui/src/toast.ts"]
 }

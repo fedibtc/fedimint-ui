@@ -2,11 +2,19 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Button, Divider, Flex, Link, Text } from '@chakra-ui/react';
 import { fieldsToMeta, metaToHex, useTranslation } from '@fedimint/utils';
 import { ParsedConsensusMeta } from '@fedimint/types';
+
+interface Site {
+  id: string;
+  url: string;
+  title: string;
+  imageUrl: string;
+}
 import { DEFAULT_META_KEY } from '../../FederationTabsCard';
 import { useGuardianAdminApi } from '../../../../../../hooks';
 import { ModuleRpc } from '../../../../../../types/guardian';
 import { SitesInput } from './SitesInput';
 import { CustomMetaFields } from './CustomMetaFields';
+import { useToast } from '@fedimint/ui';
 
 const metaArrayToObject = (
   metaArray: [string, string][]
@@ -32,7 +40,8 @@ export const MetaManager = React.memo(function MetaManager({
 }: MetaManagerProps): JSX.Element {
   const { t } = useTranslation();
   const api = useGuardianAdminApi();
-  const [sites, setSites] = useState<string>('[]');
+  const toast = useToast();
+  const [sites, setSites] = useState<Site[]>([]);
   const [customMeta, setCustomMeta] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -40,7 +49,7 @@ export const MetaManager = React.memo(function MetaManager({
       const metaObj = metaArrayToObject(consensusMeta.value);
       const { sites = '[]', ...rest } = metaObj;
 
-      setSites(sites);
+      setSites(JSON.parse(sites));
       setCustomMeta(rest);
     }
   }, [consensusMeta]);
@@ -53,18 +62,10 @@ export const MetaManager = React.memo(function MetaManager({
     )
       return true;
 
-    if (sites.trim() !== '') {
-      try {
-        const localSites = JSON.parse(sites);
-        if (Array.isArray(localSites) && localSites.length > 0) {
-          return localSites.some(
-            (site) => !site.id || !site.url || !site.title || !site.imageUrl
-          );
-        }
-      } catch (error) {
-        console.error('Error parsing sites JSON:', error);
-        return true;
-      }
+    if (sites.length > 0) {
+      return sites.some(
+        (site) => !site.id || !site.url || !site.title || !site.imageUrl
+      );
     }
 
     return false;
@@ -86,7 +87,7 @@ export const MetaManager = React.memo(function MetaManager({
     return (
       Object.entries(customMeta).every(
         ([key, value]) => consensusMetaObj[key] === value
-      ) && consensusMetaObj.sites === sites
+      ) && JSON.stringify(sites) === JSON.stringify(consensusMetaObj.sites)
     );
   }, [customMeta, sites, consensusMeta]);
 
@@ -98,38 +99,53 @@ export const MetaManager = React.memo(function MetaManager({
     if (consensusMeta?.value) {
       const metaObj = metaArrayToObject(consensusMeta.value);
       const { sites, ...rest } = metaObj;
-      setSites(sites || '[]');
+      setSites(JSON.parse(sites));
       setCustomMeta(rest);
+      toast.success(
+        t('admin.config.manage-meta.submit-meta-proposal'),
+        t('admin.config.manage-meta.proposal-approved')
+      );
     }
-  }, [consensusMeta]);
+  }, [consensusMeta, toast, t]);
 
-  const proposeMetaEdits = useCallback(() => {
+  const proposeMetaEdits = useCallback(async () => {
     if (metaModuleId === undefined || isAnyFieldEmpty()) return;
-    const updatedMetaArray = Object.entries({
-      ...customMeta,
-      sites,
-    });
-    api
-      .moduleApiCall<{ metaValue: string }[]>(
+
+    try {
+      const updatedMetaArray = Object.entries({
+        ...customMeta,
+        sites: JSON.stringify(sites),
+      });
+      await api.moduleApiCall<{ metaValue: string }[]>(
         Number(metaModuleId),
         ModuleRpc.submitMeta,
         {
           key: DEFAULT_META_KEY,
           value: metaToHex(fieldsToMeta(updatedMetaArray)),
         }
-      )
-      .then(() => {
-        setActiveTab(0);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert('Failed to propose meta edits. Please try again.');
-      });
-  }, [api, metaModuleId, customMeta, sites, isAnyFieldEmpty, setActiveTab]);
-
-  const handleSitesChange = (sitesJson: string) => {
-    setSites(sitesJson);
-  };
+      );
+      toast.success(
+        t('admin.config.manage-meta.update-meta-button'),
+        t('admin.config.manage-meta.consensus-meta-label')
+      );
+      setActiveTab(0);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        t('federation-dashboard.config.manage-meta.propose-error-title'),
+        t('federation-dashboard.config.manage-meta.propose-error-description')
+      );
+    }
+  }, [
+    api,
+    metaModuleId,
+    customMeta,
+    sites,
+    isAnyFieldEmpty,
+    setActiveTab,
+    toast,
+    t,
+  ]);
 
   return (
     <Flex flexDirection='column' gap={6}>
@@ -152,7 +168,10 @@ export const MetaManager = React.memo(function MetaManager({
       <Divider />
       <CustomMetaFields customMeta={customMeta} setCustomMeta={setCustomMeta} />
       <Divider />
-      <SitesInput value={sites} onChange={handleSitesChange} />
+      <SitesInput
+        value={JSON.stringify(sites)}
+        onChange={(value) => setSites(JSON.parse(value))}
+      />
       <Flex gap={4}>
         <Button
           colorScheme='blue'

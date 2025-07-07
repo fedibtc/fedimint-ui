@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useTranslation } from '@fedimint/utils';
+import { useToast } from '@fedimint/ui';
 import { LOCAL_STORAGE_SETUP_KEY } from '../../../context/guardian/SetupContext';
 import {
   useGuardianSetupApi,
@@ -19,6 +20,7 @@ export const AwaitingLocalParams: React.FC = () => {
   const { t } = useTranslation();
   const api = useGuardianSetupApi();
   const guardianDispatch = useGuardianDispatch();
+  const toast = useToast();
 
   const { state, dispatch } = useGuardianSetupContext();
   const { federationName, guardianName, password } = state;
@@ -33,37 +35,46 @@ export const AwaitingLocalParams: React.FC = () => {
   };
 
   const handleOnSubmit = async () => {
-    // Initialize password
-    api.setPassword(password);
+    try {
+      // Initialize password
+      api.setPassword(password);
 
-    const isLeader = federationName.trim().length > 0;
+      const isLeader = federationName.trim().length > 0;
 
-    const code = await api.setLocalParams({
-      name: guardianName,
-      federation_name: isLeader ? federationName.trim() : undefined,
-    });
+      const code = await api.setLocalParams({
+        name: guardianName,
+        federation_name: isLeader ? federationName.trim() : undefined,
+      });
 
-    localStorage.setItem(
-      LOCAL_STORAGE_SETUP_KEY,
-      JSON.stringify({
-        code,
-        isLeader,
-        federationName: federationName.trim(),
-        guardianName,
-        password,
-      })
-    );
+      localStorage.setItem(
+        LOCAL_STORAGE_SETUP_KEY,
+        JSON.stringify({
+          code,
+          isLeader,
+          federationName: federationName.trim(),
+          guardianName,
+          password,
+        })
+      );
 
-    dispatch({
-      type: SETUP_ACTION_TYPE.SET_DATA,
-      payload: { code, isLeader },
-    });
+      dispatch({
+        type: SETUP_ACTION_TYPE.SET_DATA,
+        payload: { code, isLeader },
+      });
 
-    // This will render SharingConnectionCodes
-    guardianDispatch({
-      type: GUARDIAN_APP_ACTION_TYPE.SET_STATUS,
-      payload: 'SharingConnectionCodes',
-    });
+      toast.success(t('setup-complete.congratulations'), t('setup.step1.desc'));
+
+      // This will render SharingConnectionCodes
+      guardianDispatch({
+        type: GUARDIAN_APP_ACTION_TYPE.SET_STATUS,
+        payload: 'SharingConnectionCodes',
+      });
+    } catch (error) {
+      toast.error(
+        t('setup.step1.error-title'),
+        t('setup.step1.error-description')
+      );
+    }
   };
 
   return (
