@@ -15,7 +15,19 @@ const SendLightning: React.FC = () => {
       return;
     }
 
-    toast.info('Unimplemented');
+    // Warning for very long invoices (might be spam or malicious)
+    if (invoice.length > 1000) {
+      toast.warning(
+        'Long Invoice Warning',
+        'This invoice is unusually long. Please verify it is correct.'
+      );
+    }
+
+    // Info toast for unimplemented feature
+    toast.info(
+      'Feature Not Implemented',
+      'Lightning payments are not yet implemented'
+    );
   }, [invoice, t, toast]);
 
   return (
