@@ -7,7 +7,7 @@ import {
 } from '@fedimint/types';
 import { FederationTabsCard } from '../components/dashboard/tabs/FederationTabsCard';
 import { DangerZone } from '../components/dashboard/danger/DangerZone';
-import { useGuardianAdminApi } from '../../hooks';
+import { useGuardianAdminApi, useGuardianApi } from '../../hooks';
 import { InviteCode } from '../components/dashboard/admin/InviteCode';
 import { useTranslation } from '@fedimint/utils';
 
@@ -21,6 +21,7 @@ const findOurPeerId = (
 export const FederationAdmin: React.FC = () => {
   const { t } = useTranslation();
   const api = useGuardianAdminApi();
+  const guardianApi = useGuardianApi();
 
   const [status, setStatus] = useState<StatusResponse>();
   const [inviteCode, setInviteCode] = useState<string>('');
@@ -131,6 +132,7 @@ export const FederationAdmin: React.FC = () => {
         ourPeer={ourPeer}
         latestSession={latestSession}
         signedApiAnnouncements={signedApiAnnouncements}
+        password={guardianApi.getPassword()}
       />
     </Flex>
   );
