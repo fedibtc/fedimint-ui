@@ -1,5 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Button, Divider, Flex, Link, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Divider,
+  Flex,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import { fieldsToMeta, metaToHex, useTranslation } from '@fedimint/utils';
 import { ParsedConsensusMeta } from '@fedimint/types';
 import { DEFAULT_META_KEY } from '../../FederationTabsCard';
@@ -7,6 +15,9 @@ import { useGuardianAdminApi } from '../../../../../../hooks';
 import { ModuleRpc } from '../../../../../../types/guardian';
 import { SitesInput } from './SitesInput';
 import { CustomMetaFields } from './CustomMetaFields';
+import { MetaJsonActions } from './MetaJsonActions';
+import { MetaJsonEditor } from './MetaJsonEditor';
+import { FiEdit, FiCode } from 'react-icons/fi';
 
 const metaArrayToObject = (
   metaArray: [string, string][]
@@ -34,6 +45,7 @@ export const MetaManager = React.memo(function MetaManager({
   const api = useGuardianAdminApi();
   const [sites, setSites] = useState<string>('[]');
   const [customMeta, setCustomMeta] = useState<Record<string, string>>({});
+  const [viewMode, setViewMode] = useState<'form' | 'json'>('form');
 
   useEffect(() => {
     if (consensusMeta?.value) {
@@ -131,6 +143,14 @@ export const MetaManager = React.memo(function MetaManager({
     setSites(sitesJson);
   };
 
+  const handleJsonChange = useCallback(
+    (newCustomMeta: Record<string, string>, newSites: string) => {
+      setCustomMeta(newCustomMeta);
+      setSites(newSites);
+    },
+    []
+  );
+
   return (
     <Flex flexDirection='column' gap={6}>
       <Text fontSize='xl' fontWeight='bold'>
@@ -150,9 +170,54 @@ export const MetaManager = React.memo(function MetaManager({
         </Link>
       </Box>
       <Divider />
-      <CustomMetaFields customMeta={customMeta} setCustomMeta={setCustomMeta} />
+
+      <Flex justifyContent='space-between' alignItems='center'>
+        <ButtonGroup isAttached variant='outline' size='md'>
+          <Button
+            leftIcon={<FiEdit />}
+            onClick={() => setViewMode('form')}
+            colorScheme={viewMode === 'form' ? 'blue' : 'gray'}
+            variant={viewMode === 'form' ? 'solid' : 'outline'}
+          >
+            {t('federation-dashboard.config.manage-meta.form-view')}
+          </Button>
+          <Button
+            leftIcon={<FiCode />}
+            onClick={() => setViewMode('json')}
+            colorScheme={viewMode === 'json' ? 'blue' : 'gray'}
+            variant={viewMode === 'json' ? 'solid' : 'outline'}
+          >
+            {t('federation-dashboard.config.manage-meta.json-view')}
+          </Button>
+        </ButtonGroup>
+
+        <MetaJsonActions
+          customMeta={customMeta}
+          sites={sites}
+          setCustomMeta={setCustomMeta}
+          setSites={setSites}
+        />
+      </Flex>
+
       <Divider />
-      <SitesInput value={sites} onChange={handleSitesChange} />
+
+      {viewMode === 'form' ? (
+        <>
+          <CustomMetaFields
+            customMeta={customMeta}
+            setCustomMeta={setCustomMeta}
+          />
+          <Divider />
+          <SitesInput value={sites} onChange={handleSitesChange} />
+        </>
+      ) : (
+        <MetaJsonEditor
+          customMeta={customMeta}
+          sites={sites}
+          onChange={handleJsonChange}
+        />
+      )}
+
       <Flex gap={4}>
         <Button
           colorScheme='blue'
