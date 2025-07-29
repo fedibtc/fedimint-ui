@@ -46,19 +46,21 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
       }
 
       try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const blob = await response.blob();
-        if (!blob.type.startsWith('image/')) {
-          throw new Error('Invalid image format');
-        }
-
-        setImageValidation((prev) => ({
-          ...prev,
-          [index]: { valid: true, error: '' },
-        }));
+        // Use Image constructor to validate image URL (avoids CORS issues)
+        await new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            setImageValidation((prev) => ({
+              ...prev,
+              [index]: { valid: true, error: '' },
+            }));
+            resolve();
+          };
+          img.onerror = () => {
+            reject(new Error('Image failed to load'));
+          };
+          img.src = url;
+        });
       } catch (error) {
         setImageValidation((prev) => ({
           ...prev,
