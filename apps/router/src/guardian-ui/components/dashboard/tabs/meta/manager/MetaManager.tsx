@@ -1,5 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Button, Divider, Flex, Link, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Link,
+  Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { fieldsToMeta, metaToHex, useTranslation } from '@fedimint/utils';
 import { ParsedConsensusMeta } from '@fedimint/types';
 import { DEFAULT_META_KEY } from '../../FederationTabsCard';
@@ -34,6 +48,7 @@ export const MetaManager = React.memo(function MetaManager({
   const api = useGuardianAdminApi();
   const [sites, setSites] = useState<string>('[]');
   const [customMeta, setCustomMeta] = useState<Record<string, string>>({});
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (consensusMeta?.value) {
@@ -101,7 +116,8 @@ export const MetaManager = React.memo(function MetaManager({
       setSites(sites || '[]');
       setCustomMeta(rest);
     }
-  }, [consensusMeta]);
+    onClose();
+  }, [consensusMeta, onClose]);
 
   const proposeMetaEdits = useCallback(() => {
     if (metaModuleId === undefined || isAnyFieldEmpty()) return;
@@ -166,13 +182,44 @@ export const MetaManager = React.memo(function MetaManager({
               )}
         </Button>
         {consensusMeta?.value && !isMetaUnchanged() && (
-          <Button onClick={resetToConsensus}>
+          <Button
+            colorScheme='red'
+            bg='red.500'
+            _hover={{ bg: 'red.600' }}
+            onClick={onOpen}
+          >
             {t(
               'federation-dashboard.config.manage-meta.reset-to-consensus-button'
             )}
           </Button>
         )}
       </Flex>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            {t(
+              'federation-dashboard.config.manage-meta.cancel-proposal-modal.title'
+            )}
+          </ModalHeader>
+          <ModalBody>
+            <Text>
+              {t(
+                'federation-dashboard.config.manage-meta.cancel-proposal-modal.description'
+              )}
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant='ghost' mr={3} onClick={onClose}>
+              {t('common.cancel')}
+            </Button>
+            <Button colorScheme='red' onClick={resetToConsensus}>
+              {t('common.confirm')}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 });

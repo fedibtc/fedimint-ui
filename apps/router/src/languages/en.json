@@ -122,6 +122,10 @@
           "title": "Confirm Approval",
           "description": "Your approval will reach the threshold to adopt this meta change. Your new meta will look like:"
         },
+        "cancel-proposal-modal": {
+          "title": "Confirm Cancellation",
+          "description": "Are you sure you want to cancel this proposal?"
+        },
         "consensus-meta-label": "Consensus Metadata",
         "revoke-button": "Revoke",
         "no-consensus-meta-message": "there are no meta in consensus",
@@ -130,7 +134,7 @@
         "propose-new-meta-button": "Propose New Metadata",
         "update-meta-button": "Update Metadata",
         "add-custom-field-button": "Add Custom Field",
-        "reset-to-consensus-button": "Reset to Consensus",
+        "reset-to-consensus-button": "Cancel Proposal",
         "proposal-approved": "You have approved this proposal",
         "no-submitted-meta-message": "there are no meta edits to review",
         "edit-meta-label": "Edit meta",
