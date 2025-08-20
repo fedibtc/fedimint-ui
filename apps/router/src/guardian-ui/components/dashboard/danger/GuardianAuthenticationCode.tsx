@@ -27,11 +27,12 @@ type GuardianAuth = {
 interface GuardianAuthenticationCodeProps {
   inviteCode: string;
   ourPeer: { id: number; name: string };
+  password: string | null;
 }
 
 export const GuardianAuthenticationCode: React.FC<
   GuardianAuthenticationCodeProps
-> = ({ inviteCode, ourPeer }) => {
+> = ({ inviteCode, ourPeer, password }) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,6 @@ export const GuardianAuthenticationCode: React.FC<
       name: ourPeer?.name,
     };
 
-    const password = sessionStorage.getItem('guardian-ui-key');
     if (password) {
       params.password = password;
     }
