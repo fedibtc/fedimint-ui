@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Flex, FormLabel, Input } from '@chakra-ui/react';
 import { snakeToTitleCase } from '@fedimint/utils';
 import { IconPreview } from './IconPreview';
+import { validateImageUrl } from '../../../../../utils';
 
 interface MetaInputProps {
   metaKey: string;
@@ -20,20 +21,10 @@ export const MetaInput: React.FC<MetaInputProps> = ({
 
   const validateIcon = useCallback(async (url: string) => {
     try {
-      // Use Image constructor to validate image URL (avoids CORS issues)
-      await new Promise<void>((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          setLocalImageUrl(url); // Use original URL since we can't create blob URL
-          setLocalIsIconValid(true);
-          resolve();
-        };
-        img.onerror = () => {
-          reject(new Error('Image failed to load'));
-        };
-        img.src = url;
-      });
-      return url; // Return original URL since we can't create blob URL
+      await validateImageUrl(url);
+      setLocalImageUrl(url);
+      setLocalIsIconValid(true);
+      return url;
     } catch (error) {
       setLocalImageUrl(null);
       setLocalIsIconValid(false);

@@ -13,6 +13,7 @@ import {
 import { FiX, FiAlertTriangle, FiInfo } from 'react-icons/fi';
 import { IconPreview } from './IconPreview';
 import useDebounce from '../../../../../utils/debounce';
+import { validateImageUrl } from '../../../../../utils';
 
 interface Site {
   id: string;
@@ -46,21 +47,11 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
       }
 
       try {
-        // Use Image constructor to validate image URL (avoids CORS issues)
-        await new Promise<void>((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => {
-            setImageValidation((prev) => ({
-              ...prev,
-              [index]: { valid: true, error: '' },
-            }));
-            resolve();
-          };
-          img.onerror = () => {
-            reject(new Error('Image failed to load'));
-          };
-          img.src = url;
-        });
+        await validateImageUrl(url);
+        setImageValidation((prev) => ({
+          ...prev,
+          [index]: { valid: true, error: '' },
+        }));
       } catch (error) {
         setImageValidation((prev) => ({
           ...prev,
