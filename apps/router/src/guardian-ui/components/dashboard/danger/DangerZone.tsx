@@ -11,16 +11,18 @@ import { SignApiAnnouncement } from './SignApiAnnouncement';
 
 interface DangerZoneProps {
   ourPeer: { id: number; name: string } | undefined;
-  inviteCode: string;
   latestSession: number | undefined;
   signedApiAnnouncements: Record<string, SignedApiAnnouncement>;
+  url: string;
+  password: string | null;
 }
 
 export const DangerZone: React.FC<DangerZoneProps> = ({
   ourPeer,
-  inviteCode,
   latestSession,
   signedApiAnnouncements,
+  password,
+  url,
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +59,8 @@ export const DangerZone: React.FC<DangerZoneProps> = ({
           {ourPeer && (
             <GuardianAuthenticationCode
               ourPeer={ourPeer}
-              inviteCode={inviteCode}
+              password={password}
+              url={url}
             />
           )}
           <DownloadBackup />

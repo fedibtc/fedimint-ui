@@ -18,20 +18,21 @@ const QR_CODE_SIZE = 256;
 const FEDIMINT_GUARDIAN_PREFIX = 'fedimint:guardian:';
 
 type GuardianAuth = {
-  inviteCode: string;
   peerId: number;
   name: string;
-  password?: string;
+  url: string;
+  password: string | null;
 };
 
 interface GuardianAuthenticationCodeProps {
-  inviteCode: string;
   ourPeer: { id: number; name: string };
+  password: string | null;
+  url: string;
 }
 
 export const GuardianAuthenticationCode: React.FC<
   GuardianAuthenticationCodeProps
-> = ({ inviteCode, ourPeer }) => {
+> = ({ password, url, ourPeer }) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -40,15 +41,12 @@ export const GuardianAuthenticationCode: React.FC<
 
   const calculateGuardianAuthenticationCode = () => {
     const params: GuardianAuth = {
-      inviteCode: inviteCode,
       peerId: ourPeer?.id,
       name: ourPeer?.name,
+      url,
+      password,
     };
 
-    const password = sessionStorage.getItem('guardian-ui-key');
-    if (password) {
-      params.password = password;
-    }
     return `${FEDIMINT_GUARDIAN_PREFIX}${JSON.stringify(params)}`;
   };
 

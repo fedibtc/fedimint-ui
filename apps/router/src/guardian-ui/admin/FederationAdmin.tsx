@@ -7,7 +7,11 @@ import {
 } from '@fedimint/types';
 import { FederationTabsCard } from '../components/dashboard/tabs/FederationTabsCard';
 import { DangerZone } from '../components/dashboard/danger/DangerZone';
-import { useGuardianAdminApi } from '../../hooks';
+import {
+  useGuardianAdminApi,
+  useGuardianApi,
+  useGuardianConfig,
+} from '../../hooks';
 import { InviteCode } from '../components/dashboard/admin/InviteCode';
 import { useTranslation } from '@fedimint/utils';
 
@@ -20,7 +24,9 @@ const findOurPeerId = (
 
 export const FederationAdmin: React.FC = () => {
   const { t } = useTranslation();
-  const api = useGuardianAdminApi();
+  const adminApi = useGuardianAdminApi();
+  const guardianApi = useGuardianApi();
+  const guardianConfig = useGuardianConfig();
 
   const [status, setStatus] = useState<StatusResponse>();
   const [inviteCode, setInviteCode] = useState<string>('');
@@ -32,17 +38,20 @@ export const FederationAdmin: React.FC = () => {
   const [latestSession, setLatestSession] = useState<number>();
 
   const fetchData = useCallback(() => {
-    api.inviteCode().then(setInviteCode).catch(console.error);
-    api.config().then(setConfig).catch(console.error);
-    api.apiAnnouncements().then(setSignedApiAnnouncements).catch(console.error);
-    api
+    adminApi.inviteCode().then(setInviteCode).catch(console.error);
+    adminApi.config().then(setConfig).catch(console.error);
+    adminApi
+      .apiAnnouncements()
+      .then(setSignedApiAnnouncements)
+      .catch(console.error);
+    adminApi
       .status()
       .then((statusData) => {
         setStatus(statusData);
         setLatestSession(statusData?.federation?.session_count);
       })
       .catch(console.error);
-  }, [api]);
+  }, [adminApi]);
 
   useEffect(() => {
     fetchData();
@@ -127,10 +136,11 @@ export const FederationAdmin: React.FC = () => {
         />
       )}
       <DangerZone
-        inviteCode={inviteCode}
         ourPeer={ourPeer}
         latestSession={latestSession}
         signedApiAnnouncements={signedApiAnnouncements}
+        url={guardianConfig?.baseUrl}
+        password={guardianApi.getPassword()}
       />
     </Flex>
   );
