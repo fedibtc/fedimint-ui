@@ -1,9 +1,9 @@
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    # v0.7.2 latest commit 
+    # v0.9.0-beta.2
     fedimint.url =
-      "github:fedimint/fedimint?rev=bc0044a335767b96824d2bf4d1df08509c85de9a";
+      "github:fedimint/fedimint?rev=3a64d4f3e14d72a7d91af830fd9c64dcf431695c";
   };
   outputs = { self, flake-utils, fedimint }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -23,9 +23,9 @@
         # 3. Obtain the new `sha256` hash from the build error message.
         # 4. Update the `sha256` value below with the newly copied hash.
         #
-        # **Important:** 
-        # Keeping the `sha256` hash in sync with `yarn.lock` is essential. An outdated or incorrect hash 
-        # will cause the Nix package to become out-of-sync with Yarn dependencies, potentially leading 
+        # **Important:**
+        # Keeping the `sha256` hash in sync with `yarn.lock` is essential. An outdated or incorrect hash
+        # will cause the Nix package to become out-of-sync with Yarn dependencies, potentially leading
         # to build failures or inconsistent behavior.
         yarnOfflineCache = pkgs.fetchYarnDeps {
           yarnLock = ./yarn.lock;
@@ -50,7 +50,7 @@
           });
         };
 
-        # Used for a releasable build artifact 
+        # Used for a releasable build artifact
         packages.guardian-ui = pkgs.stdenv.mkDerivation {
           pname = "guardian-ui";
           version = "0.7.2";
