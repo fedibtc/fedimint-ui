@@ -48,10 +48,10 @@
     "jsdom": "^26.0.0",
     "prettier": "^2.8.3",
     "typescript": "^5.1.6",
-    "vite": "^6.1.1",
+    "vite": "^8.0.16",
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.6"
+    "vitest": "^4.1.8"
   },
   "browserslist": {
     "production": [
