@@ -36,6 +36,11 @@ jobs:
         with:
           file: Dockerfile
           push: true
+          # QEMU and Buildx were already set up above, but without this the
+          # build only produced the runner's own architecture, so the published
+          # image was amd64-only. arm64 is needed to run the admin UI alongside
+          # guardians on Graviton nodes. Emulated arm64 makes this job slower.
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
