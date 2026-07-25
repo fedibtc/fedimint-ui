@@ -13,6 +13,7 @@ import {
 import { FiX, FiAlertTriangle, FiInfo } from 'react-icons/fi';
 import { IconPreview } from './IconPreview';
 import useDebounce from '../../../../../utils/debounce';
+import { validateImageUrl } from '../../../../../utils';
 
 interface Site {
   id: string;
@@ -46,15 +47,7 @@ export const SitesInput: React.FC<SitesInputProps> = ({ value, onChange }) => {
       }
 
       try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const blob = await response.blob();
-        if (!blob.type.startsWith('image/')) {
-          throw new Error('Invalid image format');
-        }
-
+        await validateImageUrl(url);
         setImageValidation((prev) => ({
           ...prev,
           [index]: { valid: true, error: '' },

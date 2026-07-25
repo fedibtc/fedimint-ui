@@ -13,6 +13,7 @@ import {
 import { FiX, FiAlertTriangle, FiInfo } from 'react-icons/fi';
 import { IconPreview } from './IconPreview';
 import useDebounce from '../../../../../utils/debounce';
+import { validateImageUrl } from '../../../../../utils';
 
 interface CustomMetaFieldsProps {
   customMeta: Record<string, string>;
@@ -41,19 +42,11 @@ export const CustomMetaFields: React.FC<CustomMetaFieldsProps> = ({
   const validateIcon = useCallback(async (url: string) => {
     if (!url) return null;
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const blob = await response.blob();
-      if (!blob.type.startsWith('image/')) {
-        throw new Error('Invalid image format');
-      }
-      const objectURL = URL.createObjectURL(blob);
-      setLocalIconUrl(objectURL);
+      await validateImageUrl(url);
+      setLocalIconUrl(url);
       setIconValidity(true);
       setValidationError('');
-      return objectURL;
+      return url;
     } catch (error) {
       setLocalIconUrl(null);
       setIconValidity(false);
