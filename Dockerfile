@@ -1,5 +1,6 @@
 # Adapted from https://turbo.build/repo/docs/handbook/deploying-with-docker
 FROM node:lts-alpine AS base
+RUN command -v yarn >/dev/null || npm install -g yarn@1.22.22
 
 # Assemble a pruned version of the repo containing only what's needed for router
 FROM base AS builder
